@@ -1,0 +1,51 @@
+---
+type Translations = typeof import("../../i18n/en").default;
+type Content = Translations["main"]["pilars"];
+interface Props {
+  content: Content;
+}
+const { content} = Astro.props as Props;
+---
+<section class='w-full flex justify-center items-center relative'>
+  <img src="/images/decoration-o-l.webp" alt="Decoration" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z-5" width="145" height="400" decoding="async" loading="lazy"/>
+  <img src="/images/decoration-o-r.webp" alt="Decoration" class="absolute top-[-10%] right-0 w-[153px] h-auto object-cover" width="153" height="346" decoding="async" loading="lazy"/>
+  <div class='container-full flex flex-col justify-center items-center py-25 gap-10 relative z-0'>
+    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
+      <p class='body-sm uppercase'>
+        {content.tag}
+      </p>
+      <h2 class="heading-1 text-center" set:html={content.title}></h2>
+      <p set:html={content.description} class="body-md text-center"></p>
+    </div>
+    <div class='w-full flex justify-center items-stretch gap-6'>
+      <div class="w-[66%] flex flex-col justify-center items-center rounded-lg overflow-hidden">
+          <div class='w-full flex flex-col justify-between items-start bg-secondary p-8 aspect-909/319 h-auto'>
+            <img src='/icons/check-back.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='w-6 h-6 self-end'/>
+            <div class="flex flex-col justify-center items-start text-paragraph">
+              <h3 class='heading-3'>
+                {content.items[0].title}
+              </h3>
+              <div class="breakpoint-card__details">
+                <div class="w-10 h-0.75 bg-paragraph my-8"></div>
+                <p class='body-md'>
+                  {content.items[0].description}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class='w-full h-auto aspect-909/319 relative overflow-hidden'>
+            <img src={`/images/${content.items[0].image}.webp`} alt={content.items[0].title} width="909" height="319" decoding="async" loading="lazy" class="w-full h-full inset-0 absolute object-cover" />
+          </div>
+        </div>
+      {
+        content.items.slice(1).map((item)=> (
+          <div class='w-[7%]  flex flex-col justify-between items-center py-8 bg-[#F3F0E9] rounded-lg'> 
+            <img src='/icons/check.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='w-6 h-6 '/>
+            <h3 class='heading-3 [writing-mode:vertical-rl] rotate-180 whitespace-nowrap'>{item.title}</h3>
+          </div>
+        ))
+      }
+      
+    </div>
+  </div>
+</section>

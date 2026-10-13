@@ -1,0 +1,167 @@
+---
+type Translations = typeof import("../../i18n/en").default;
+type Content = Translations["main"]["breakPoint"];
+interface Props {
+  content: Content;
+}
+const { content} = Astro.props as Props;
+const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
+---
+<section class='bg-[#F3F0E9] w-full flex justify-center items-center relative'>
+  <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
+    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
+      <p class='body-sm uppercase'>
+        {content.tag}
+      </p>
+      <h2 class="heading-1 text-center" set:html={content.title}></h2>
+      <p set:html={content.description} class="body-md text-center"></p>
+    </div>
+    <div class='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center items-start'>
+      {
+        content.items.map((item, index)=>( 
+          <button
+            type="button"
+            class={`breakpoint-card ${cardBackgrounds[index] ?? "bg-primary"} w-full flex flex-col justify-between items-start px-8 py-10 bg-white border-0 rounded-lg h-85.75 text-left`}
+            aria-expanded="false"
+            data-breakpoint-card
+          >
+            <span class="relative self-end w-6 h-6" aria-hidden="true">
+              <img src='/icons/check.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='breakpoint-card__icon absolute inset-0 transition-all duration-300'/>
+              <img src='/icons/check-back.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='breakpoint-card__icon breakpoint-card__icon--back absolute inset-0 opacity-0 transition-all duration-300'/>
+            </span>
+            <div class="flex flex-col justify-center items-start text-paragraph">
+              <h3 class='heading-3'>
+                {item.title}
+              </h3>
+              <div class="breakpoint-card__details">
+                <div class="w-10 h-0.75 bg-paragraph my-8"></div>
+                <p class='body-md'>
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          </button>  
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const cards = document.querySelectorAll<HTMLButtonElement>("[data-breakpoint-card]");
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const isExpanded = card.getAttribute("aria-expanded") === "true";
+      card.setAttribute("aria-expanded", String(!isExpanded));
+      card.classList.toggle("is-active", !isExpanded);
+    });
+  });
+</script>
+
+<style>
+  .breakpoint-card {
+    background-color: white;
+    transition:
+      background-color 400ms ease-in-out,
+      color 300ms ease-in-out;
+  }
+
+  .breakpoint-card__details {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(0.75rem);
+    transition:
+      max-height 400ms ease-in-out,
+      opacity 300ms ease-in-out,
+      transform 400ms ease-in-out;
+  }
+
+  .breakpoint-card__icon--back {
+    transform: scale(0.8);
+  }
+
+  @media (min-width: 768px) {
+    .breakpoint-card.bg-primary:hover,
+    .breakpoint-card.bg-primary.is-active {
+      background-color: var(--color-primary);
+    }
+
+    .breakpoint-card.bg-secondary:hover,
+    .breakpoint-card.bg-secondary.is-active {
+      background-color: var(--color-secondary);
+    }
+
+    .breakpoint-card.bg-third:hover,
+    .breakpoint-card.bg-third.is-active {
+      background-color: var(--color-third);
+    }
+
+    .breakpoint-card:hover,
+    .breakpoint-card.is-active {
+      color: var(--color-paragraph);
+    }
+
+    .breakpoint-card:hover .breakpoint-card__details,
+    .breakpoint-card.is-active .breakpoint-card__details {
+      max-height: 10rem;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .breakpoint-card:hover .breakpoint-card__icon:not(.breakpoint-card__icon--back),
+    .breakpoint-card.is-active .breakpoint-card__icon:not(.breakpoint-card__icon--back) {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    .breakpoint-card:hover .breakpoint-card__icon--back,
+    .breakpoint-card.is-active .breakpoint-card__icon--back {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .breakpoint-card.bg-primary.is-active {
+      background-color: var(--color-primary);
+    }
+
+    .breakpoint-card.bg-secondary.is-active {
+      background-color: var(--color-secondary);
+    }
+
+    .breakpoint-card.bg-third.is-active {
+      background-color: var(--color-third);
+    }
+
+    .breakpoint-card.is-active {
+      color: var(--color-paragraph);
+    }
+
+    .breakpoint-card.is-active .breakpoint-card__details {
+      max-height: 10rem;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .breakpoint-card.is-active .breakpoint-card__icon:not(.breakpoint-card__icon--back) {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    .breakpoint-card.is-active .breakpoint-card__icon--back {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .breakpoint-card,
+    .breakpoint-card__details,
+    .breakpoint-card__icon {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

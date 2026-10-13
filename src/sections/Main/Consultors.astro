@@ -1,0 +1,150 @@
+---
+type Translations = typeof import("../../i18n/en").default;
+type Content = Translations["main"]["consultors"];
+interface Props {
+  content: Content;
+}
+const { content} = Astro.props as Props;
+---
+<section class='bg-[#F3F0E9] w-full flex justify-center items-center relative'>
+  <img src="/images/decoration-r.webp" alt="Decoration" class="absolute bottom-[-10%] right-0 w-[169px] h-auto object-cover z-5" width="169" height="456" decoding="async" loading="lazy"/>
+  <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
+    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
+      <p class='body-sm uppercase'>
+        {content.tag}
+      </p>
+      <h2 class="heading-1 text-center" set:html={content.title}></h2>
+    </div>
+    <div class='w-full grid grid-cols-2 justify-center items-stretch gap-6 relative'>
+      <div class='w-full grid grid-cols-2 gap-6 relative'>
+        {
+          content.items.map((item)=>( 
+            <button
+              type="button"
+              class='consultor-card w-full flex flex-col justify-between items-start bg-white p-8 aspect-326/423 h-auto rounded-lg text-left'
+              aria-expanded="false"
+              data-consultor-card
+            >
+              <span class="relative self-end w-6 h-6" aria-hidden="true">
+                <img src='/icons/check.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='consultor-card__icon absolute inset-0 w-6 h-6 transition-all duration-300'/>
+                <img src='/icons/check-white.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='consultor-card__icon consultor-card__icon--white absolute inset-0 w-6 h-6 opacity-0 transition-all duration-300'/>
+              </span>
+              <div class="flex flex-col justify-center items-start text-paragraph">
+                <h3 class='heading-3'>
+                  {item.title}
+                </h3>
+                <div class="consultor-card__details flex flex-col justify-center items-start">
+                  <div class="w-10 h-0.75 bg-white my-8"></div>
+                  <p class='body-md'>
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            </button>
+          ))
+        }
+      </div>
+      <div class='w-full h-auto relative overflow-hidden aspect-676/855 rounded-lg'>
+        <img src='/images/consultors.webp' alt="Consultors" width="1122" height="1402" decoding="async" loading="lazy" class="w-full h-full absolute inset-0 object-cover"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const cards = document.querySelectorAll<HTMLButtonElement>("[data-consultor-card]");
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const isExpanded = card.getAttribute("aria-expanded") === "true";
+      card.setAttribute("aria-expanded", String(!isExpanded));
+      card.classList.toggle("is-active", !isExpanded);
+    });
+  });
+</script>
+
+<style>
+  .consultor-card {
+    color: var(--color-paragraph);
+    transition:
+      background-color 400ms ease-in-out,
+      color 300ms ease-in-out;
+  }
+
+  .consultor-card__details {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(0.75rem);
+    transition:
+      max-height 400ms ease-in-out,
+      opacity 300ms ease-in-out,
+      transform 400ms ease-in-out;
+  }
+
+  .consultor-card__icon--white {
+    transform: scale(0.8);
+  }
+
+  @media (min-width: 768px) {
+    .consultor-card:hover {
+      background-color: var(--color-accent);
+      color: white;
+    }
+
+    .consultor-card:hover .text-paragraph {
+      color: white;
+    }
+
+    .consultor-card:hover .consultor-card__details {
+      max-height: 12rem;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .consultor-card:hover .consultor-card__icon:not(.consultor-card__icon--white) {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    .consultor-card:hover .consultor-card__icon--white {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .consultor-card.is-active {
+      background-color: var(--color-accent);
+      color: white;
+    }
+
+    .consultor-card.is-active .text-paragraph {
+      color: white;
+    }
+
+    .consultor-card.is-active .consultor-card__details {
+      max-height: 12rem;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .consultor-card.is-active .consultor-card__icon:not(.consultor-card__icon--white) {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    .consultor-card.is-active .consultor-card__icon--white {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .consultor-card,
+    .consultor-card__details,
+    .consultor-card__icon {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

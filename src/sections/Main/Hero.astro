@@ -1,0 +1,24 @@
+---
+import Button from "../../components/Button.astro";
+type Translations = typeof import("../../i18n/en").default;
+type HeroContent = Translations["main"]["hero"];
+interface Props {
+  content: HeroContent;
+}
+const { content} = Astro.props as Props;
+
+// Comprueba si la URL coincide con la raíz o los prefijos de idioma (/ , /es, /es/, /en, /en/)
+const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
+---
+<section class='w-full h-[calc(100dvh-80px)] relative flex items-center justify-center text-white' >
+  <img src="/images/hero-main.webp" alt="Hero image" decoding="async" loading="lazy" width="1920" height="974" class='w-full h-full object-cover inset-0 absolute z-0 object-top' />
+  <div class="container-full flex flex-col justify-start items-start gap-8 h-full py-12 relative z-5">
+    <p class='body-small uppercase'>{content.tag}</p>
+    <h1 class='heading-1 max-w-[445px] text-start'>{content.title}</h1>
+    <p class='body-md max-w-[419px] text-start'>{content.description}</p>
+    <div class='flex justify-center itmes-center gap-4'>
+      <Button text={content.buttons[0].label} href={content.buttons[0].href} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514]" textClass="text-white" />
+      <Button text={content.buttons[1].label} href={content.buttons[1].href} extraBtnClass="bg-white shadow-[0_8px_0_0_#A1A1A1]" textClass="text-accent"/>
+    </div>
+  </div>  
+</section>
