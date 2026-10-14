@@ -155,6 +155,115 @@ export default {
         },
       ],
     },
+    portfolio: {
+      tag: "Portafolio",
+      title:
+        '45+ marcas ya lo lograron <br/><span class="text-primary">con nosotros.</span>',
+      button: {
+        label: "Ver el portafolio completo",
+        href: "/portfolio",
+      },
+    },
+    review: {
+      tag: "Por Qué Click Franchise",
+      title:
+        'No lo decimos nosotros. <br/><span class="text-primary">Lo dicen ellos.</span>',
+      info: "11 Reviews",
+      items: [
+        {
+          description:
+            "Click comprendió nuestra visión y nos ayudó a llevar los auténticos sabores venezolanos a más comunidades. El resultado superó nuestras expectativas – ¡no podríamos estar más felices!”",
+          enterprise: "Quesitos Express",
+          name: "Nerio Morales",
+        },
+        {
+          description:
+            "El equipo de Esdras nos ayudó a estructurar nuestra franquicia de manera clara y estratégica. ¡Ahora estamos creciendo rápido y expandiéndonos a nuevas regiones!",
+          enterprise: "Empire Wallpaper",
+          name: "Douglas Araujo",
+        },
+        {
+          description:
+            "Desde el inicio hasta el final, Click nos guió con profesionalismo y dedicación. Con su ayuda, transformamos nuestro servicio de limpieza en una franquicia exitosa!",
+          enterprise: "The Sisters",
+          name: "Claudia Zoccante",
+        },
+        {
+          description:
+            "Click tomó nuestro sueño de expandir Winfield Street Coffee y lo hizo realidad. Con un acompañamiento cercano y estrategias acertadas, ¡nos ayudaron a crecer de verdad!",
+          enterprise: "Winfield Coffee",
+          name: "Breno Donatti",
+        },
+        {
+          description:
+            "Con Click estructuramos Mango Fresh como franquicia con un FDD sólido y un modelo de kiosco listo para escalar. Su conocimiento del mercado americano nos dio la seguridad para expandir con confianza.",
+          enterprise: "Claudenir Nascimento",
+          name: "Claudenir Nascimento",
+        },
+        {
+          description:
+            "Click transformó Flow Açaí Bowl en un sistema de franquicias profesional, desde la documentación hasta la estrategia de expansión. Hoy tenemos una marca preparada para crecer en todo Estados Unidos.",
+          enterprise: "Flow Açaí Bowl",
+          name: "Danylo Monfardini",
+        },
+      ],
+      button: {
+        label: "Ver todos los casos de éxito",
+        href: "#",
+      },
+    },
+    founder: {
+      tag: "el Fundador",
+      subtitle: "Fundador, Inversionista y Autor",
+      description:
+        'Más de 15 años construyendo franquicias a nivel nacional en Estados Unidos. Hoy invierte en un portafolio de 45+ marcas y es autor de "A Franquia de um Milhão de Dólares" y "Why the USA (and How Not to Lose Your Money)".',
+    },
+    banner: {
+      title:
+        "Tu próxima sede empieza con <span class='text-primary'> una conversación de 15 minutos.</span>",
+      description:
+        "Cuéntanos en qué punto estás. Te decimos, sin rodeos, si tu negocio está listo para ser franquicia — o cuál franquicia está lista para ti.",
+      buttons: [
+        {
+          label: "Agendar mi llamada",
+          href: "#",
+        },
+        {
+          label: "Escribir por WhatsApp",
+          href: "#",
+        },
+      ],
+    },
+    questions: {
+      title: "¿Tienes preguntas? Tenemos respuestas.",
+      description:
+        "Respuestas claras a las preguntas más frecuentes sobre franquicias, inversión y el proceso para convertirte en franquiciado. ¿Aún tienes dudas? Estamos aquí para orientarte y ayudarte a tomar una decisión informada.",
+      buttonLabel: "Escribir por WhatsApp",
+      items: [
+        {
+          question:
+            "¿Cuánto cuesta el acompañamiento si quiero franquiciar mi negocio?",
+          answer:
+            "Depende del alcance del proyecto; lo definimos en el diagnóstico de franqueabilidad, sin costo inicial.",
+        },
+        {
+          question: "¿Cobran al inversionista que compra una franquicia?",
+          answer:
+            "No. Nuestra remuneración proviene de las marcas del portafolio; para el comprador, el acompañamiento no tiene costo.",
+        },
+        {
+          question: "¿Trabajan con negocios fuera de Georgia?",
+          answer:
+            "Sí, el desarrollo de franquicias es a nivel nacional; el servicio de obras y build-out se concentra en la región de Atlanta.",
+        },
+        {
+          question:
+            "¿En cuánto tiempo puedo tener mi negocio listo para franquiciar?",
+          answer:
+            "En promedio, entre 3 y 6 meses, según la complejidad del modelo y la documentación legal.",
+        },
+      ],
+    },
   },
   footer: {
     description:
@@ -237,53 +346,39 @@ export default {
   seo: {
     main: {
       title: "Check Franchise",
-      description:
-        "#",
-      keywords:
-        "#",
+      description: "#",
+      keywords: "#",
     },
     buyFranchise: {
       title: "Comprar Franquicia | Click Franchise",
-      description:
-        "#",
-      keywords:
-        "#",
+      description: "#",
+      keywords: "#",
     },
     franchiseMyBusiness: {
       title: "Franquiciar mi Negocio | Click Franchise",
-      description:
-        "#",
-      keywords:
-        "#",
+      description: "#",
+      keywords: "#",
     },
     portfolio: {
       title: "Portafolio | Click Franchise",
-      description:
-        "#",
-      keywords:
-        "#",
+      description: "#",
+      keywords: "#",
     },
     successStories: {
       title: "Casos de Éxito | Click Franchise",
-      description:
-        "#",
-      keywords:
-        "#",
+      description: "#",
+      keywords: "#",
     },
 
     aboutUs: {
       title: "About Us | Click Franchise",
-      description:
-        "#",
-      keywords:
-        "#",
+      description: "#",
+      keywords: "#",
     },
     contact: {
       title: "Contact | Click Franchise",
-      description:
-        "#",
-      keywords:
-        "#",
+      description: "#",
+      keywords: "#",
     },
   },
 };

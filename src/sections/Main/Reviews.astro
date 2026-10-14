@@ -1,0 +1,57 @@
+---
+import Button from "../../components/Button.astro";
+type Translations = typeof import("../../i18n/en").default;
+type Content = Translations["main"]["review"];
+interface Props {
+  content: Content;
+}
+const { content} = Astro.props as Props;
+
+// Comprueba si la URL coincide con la raíz o los prefijos de idioma (/ , /es, /es/, /en, /en/)
+const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
+---
+<section class='bg-[#F3F0E9] w-full flex justify-center items-center relative''>
+  <img src="/images/decoration-w-r.webp" alt="Decoration" class="absolute bottom-[-4%] right-0 w-[97px] h-auto object-cover z-5" width="97" height="275" decoding="async" loading="lazy"/>
+  <img src="/images/decoration-w-l.webp" alt="Decoration" class="absolute top-[-10%] left-0 w-[159px] h-auto object-cover" width="159" height="328" decoding="async" loading="lazy"/>
+  <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
+    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
+      <p class='body-sm uppercase'>
+        {content.tag}
+      </p>
+      <h2 class="heading-1 text-center" set:html={content.title}></h2>
+    </div>
+    <div class="w-full flex justify-center items-stretch gap-6">
+  
+    <div class="w-full grid grid-cols-4 items-stretch gap-6">
+      <div class='flex flex-col justify-center items-center py-20 px-8 rounded-lg bg-white gap-9'>
+        <div class='flex flex-col justify-center items-center gap-4 text-paragraph'>
+          <p class='heading-1'>5.0</p>
+          <img src="/icons/stars.svg" alt="Stars" width="136" height="16" class='w-[136px] h-auto' decoding="async" loading="lazy" />
+          <p class='body-md'>{content.info}</p>
+        </div>
+        <img src="/icons/logo-orange.svg" alt="Stars" width="89" height="43" class='w-[89px] h-auto' decoding="async" loading="lazy"/>
+      </div>
+
+      <div class="col-span-3 grid grid-cols-3 items-stretch gap-6 relative overflow-hidden">
+        {
+          content.items.slice(0, 3).map((item) => (
+            <div class='flex flex-col justify-between items-start p-8 rounded-lg bg-white'>
+              <div class="flex flex-col justify-center items-start gap-2">
+                <p class='text-[40px] text-primary font-bold leading-[150%]'>“</p>
+                <p class="body-md text-paragraph">{item.description}</p>
+              </div>
+              <div class='flex flex-col justify-center items-start text-paragraph'>
+                <img src="/icons/stars.svg" alt="Stars" width="136" height="16" class='w-[69px] h-auto' decoding="async" loading="lazy" />
+                <h3 class="mt-4 mb-2 body-md-semibold">{item.name}</h3>
+                <p class='body-sm'>{item.enterprise}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+  </div>
+    <Button text={content.button.label} href={`${locale}${content.button.href}`} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514]" textClass="text-white" />
+  </div>
+</section>

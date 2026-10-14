@@ -1,0 +1,33 @@
+---
+import Button from "../../components/Button.astro";
+type Translations = typeof import("../../i18n/en").default;
+type Content = Translations["main"]["portfolio"];
+interface Props {
+  content: Content;
+}
+const { content} = Astro.props as Props;
+
+// Comprueba si la URL coincide con la raíz o los prefijos de idioma (/ , /es, /es/, /en, /en/)
+const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
+---
+<section class='bg-[#F3F0E9] w-full flex justify-center items-center relative''>
+  <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
+    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
+      <p class='body-sm uppercase'>
+        {content.tag}
+      </p>
+      <h2 class="heading-1 text-center" set:html={content.title}></h2>
+    </div>
+    <div class="w-full grid grid-cols-6 justify-center items-center gap-2">
+      {
+        Array.from({ length: 12 }, (_, i) => (
+          <div class='w-full h-auto aspect-[187/115] relative overflow-hidden'>
+            <img src={`/images/portfolio/port-${i + 1}.webp`} alt={`Portfolio item ${i + 1}`} class="w-full h-full object-cover" width="600" height="369"/> 
+          </div>
+          
+        ))
+      }
+    </div>
+    <Button text={content.button.label} href={`${locale}${content.button.href}`} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514]" textClass="text-white" />
+  </div>
+</section>
