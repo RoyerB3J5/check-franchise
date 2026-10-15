@@ -2,7 +2,11 @@
 import en from "../../../i18n/en";
 import es from "../../../i18n/es";
 import Layout from "../../../layouts/Layout.astro";
-
+import HeroBanner from "../../../sections/HeroBanner.astro";
+import Branchs from "../../../sections/Main/Branchs.astro";
+import Questions from "../../../sections/Main/Questions.astro";
+import Steps from "../../../sections/Steps.astro";
+import Who from "../../../sections/Who.astro";
 import type { Language } from "../../../types/language.type";
 
 export function getStaticPaths() {
@@ -25,4 +29,9 @@ const seo = t.seo.buyFranchise;
   keywords={seo.keywords}
   canonicalPath="/buy-franchise"
 >
+  <HeroBanner content={t.buyFranchise.hero} />
+  <Who content={t.buyFranchise.who} />
+  <Steps content={t.buyFranchise.steps} />
+  <Branchs content={t.main.portfolio} />
+  <Questions content={t.main.questions} />
 </Layout>

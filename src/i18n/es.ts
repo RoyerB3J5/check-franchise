@@ -265,6 +265,98 @@ export default {
       ],
     },
   },
+  buyFranchise: {
+    hero: {
+      tag: "Comprar una Franquicia",
+      title:
+        "Invierte en un sistema que ya funciona. <span class='text-primary'>No en una promesa.</span>",
+      description:
+        "Desde la elección de la marca hasta el día de apertura. Sin sorpresas, sin letra pequeña que no hayas leído con nosotros primero.",
+      button: {
+        label: "Recibir el portafolio",
+        href: "#",
+      },
+    },
+    who: {
+      tag: "Una oportunidad diseñada para crecer contigo",
+      title: "¿Para <span class='text-primary'>quién es? </span>",
+      description:
+        "Ya sea que vivas en EE. UU., estés planeando mudarte o quieras expandir tu <br/> negocio, tenemos un modelo pensado para tu próximo paso.",
+      items: [
+        {
+          title: "Ya vives en EE. UU.",
+          description:
+            "Inversionistas latinos que quieren un negocio con sistema probado, no un experimento.",
+        },
+        {
+          title: "Planeas mudarte",
+          description:
+            "Emprendedores en América Latina evaluando visas E-2 y L-1, con abogados aliados.",
+        },
+        {
+          title: "Ya tienes una unidad",
+          description:
+            "Empresarios buscando su segunda o tercera unidad, con un socio que conoce el mercado.",
+        },
+      ],
+    },
+    steps: {
+      tag: "Tu Recorrido",
+      title:
+        " 5 Pasos hacia <br/>  <span class='text-primary'>la Apertura. </span>",
+      items: [
+        {
+          title: "Perfil.",
+          description:
+            "Cuestionario confidencial: capital disponible, región, dedicación y objetivos.",
+        },
+        {
+          title: "Selección",
+          description:
+            "Te presentamos las marcas de nuestro portafolio de 45+ que encajan con tu perfil.",
+        },
+        {
+          title: "Análisis",
+          description:
+            "Leemos contigo el FDD, las cifras reales y el contrato, línea por línea.",
+        },
+        {
+          title: "Estructura",
+          description:
+            "Financiamiento, sociedad, empresa y, si aplica, estrategia de visa con abogados aliados.",
+        },
+        {
+          title: "Apertura",
+          description:
+            "Punto comercial, obras, diseño y entrenamiento hasta el día uno de operación.",
+        },
+      ],
+    },
+    questions: {
+      title: "¿Tienes preguntas? Tenemos respuestas.",
+      description:
+        "Respuestas claras a las preguntas más frecuentes sobre franquicias, inversión y el proceso para convertirte en franquiciado. ¿Aún tienes dudas? Estamos aquí para orientarte y ayudarte a tomar una decisión informada.",
+      buttonLabel: "Escribir por WhatsApp",
+      items: [
+        {
+          question: "¿Cobran por la asesoría al comprador?",
+          answer:
+            "Nuestra remuneración proviene de las marcas del portafolio; para ti el acompañamiento no tiene costo.",
+        },
+        {
+          question:
+            "¿Puedo comprar una franquicia sin vivir en Estados Unidos?",
+          answer:
+            "Sí. Trabajamos con estructuras y visas de inversión junto a abogados especializados.",
+        },
+        {
+          question: "¿Cuánto tarda el proceso?",
+          answer:
+            "Entre 60 y 180 días, según la marca, el financiamiento y el punto comercial.",
+        },
+      ],
+    },
+  },
   footer: {
     description:
       "Antes Brookstone Franchise. Marca de Brookstone Holding LLC. Más de 10 años convirtiendo negocios latinos en franquicias.",
@@ -338,7 +430,7 @@ export default {
         {
           label: "clickfranchise@gmail.com",
           href: "https://mail.google.com/mail/?view=cm&fs=1&to=clickfranchise@gmail.com",
-          icon: "email",
+          icon: "mail",
         },
       ],
     },

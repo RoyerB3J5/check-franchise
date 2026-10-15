@@ -2,12 +2,15 @@
 import en from "../../i18n/en";
 import es from "../../i18n/es";
 import Layout from "../../layouts/Layout.astro";
+import Banner from "../../sections/Main/Banner.astro";
 import Branchs from "../../sections/Main/Branchs.astro";
 import BreakPoint from "../../sections/Main/BreakPoint.astro";
 import Cifras from "../../sections/Main/Cifras.astro";
 import Consultors from "../../sections/Main/Consultors.astro";
+import Founder from "../../sections/Main/Founder.astro";
 import Hero from "../../sections/Main/Hero.astro";
 import Pilars from "../../sections/Main/Pilars.astro";
+import Questions from "../../sections/Main/Questions.astro";
 import Reviews from "../../sections/Main/Reviews.astro";
 
 import type { Language } from "../../types/language.type";
@@ -39,4 +42,7 @@ const seo = t.seo.main;
   <Consultors content={t.main.consultors} />
   <Branchs content={t.main.portfolio} />
   <Reviews content={t.main.review} />
+  <Founder content={t.main.founder} />
+  <Banner content={t.main.banner} />
+  <Questions content={t.main.questions} />
 </Layout>

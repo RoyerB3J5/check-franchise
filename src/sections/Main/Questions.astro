@@ -1,0 +1,38 @@
+---
+import Button from "../../components/Button.astro";
+
+type Translations = typeof import("../../i18n/en").default;
+type Content = Translations["main"]["questions"];
+interface Props {
+  content: Content;
+}
+const { content} = Astro.props as Props;
+---
+<section class='w-full flex justify-center items-center bg-primary relative'>
+  <img src="/images/decoration-r.webp" alt="Decoration" class="absolute bottom-[5%] right-0 w-[169px] h-auto object-cover z-5" width="169" height="456" decoding="async" loading="lazy"/>
+  <div class="container-full flex  justify-center items-start py-25 gap-6 relative z-0">
+    <div class="w-[60%] bg-white flex flex-col justify-center items-center gap-10 p-10 rounded-lg">
+      {
+        content.items.map((item)=>(
+          <>
+            <div class='w-full flex flex-col justify-center items-start '>
+              <div class='w-full flex justify-between items-center gap-4'>
+                <h3 class='body-xl text-accent'>{item.question}</h3>
+              </div>
+              <p class="body-md text-paragraph mt-8">{item.answer}</p>
+            </div>
+            <div class="w-full h-[1px] bg-paragraph/30 last:hidden">
+
+            </div>
+          </>
+          
+        ))  
+      }
+    </div>
+    <div class='flex flex-col justify-start items-start gap-12 w-[40%] text-white'>
+      <h2 class='heading-2'>{content.title}</h2>
+      <p class="body-md">{content.description}</p>
+      <Button text={content.buttonLabel} href="#" icon="whats" extraBtnClass="bg-[#25D366] shadow-[0_8px_0_0_#137839]" textClass="text-white"/>
+    </div>
+  </div>
+</section>
