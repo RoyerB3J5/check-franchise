@@ -1,0 +1,47 @@
+---
+// src/components/Liston.astro
+interface Props {
+  src: string;        // ruta de la imagen, ej. "/images/decoration-l.webp"
+  d: string;          // curva central del listón (la máscara)
+  w: number;          // ancho de la imagen
+  h: number;          // alto de la imagen
+  grosor?: number;
+  duracion?: number;  // segundos
+  delay?: number;     // segundos
+  class?: string;
+}
+const {
+  src, d, w, h,
+  grosor = 95, duracion = 1.5, delay = 0,
+  class: className,
+  ...rest
+} = Astro.props;
+const id = `m-${crypto.randomUUID().slice(0, 8)}`; // id único por instancia
+---
+<svg
+  class:list={["liston", "reveal-liston", className]}
+  viewBox={`0 0 ${w} ${h}`}
+  style={`--dur:${duracion}s;--delay:${delay}s`}
+  aria-hidden="true"
+  {...rest}
+>
+  <defs>
+    <mask id={id} maskUnits="userSpaceOnUse" x={-50} y={0} width={w + 100} height={h}>
+      <path class="trazo" pathLength="1" d={d} fill="none"
+            stroke="white" stroke-width={grosor} stroke-linecap="butt" />
+    </mask>
+  </defs>
+  <image href={src} width={w} height={h} mask={`url(#${id})`} />
+</svg>
+
+<style>
+  .liston { display: block; }
+  .trazo { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .liston.active .trazo {
+    animation: dibujar var(--dur) cubic-bezier(.65, 0, .35, 1) var(--delay) forwards;
+  }
+  @keyframes dibujar { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .trazo { stroke-dashoffset: 0; animation: none !important; }
+  }
+</style>

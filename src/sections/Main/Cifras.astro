@@ -1,4 +1,6 @@
 ---
+import Liston from "../../components/Liston.astro";
+
 type Translations = typeof import("../../i18n/en").default;
 type Content = Translations["main"]["cifras"];
 interface Props {
@@ -20,5 +22,11 @@ const { content} = Astro.props as Props;
       </p>
     </div>
   </div>
-  <img src="/images/decoration-l.webp" alt="Decoration" class="absolute bottom-[-10%] left-0 w-[115px] h-auto object-cover" width="115" height="411" decoding="async" loading="lazy"/>
+  <Liston
+    src="/images/decoration-l.webp"
+    w={115} h={411}
+    d="M -20 88 C 45 88, 125 180, 100 245 C 80 300, 45 348, -20 348"
+    grosor={120}
+    class="absolute bottom-[-10%] left-0 w-[115px] h-auto"
+  />
 </section>  
