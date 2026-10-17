@@ -357,6 +357,346 @@ export default {
       ],
     },
   },
+  franchiseBusiness: {
+    hero: {
+      tag: "Franquiciar tu Negocio",
+      title:
+        "De un negocio a una <span class='text-primary'>marca que crece sin ti</span> en cada local.",
+      description:
+        "En 3 a 6 meses: modelo económico, documentación legal completa y un<br/> canal de ventas funcionando. Tu marca, lista para multiplicarse.",
+      button: {
+        label: "Solicitar diagnóstico",
+        href: "#",
+      },
+    },
+    moment: {
+      tag: "¿Es tu Momento?",
+      title: "3 señales <span class='text-primary'> para franquiciar</span>",
+      items: [
+        {
+          title: "Ya es rentable.",
+          description: "Genera ganancias consistentes, no solo ventas.",
+        },
+        {
+          title: "Es replicable.",
+          description:
+            "Tiene procesos claros que otra persona podría ejecutar.",
+        },
+        {
+          title: "Ya te lo están pidiendo.",
+          description:
+            'Recibes preguntas de gente que quiere "abrir uno igual".',
+        },
+      ],
+      description:
+        "Si cumples los tres, probablemente es tu momento. Lo confirmamos con un diagnóstico de franqueabilidad, sin costo inicial.",
+    },
+    company: {
+      tag: "Te acompañamos en cada etapa para convertir tu negocio en una franquicia sólida, rentable y escalable.",
+      list: [
+        "Registro en los estados que lo exigen<br/> (California, Nueva York, Illinois, entre otros).",
+        "Manuales de operación y programa de<br/>entrenamiento.",
+        "<span class='text-primary'>Identidad de marca, presentación para<br/> inversionistas y guía del franquiciado.</span>",
+        "Página de tu marca en nuestro portal de<br/> ventas, con candidatos calificados.",
+        "Acompañamiento en tus primeras ventas y en<br/> el onboarding de tus primeros franquiciados.",
+      ],
+    },
+    offer: {
+      title: "También<span class='text-primary'> ofrecemos...</span>",
+      description:
+        "Soluciones especializadas para adaptar, actualizar y expandir tu modelo de franquicia<br/> según las necesidades de tu negocio.",
+      servicios: [
+        {
+          title: "Selección.",
+          description: "Revisión y actualización de un FDD<br/> existente.",
+        },
+        {
+          title: "Adaptación.",
+          description:
+            "Adaptación de marcas extranjeras al <br/> modelo de franquicia estadounidense.",
+        },
+        {
+          title: "Expansión.",
+          description:
+            "Estructuras de máster franquicia y <br/> desarrollo por área.",
+        },
+      ],
+    },
+    hWork: [
+      {
+        tag: "¿Cómo Trabajamos?",
+        title: "Plan de Negocio",
+        description: "2 semanas",
+      },
+      {
+        tag: "¿Cómo Trabajamos?",
+        title: "Estructuración de modelo y <br/> marca",
+        description: " 4 a 8 semanas",
+      },
+      {
+        tag: "¿Cómo Trabajamos?",
+        title: "Documentación legal y <br/> manuales",
+        description: "4 a 8 semanas",
+      },
+      {
+        tag: "¿Cómo Trabajamos?",
+        title: "Lanzamiento comercial en el <br/> portal",
+        description: "Continuo",
+      },
+    ],
+    questions: {
+      title: "¿Tienes preguntas? Tenemos respuestas.",
+      description:
+        "Respuestas claras a las preguntas más frecuentes sobre franquicias, inversión y el proceso para convertirte en franquiciado. ¿Aún tienes dudas? Estamos aquí para orientarte y ayudarte a tomar una decisión informada.",
+      buttonLabel: "Escribir por WhatsApp",
+      items: [
+        {
+          question: "¿Necesito tener varias sedes para franquiciar mi negocio?",
+          answer:
+            "No. Basta con un negocio rentable, replicable y con demanda comprobada, aunque sea una sola sede.  Nuestra remuneración proviene de las marcas del portafolio; para ti el acompañamiento no tiene costo.",
+        },
+        {
+          question: "¿Qué pasa si mi negocio no está listo todavía?",
+          answer:
+            "Te lo decimos con honestidad en el diagnóstico, y te damos una ruta clara para llegar a estarlo.",
+        },
+        {
+          question: "¿El registro estatal del FDD está incluido?",
+          answer:
+            "Sí, gestionamos el registro en los estados que lo exigen como parte del proceso.",
+        },
+      ],
+    },
+  },
+  portfolio: {
+    tag: "Portafolio",
+    title:
+      "45+ marcas ya lo lograron<br/> <span class='text-primary'>con nosotros.</span>",
+    description:
+      "Sistemas de franquicia que desarrollamos, comercializamos o en los que invertimos<br/> directamente. Cada marca tiene su página en nuestro portal de ventas.",
+    sectors: [
+      {
+        title: "Todos",
+        id: "todos",
+      },
+      {
+        title: "Alimentos",
+        id: "alimentos",
+      },
+      {
+        title: "Servicios",
+        id: "servicios",
+      },
+      {
+        title: "Salud",
+        id: "salud",
+      },
+      {
+        title: "Educación",
+        id: "educación",
+      },
+      {
+        title: "Retail",
+        id: "retail",
+      },
+      {
+        title: "Tecnología",
+        id: "tecnología",
+      },
+    ],
+    button: {
+      label: "Ver el portafolio completo",
+      href: "#",
+    },
+  },
+  caseSuccess: {
+    hero: {
+      tag: "Historias de crecimiento",
+      title:
+        "No somos consultores de escritorio.<span class='text-primary'> Somos operadores.</span>",
+      description:
+        "Estas son las marcas que confiaron en nosotros para pasar de un local a un<br/> sistema de franquicia.",
+      button: {
+        label: "",
+        href: "",
+      },
+    },
+    cases: {
+      title: "Casos<span class='text-primary'> destacados.</span>",
+      places: [
+        {
+          img: "Quesitos",
+          title: "Quesitos Express",
+          description: "De 1 local a 11 en 2 años",
+        },
+        {
+          img: "Empire",
+          title: "Empire Wallpaper",
+          description: "Franquiciado en 3 meses",
+        },
+        {
+          img: "Sisters",
+          title: "The Sisters",
+          description: "Franquiciado en 3 meses",
+        },
+        {
+          img: "Windfield",
+          title: "Winfield Coffee",
+          description: "De 1 a 6 locales en 2 año",
+        },
+        {
+          img: "Mango",
+          title: "Mango Fresh",
+          description: "3 tiendas en 1 año",
+        },
+        {
+          img: "Acaí",
+          title: "Flow Açaí",
+          description: "6 tiendas en 2 años",
+        },
+        {
+          img: "Polar",
+          title: "Polar Shake",
+          description: "Franquiciado en 3 meses",
+        },
+      ],
+    },
+    next: {
+      title:
+        "¿Tu negocio podría ser el<span class='text-primary'> próximo<br/> caso de éxito?</span>",
+      button: {
+        label: "Quiero franquiciar mi negocio",
+        href: "#",
+      },
+    },
+  },
+  us: {
+    hero: {
+      tag: "Crecimiento con propósito",
+      title:
+        "No vendemos<br/>franquicias.<span class='text-primary'> Construimos<br/>legados.</span>",
+      description:
+        "Creamos franquicias sólidas que trascienden, crecen y convierten negocios en grandes legados.",
+      button: {
+        label: "",
+        href: "",
+      },
+    },
+    history: [
+      {
+        tag: "CLICK FRANCHISE",
+        title: "Nuestra misión",
+        description:
+          "Ayudar a emprendedores e inversionistas latinos a construir negocios sólidos en Estados Unidos: con método, cumplimiento legal y una red que ya recorrió el camino. Trabajamos en español, inglés y portugués.",
+      },
+      {
+        tag: "CLICK FRANCHISE",
+        title: "Nuestra Historia",
+        about: [
+          {
+            title: "2020",
+            description:
+              "Nacimos en Atlanta como Brookstone Franchise, enfocados en convertir marcas latinas en sistemas de franquicia.",
+          },
+          {
+            title: "Hoy",
+            description:
+              "Más de 6 años y 45+ marcas después, somos Click Franchise: experiencia internacional y más de 30 años de trayectoria impulsando franquicias en América Latina, Europa y EE. UU.",
+          },
+        ],
+      },
+    ],
+    team: {
+      title: "Nuestro <span class='text-primary'>equipo</span>",
+      members: [
+        {
+          img: "m1",
+          title: "Lady Nunes",
+          description: "Atención al Cliente",
+        },
+        {
+          img: "m2",
+          title: "Ismael Fernández",
+          description: "Director Financiero",
+        },
+        {
+          img: "m3",
+          title: "Gisa Azeredo",
+          description: "Desarrollo de Franquicias",
+        },
+        {
+          img: "m4",
+          title: "Ayelen Piotti",
+          description: "Desarrollo de Franquicias ",
+        },
+        {
+          img: "m5",
+          title: "Lucas Negrin",
+          description: "Consultoría Internacional",
+        },
+        {
+          img: "m6",
+          title: "Emerson Vamondes",
+          description: "Director de Entrenamiento",
+        },
+      ],
+    },
+  },
+  contact: {
+    location: {
+      title: "Nuestra <span class='text-primary'>oficina.</span>",
+      info: [
+        {
+          description: "Teléfono / WhatsApp",
+          title: "+1 (470) 530-0567",
+        },
+        {
+          description: "Email",
+          title: "correo@clickfranquicia.com",
+        },
+        {
+          description: "Dirección",
+          title: "7000 Central Parkway #1100<br/>Sandy Springs, GA 30328",
+        },
+      ],
+      yourBusiness: {
+        title2: "Hablemos de <span class='text-primary'>tu<br/>negocio.</span>",
+        description: "Respondemos en menos de 24 horas hábiles, en tu idioma.",
+        forms: [
+          {
+            title: "Nombre",
+            placeholder: "Tu nombre aquí",
+          },
+          {
+            title: "Email",
+            placeholder: "Tu correo electrónico aquí",
+          },
+          {
+            title: "Teléfono / WhatsApp",
+            placeholder: "Tu teléfono aquí",
+          },
+          {
+            title: "País",
+            placeholder: "¿De qué país nos escribes?",
+          },
+          {
+            title: "¿Qué necesitas?",
+            placeholder:
+              "Comprar una franquicia / Franquiciar mi negocio / Obras / Diseño / Mentoría / Otro",
+          },
+          {
+            title: "Mensaje",
+            placeholder:
+              "No dudes en enviarnos un mensaje con cualquier pregunta o idea",
+          },
+        ],
+        button: {
+          label: "Enviar",
+          href: "#",
+        },
+      },
+    },
+  },
   footer: {
     description:
       "Antes Brookstone Franchise. Marca de Brookstone Holding LLC. Más de 10 años convirtiendo negocios latinos en franquicias.",

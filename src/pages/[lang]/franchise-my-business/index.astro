@@ -2,6 +2,12 @@
 import en from "../../../i18n/en";
 import es from "../../../i18n/es";
 import Layout from "../../../layouts/Layout.astro";
+import Company from "../../../sections/Company.astro";
+import HeroBanner from "../../../sections/HeroBanner.astro";
+import Hwork from "../../../sections/Hwork.astro";
+import Questions from "../../../sections/Main/Questions.astro";
+import Moment from "../../../sections/Moment.astro";
+import Offer from "../../../sections/Offer.astro";
 
 import type { Language } from "../../../types/language.type";
 
@@ -25,4 +31,10 @@ const seo = t.seo.franchiseMyBusiness;
   keywords={seo.keywords}
   canonicalPath="/franchise-my-business"
 >
+  <HeroBanner content={t.franchiseBusiness.hero} />
+  <Moment content={t.franchiseBusiness.moment} />
+  <Company content={t.franchiseBusiness.company} />
+  <Offer content={t.franchiseBusiness.offer} />
+  <Hwork content={t.franchiseBusiness.hWork} />
+  <Questions content={t.franchiseBusiness.questions} />
 </Layout>

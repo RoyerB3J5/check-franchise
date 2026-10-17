@@ -1,0 +1,31 @@
+---
+type Translations = typeof import("../i18n/en").default;
+type Content = Translations["franchiseBusiness"]["hWork"];
+interface Props {
+  content: Content;
+}
+const { content} = Astro.props as Props;
+---
+<section class='w-full flex justify-center items-center relative'>
+  <div class='container-full flex justify-center items-stretch gap-6 py-8'>
+    <div class='bg-secondary flex flex-col justify-between items-center rounded-lg p-8 w-[40%] relative'>
+      <div class="bg-paragraph/10 flex justify-center items-center gap-1 rounded-lg p-1 absolute top-8 right-8">
+        {
+          content.map((i,index)=>(
+            <div class='bg-paragraph flex justify-center items-center w-8 h-8 rounded-[4px] text-white'>
+              <p class='body-md'>0{index+1}</p>
+            </div>
+          ))
+        }  
+      </div> 
+      <div class='w-full flex justify-start items-center text-paragraph h-10'>
+        <p class='subtitle uppercase'>{content[0].tag}</p>
+      </div>
+      <h2 class="heading-3 capitalize">{content[0].title}</h2>
+      <p class='body-md'>{content[0].description}</p>
+    </div>
+    <div class="w-[60%] h-auto relative aspect-793/746 rounded-lg overflow-hidden">
+      <img src="/images/hwork-1.webp" alt="How it works" width="1300" height="694" decoding="async" loading="lazy" class='w-full h-full object-cover absolute inset-0'/>
+    </div>
+  </div>
+</section>
