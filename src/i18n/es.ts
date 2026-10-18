@@ -430,12 +430,17 @@ export default {
       },
       {
         tag: "¿Cómo Trabajamos?",
-        title: "Estructuración de modelo y marca",
+        title: "Estructuración de modelo y <br/> marca",
         description: " 4 a 8 semanas",
       },
       {
         tag: "¿Cómo Trabajamos?",
-        title: "Lanzamiento comercial en el portal",
+        title: "Documentación legal y <br/> manuales",
+        description: "4 a 8 semanas",
+      },
+      {
+        tag: "¿Cómo Trabajamos?",
+        title: "Lanzamiento comercial en el <br/> portal",
         description: "Continuo",
       },
     ],
@@ -520,39 +525,46 @@ export default {
       title: "Casos<span class='text-primary'> destacados.</span>",
       places: [
         {
-          img: "Quesitos",
           title: "Quesitos Express",
           description: "De 1 local a 11 en 2 años",
+          name: "Nerio Morales",
+          para: "Click comprendió nuestra visión y nos ayudó a llevar los auténticos sabores venezolanos a más comunidades. El resultado superó nuestras expectativas – ¡no podríamos estar más felices!”",
         },
         {
-          img: "Empire",
           title: "Empire Wallpaper",
           description: "Franquiciado en 3 meses",
+          name: "Douglas Araujo",
+          para: "El equipo de Esdras nos ayudó a estructurar nuestra franquicia de manera clara y estratégica. ¡Ahora estamos creciendo rápido y expandiéndonos a nuevas regiones!",
         },
         {
-          img: "Sisters",
           title: "The Sisters",
           description: "Franquiciado en 3 meses",
+          name: "Claudia Zoccante",
+          para: "Desde el inicio hasta el final, Click nos guió con profesionalismo y dedicación. Con su ayuda, transformamos nuestro servicio de limpieza en una franquicia exitosa!",
         },
         {
-          img: "Windfield",
           title: "Winfield Coffee",
           description: "De 1 a 6 locales en 2 año",
+          name: "Breno Donatti",
+          para: "Click tomó nuestro sueño de expandir Winfield Street Coffee y lo hizo realidad. Con un acompañamiento cercano y estrategias acertadas, ¡nos ayudaron a crecer de verdad!",
         },
         {
-          img: "Mango",
           title: "Mango Fresh",
           description: "3 tiendas en 1 año",
+          name: "Claudenir Nascimento",
+          para: "Con Click estructuramos Mango Fresh como franquicia con un FDD sólido y un modelo de kiosco listo para escalar. Su conocimiento del mercado americano nos dio la seguridad para expandir con confianza.",
         },
         {
-          img: "Acaí",
           title: "Flow Açaí",
           description: "6 tiendas en 2 años",
+          name: "Danylo Monfardini",
+          para: "Click transformó Flow Açaí Bowl en un sistema de franquicias profesional, desde la documentación hasta la estrategia de expansión. Hoy tenemos una marca preparada para crecer en todo Estados Unidos.",
         },
         {
-          img: "Polar",
           title: "Polar Shake",
           description: "Franquiciado en 3 meses",
+          name: "Nerio Morales",
+          para: "Click comprendió nuestra visión y nos ayudó a llevar los auténticos sabores venezolanos a más comunidades. El resultado superó nuestras expectativas – ¡no podríamos estar más felices!”",
         },
       ],
     },
@@ -644,51 +656,22 @@ export default {
         {
           description: "Teléfono / WhatsApp",
           title: "+1 (470) 530-0567",
+          link: "tel:+14705300567",
         },
         {
           description: "Email",
           title: "correo@clickfranquicia.com",
+          link: "#",
         },
         {
           description: "Dirección",
           title: "7000 Central Parkway #1100<br/>Sandy Springs, GA 30328",
+          link: "#",
         },
       ],
       yourBusiness: {
         title2: "Hablemos de <span class='text-primary'>tu<br/>negocio.</span>",
         description: "Respondemos en menos de 24 horas hábiles, en tu idioma.",
-        forms: [
-          {
-            title: "Nombre",
-            placeholder: "Tu nombre aquí",
-          },
-          {
-            title: "Email",
-            placeholder: "Tu correo electrónico aquí",
-          },
-          {
-            title: "Teléfono / WhatsApp",
-            placeholder: "Tu teléfono aquí",
-          },
-          {
-            title: "País",
-            placeholder: "¿De qué país nos escribes?",
-          },
-          {
-            title: "¿Qué necesitas?",
-            placeholder:
-              "Comprar una franquicia / Franquiciar mi negocio / Obras / Diseño / Mentoría / Otro",
-          },
-          {
-            title: "Mensaje",
-            placeholder:
-              "No dudes en enviarnos un mensaje con cualquier pregunta o idea",
-          },
-        ],
-        button: {
-          label: "Enviar",
-          href: "#",
-        },
       },
     },
   },

@@ -1,0 +1,50 @@
+---
+import Liston from "../components/Liston.astro";
+
+type Translations = typeof import("../i18n/en").default;
+type Content = Translations["caseSuccess"]["cases"];
+interface Props {
+  content: Content;
+}
+const { content} = Astro.props as Props;
+---
+<section class="w-full flex justify-center items-center relative z-5">
+  <Liston
+    src="/images/decoration-l.webp"
+    w={115} h={411}
+    d="M -20 88 C 45 88, 125 180, 100 245 C 80 300, 45 348, -20 348"
+    grosor={120}
+    class="absolute top-[-5%] left-0 w-[115px] h-auto"
+  />
+  <img src="/images/decoration-o-r.webp" alt="Decoration" class="absolute bottom-[20%] right-0 w-[153px] h-auto object-cover" width="153" height="346" decoding="async" loading="lazy"/>
+  <div class='container-full flex flex-col justify-center items-center py-25 gap-10 text-paragraph'>
+    <h2 class='heading-1' set:html={content.title}></h2>
+    <div class="grid grid-cols-1 justify-center items-center gap-2 w-[676px]">
+      {
+        content.places.map((item,index)=>(
+          <div class='relative group'>
+            <div class='flex justify-between items-center w-full px-8 rounded-lg border border-paragraph/30 py-1.5'>
+              <div class='h-[158px] w-auto relative overflow-hidden aspect-257/158'>
+                <img src={`/images/cases/place-${index+1}.webp`} alt={item.title} width="600" height="396" decoding="async" loading="lazy" class='w-full h-full absolute inset-0 object-cover'/> 
+              </div>
+              <div class='w-[276px] flex flex-col justify-center items-start gap-8 text-paragraph'>
+                <h3 class='body-xl'>{item.title}</h3>
+                <p class='body-md'>{item.description}</p>
+                <div class='w-10 h-[3px] bg-paragraph'></div>
+              </div>
+            </div>
+            <div class='w-full h-full justify-between items-center px-8 bg-[#F3F0E9] rounded-lg absolute hidden group-hover:flex '>
+              <img src={`/images/cases/seo-${index+1}.webp`} alt={item.title} width="1254" height="1254" decoding="async" loading="lazy" class='w-auto h-[112px] '/>
+              <div class='flex flex-col justify-center items-start gap-6 text-paragraph'>
+                <h4 class='body-lg'>{item.name}</h4>
+                <p class='body-md'>{item.para}</p>
+              </div>
+            </div>
+          </div>  
+            
+
+        ))
+      }
+    </div>
+  </div>
+</section>  

@@ -1,4 +1,5 @@
 ---
+import Liston from "../../../components/Liston.astro";
 import en from "../../../i18n/en";
 import es from "../../../i18n/es";
 import Layout from "../../../layouts/Layout.astro";
@@ -15,6 +16,7 @@ const lang = Astro.params.lang as Language;
 const translations = { es, en };
 const t = translations[lang];
 const seo = t.seo.contact;
+const content = t.contact;
 ---
 
 <Layout
@@ -25,4 +27,38 @@ const seo = t.seo.contact;
   keywords={seo.keywords}
   canonicalPath="/contact"
 >
+  <section class='w-full flex justify-center items-center relative'>
+    <Liston
+    src="/images/decoration-l.webp"
+    w={115} h={411}
+    d="M -20 88 C 45 88, 125 180, 100 245 C 80 300, 45 348, -20 348"
+    grosor={120}
+    class="absolute bottom-[15%] left-0 w-[115px] h-auto"
+  />
+  <img src="/images/decoration-o-r.webp" alt="Decoration" class="absolute top-[20%] right-0 w-[153px] h-auto object-cover" width="153" height="346" decoding="async" loading="lazy"/>
+    <div class='container-full flex justify-center items-center gap-20 py-25 text-paragraph relative z-5'>
+      <div class='w-[50%] h-auto relative aspect-688/530 overflow-hidden rounded-lg'>
+        <img src='/images/map.webp' alt='Map' decoding="async" loading="lazy" width="688" height="530" class='w-full h-full absolute inset-0 object-cover' />
+      </div>
+      <div class='w-[50%] flex flex-col justify-center items-center gap-40'>
+          <div class=' flex flex-col justify-center items-start gap-18 text-paragraph w-full'> 
+            <h2 class='heading-1' set:html={content.location.title}></h2>
+            {
+              content.location.info.map((item)=>(
+                <div class='flex flex-col justify-center items-start gap-8'>
+                  <h3 class='body-md'>{item.description}</h3>
+                  <a href={item.link} class='body-xl hover:text-secondary' set:html={item.title}></a>
+                </div>
+              ))
+            }
+          </div>
+        <div class='w-full flex flex-col justify-center items-start gap-10 text-paragraph'>
+          <h2 class='heading-1' set:html={content.location.yourBusiness.title2}></h2>
+          <p class='body-md'>
+            {content.location.yourBusiness.description}
+          </p>
+        </div>  
+      </div> 
+    </div>
+  </section>
 </Layout>
