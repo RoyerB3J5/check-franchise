@@ -40,7 +40,7 @@ export default {
         },
         {
           label: "Ver el portafolio completo",
-          href: "#",
+          href: "/portfolio",
         },
       ],
     },
@@ -75,17 +75,17 @@ export default {
         {
           title: "Si tienes un negocio.",
           description:
-            "Somos inversionistas y operamos nuestras propias franquicias en Georgia.",
+            "Lo convertimos en una marca de franquicia lista para vender y crecer en todo Estados Unidos.",
         },
         {
           title: "Si quieres invertir.",
           description:
-            "Somos inversionistas y operamos nuestras propias franquicias en Georgia.",
+            "Te llevamos de la mano hacia la franquicia correcta, con un sistema ya probado.",
         },
         {
           title: "Si ya tienes una franquicia.",
           description:
-            "Somos inversionistas y operamos nuestras propias franquicias en Georgia.",
+            "Te ayudamos a construir tu local, diseñar tu marca y abrir tu segunda unidad.",
         },
       ],
     },

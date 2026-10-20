@@ -68,9 +68,60 @@ const {
 
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
-    const animationElements = document.querySelectorAll(
-      ".fade-up-a, .fade-down-a, .fade-left-a, .fade-right-a, .fade-up-words, .fade-up-slow, .reveal-ltr, .reveal-rtl, .reveal-tl-br, .fade-up-gallery, .reveal-liston",
-    );
+    const prepareLineReveal = (element) => {
+      // Desenvuelve cualquier split anterior para volver a medir el texto limpio.
+      element
+        .querySelectorAll(".fade-up-line-word, .fade-up-line-fragment")
+        .forEach((wrapper) => wrapper.replaceWith(...wrapper.childNodes));
+
+      const textNodes = [];
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+      let node;
+
+      while ((node = walker.nextNode())) {
+        if (/\S/.test(node.textContent ?? "")) textNodes.push(node);
+      }
+
+      textNodes.forEach((textNode) => {
+        const tokens = textNode.textContent.match(/\s+|\S+/gu) ?? [];
+        const fragment = document.createDocumentFragment();
+
+        tokens.forEach((token) => {
+          if (/^\s+$/u.test(token)) {
+            fragment.append(document.createTextNode(token));
+            return;
+          }
+
+          const word = document.createElement("span");
+          word.className = "fade-up-line-word";
+          const wordFragment = document.createElement("span");
+          wordFragment.className = "fade-up-line-fragment";
+          wordFragment.textContent = token;
+          word.append(wordFragment);
+          fragment.append(word);
+        });
+
+        textNode.replaceWith(fragment);
+      });
+
+      const words = [...element.querySelectorAll(".fade-up-line-word")];
+      const lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+      const lineTolerance = Number.isFinite(lineHeight) ? lineHeight * 0.35 : 4;
+      let lineIndex = -1;
+      let previousTop = null;
+
+      words.forEach((word) => {
+        const top = word.getBoundingClientRect().top;
+        if (previousTop === null || Math.abs(top - previousTop) > lineTolerance) {
+          lineIndex += 1;
+          previousTop = top;
+        }
+        word.firstElementChild.style.setProperty(
+          "--fade-up-line-delay",
+          `${lineIndex * 0.1}s`,
+        );
+      });
+    };
 
     const animationObserver = new IntersectionObserver(
       (entries) => {
@@ -92,8 +143,34 @@ const {
       { threshold: 0.3 },
     );
 
-    animationElements.forEach((element) => {
-      animationObserver.observe(element);
+    const lineRevealElements = [...document.querySelectorAll(".fade-up-lines")];
+    const otherAnimationElements = document.querySelectorAll(
+      ".fade-up-a, .fade-down-a, .fade-left-a, .fade-right-a, .fade-up-words, .fade-up-slow, .reveal-ltr, .reveal-rtl, .reveal-tl-br, .fade-up-gallery, .reveal-liston",
+    );
+
+    otherAnimationElements.forEach((element) => {
+      if (!element.classList.contains("fade-up-lines")) animationObserver.observe(element);
+    });
+
+    const initializeLineReveals = () => {
+      lineRevealElements.forEach((element) => {
+        prepareLineReveal(element);
+        animationObserver.observe(element);
+      });
+    };
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(initializeLineReveals);
+    } else {
+      initializeLineReveals();
+    }
+
+    let lineResizeTimeout;
+    window.addEventListener("resize", () => {
+      window.clearTimeout(lineResizeTimeout);
+      lineResizeTimeout = window.setTimeout(() => {
+        lineRevealElements.forEach(prepareLineReveal);
+      }, 120);
     });
   });
 </script>

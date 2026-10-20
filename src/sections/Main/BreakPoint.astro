@@ -10,11 +10,11 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
 <section class='bg-[#F3F0E9] w-full flex justify-center items-center relative'>
   <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
     <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
-      <p class='body-sm uppercase'>
+      <p class='body-sm uppercase fade-up-lines'>
         {content.tag}
       </p>
-      <h2 class="heading-1 text-center" set:html={content.title}></h2>
-      <p set:html={content.description} class="body-md text-center"></p>
+      <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
+      <p set:html={content.description} class="body-md text-center fade-up-lines"></p>
     </div>
     <div class='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center items-start'>
       {
@@ -34,10 +34,12 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
                 {item.title}
               </h3>
               <div class="breakpoint-card__details">
-                <div class="w-10 h-0.75 bg-paragraph my-8"></div>
-                <p class='body-md'>
-                  {item.description}
-                </p>
+                <div class="breakpoint-card__details-inner">
+                  <div class="w-10 h-0.75 bg-paragraph my-8"></div>
+                  <p class='body-md'>
+                    {item.description}
+                  </p>
+                </div>
               </div>
             </div>
           </button>  
@@ -64,18 +66,29 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
     background-color: white;
     transition:
       background-color 400ms ease-in-out,
-      color 300ms ease-in-out;
+      color 300ms ease-in-out,
+      transform 300ms ease-in-out;
+  }
+
+  .breakpoint-card h3,
+  .breakpoint-card p {
+    text-box: normal;
   }
 
   .breakpoint-card__details {
-    max-height: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 0fr);
     opacity: 0;
-    overflow: hidden;
     transform: translateY(0.75rem);
     transition:
-      max-height 400ms ease-in-out,
+      grid-template-rows 400ms ease-in-out,
       opacity 300ms ease-in-out,
       transform 400ms ease-in-out;
+  }
+
+  .breakpoint-card__details-inner {
+    min-height: 0;
+    overflow: hidden;
   }
 
   .breakpoint-card__icon--back {
@@ -101,11 +114,12 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
     .breakpoint-card:hover,
     .breakpoint-card.is-active {
       color: var(--color-paragraph);
+      transform: scale(1.03);
     }
 
     .breakpoint-card:hover .breakpoint-card__details,
     .breakpoint-card.is-active .breakpoint-card__details {
-      max-height: 10rem;
+      grid-template-rows: minmax(0, 1fr);
       opacity: 1;
       transform: translateY(0);
     }
@@ -141,7 +155,7 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
     }
 
     .breakpoint-card.is-active .breakpoint-card__details {
-      max-height: 10rem;
+      grid-template-rows: minmax(0, 1fr);
       opacity: 1;
       transform: translateY(0);
     }

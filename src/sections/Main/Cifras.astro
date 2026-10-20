@@ -6,27 +6,274 @@ type Content = Translations["main"]["cifras"];
 interface Props {
   content: Content;
 }
-const { content} = Astro.props as Props;
+const { content } = Astro.props as Props;
 ---
-<section class='w-full h-screen relative flex justify-center items-center p-8 bg-white z-5'>
-  <div class='bg-secondary flex justify-center items-center w-full h-full'>
-    <div class="container-full flex flex-col justify-between items-start py-[156px] text-paragraph h-full">
-      <h2 class="heading-1">
-        {content.title}
-      </h2>
-      <p class="text-[320px] font-medium leading-[110%] uppercase tracking-[6.4px] self-center text-center">
-        {content.item[0].number}
-      </p>
-      <p class="heading-3 self-end">
-        {content.item[0].tag}
-      </p>
+
+<section
+  data-cifras-section
+  class="relative z-5 flex h-screen w-full items-center justify-center bg-white p-8"
+>
+  <div
+    data-cifras-stage
+    class="relative flex h-full w-full items-center justify-center bg-secondary rounded-lg"
+  >
+    <div
+      class="absolute right-16 top-1/2 flex -translate-y-1/2 flex-col items-center justify-center gap-5 rounded-lg bg-paragraph/10 p-4"
+      role="group"
+      aria-label="Indicadores de cifras"
+    >
+      {
+        content.item.map((item, index) => (
+          <button
+            type="button"
+            data-cifras-indicator
+            data-index={index}
+            aria-label={`Ver cifra ${index + 1}: ${item.tag}`}
+            aria-pressed={index === 0 ? "true" : "false"}
+            class:list={[
+              "h-2 w-2 cursor-pointer rounded-full transition-colors duration-200",
+              index === 0 ? "bg-paragraph" : "bg-paragraph/20",
+            ]}
+          ></button>
+        ))
+      }
+    </div>
+
+    <div
+      class="container-full flex h-full flex-col items-start justify-between py-8 text-paragraph md:py-20 xl:py-[156px]"
+    >
+      <h2 class="heading-1 fade-up-lines">{content.title}</h2>
+      <p
+        data-cifras-number
+        class="self-center text-center text-[clamp(8rem,28vw,20rem)] font-medium uppercase leading-[110%] tracking-[6.4px]"
+      >{content.item[0].number}</p>
+      <div data-cifras-tags class="grid w-full self-end overflow-hidden text-right">
+        {
+          content.item.map((item, index) => (
+            <p
+              data-cifras-tag
+              data-number={item.number}
+              aria-hidden={index === 0 ? "false" : "true"}
+              class:list={[
+                "heading-3 cifras-tag col-start-1 row-start-1",
+                { invisible: index !== 0 },
+              ]}
+            >
+              {item.tag}
+            </p>
+          ))
+        }
+      </div>
     </div>
   </div>
+
   <Liston
     src="/images/decoration-l.webp"
-    w={115} h={411}
+    w={115}
+    h={411}
     d="M -20 88 C 45 88, 125 180, 100 245 C 80 300, 45 348, -20 348"
     grosor={120}
-    class="absolute bottom-[-10%] left-0 w-[115px] h-auto"
+    class="absolute bottom-[-10%] left-0 h-auto w-[115px]"
   />
-</section>  
+</section>
+
+<script>
+  import { gsap, ScrollTrigger } from "../../lib/gsap";
+
+  let cifrasContext: any;
+  let initializedSection: any;
+
+  const parseNumber = (value: any) => {
+    const match = value.match(/^([+-]?)([\d,.]+)(.*)$/);
+    if (!match) return null;
+
+    const magnitude = Number(match[2].replace(/,/g, ""));
+    if (!Number.isFinite(magnitude)) return null;
+
+    return {
+      value: match[1] === "-" ? -magnitude : magnitude,
+      positivePrefix: match[1] === "+" ? "+" : "",
+      suffix: match[3],
+    };
+  };
+
+  const initializeCifras = () => {
+    const section = document.querySelector<HTMLElement>("[data-cifras-section]");
+    if (!section || section === initializedSection) return;
+
+    cifrasContext?.revert();
+    initializedSection = section;
+
+    cifrasContext = gsap.context(() => {
+      const numberElement = section.querySelector("[data-cifras-number]");
+      const tags = [...section.querySelectorAll<HTMLElement>("[data-cifras-tag]")];
+      const indicators = [
+        ...section.querySelectorAll<HTMLElement>("[data-cifras-indicator]"),
+      ];
+
+      if (!numberElement || tags.length === 0) return;
+
+      const items = tags.map((tag) => ({
+        number: tag.dataset.number ?? "",
+        tag: tag.textContent?.trim() ?? "",
+      }));
+      const parsedNumbers = items.map((item) => parseNumber(item.number));
+      const lastIndex = items.length - 1;
+      const transitionDuration = 0.35;
+      const holdDuration = 0.8;
+      const step = transitionDuration + holdDuration;
+
+      // Sin entrada: el scroll solo avanza los items.
+      const timelineDuration = holdDuration + lastIndex * step;
+      const transitionStartOf = (index: number) => holdDuration + index * step;
+
+      const cleanupCallbacks: any[] = [];
+
+      gsap.set(tags, { yPercent: 100, autoAlpha: 0 });
+      gsap.set(tags[0], { yPercent: 0, autoAlpha: 1 });
+
+      const updateIndicators = (progress: number) => {
+        const elapsed = progress * timelineDuration;
+        let activeIndex = 0;
+
+        for (let index = 0; index < lastIndex; index += 1) {
+          if (elapsed >= transitionStartOf(index) + transitionDuration / 2) {
+            activeIndex = index + 1;
+          }
+        }
+
+        indicators.forEach((indicator, index) => {
+          const isActive = index === activeIndex;
+          indicator.classList.toggle("bg-paragraph", isActive);
+          indicator.classList.toggle("bg-paragraph/20", !isActive);
+          indicator.setAttribute("aria-pressed", String(isActive));
+        });
+
+        tags.forEach((tag, index) => {
+          tag.setAttribute("aria-hidden", String(index !== activeIndex));
+        });
+      };
+      ScrollTrigger.create({
+        id: "cifras-enter-snap",
+        trigger: section,
+        start: "top bottom", // la sección empieza a asomar
+        end: "top top",      // la sección queda completa (aquí inicia el pin)
+        snap: {
+          snapTo: (progress: number) => (progress >= 0.5 ? 1 : 0),
+          duration: { min: 0.2, max: 0.6 },
+          delay: 0,
+          ease: "power2.out",
+          directional: false,
+        },
+      });
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          id: "cifras-scroll",
+          trigger: section,
+          start: "top top",                 // entra completa y luego se fija
+          end: () => `+=${Math.round(window.innerHeight * timelineDuration)}`,
+          pin: true,
+          pinSpacing: true,                 // la siguiente sección sigue el flujo normal
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => updateIndicators(self.progress),
+        },
+      });
+
+      for (let index = 0; index < lastIndex; index += 1) {
+        const transitionStart = transitionStartOf(index);
+        const numberTween = { progress: 0 };
+        const from = parsedNumbers[index];
+        const to = parsedNumbers[index + 1];
+
+        timeline.to(
+          numberTween,
+          {
+            progress: 1,
+            duration: transitionDuration,
+            ease: "none",
+            onUpdate: () => {
+              if (!from || !to) {
+                numberElement.textContent =
+                  numberTween.progress < 0.5 ? items[index].number : items[index + 1].number;
+                return;
+              }
+
+              const value = from.value + (to.value - from.value) * numberTween.progress;
+              const sign =
+                value < 0
+                  ? "-"
+                  : numberTween.progress < 1
+                    ? from.positivePrefix
+                    : to.positivePrefix;
+              const suffix = numberTween.progress < 1 ? from.suffix : to.suffix;
+              numberElement.textContent = `${sign}${Math.round(Math.abs(value))}${suffix}`;
+            },
+          },
+          transitionStart,
+        );
+
+        timeline.to(
+          tags[index],
+          { yPercent: -100, autoAlpha: 0, duration: transitionDuration, ease: "none" },
+          transitionStart,
+        );
+        timeline.to(
+          tags[index + 1],
+          { yPercent: 0, autoAlpha: 1, duration: transitionDuration, ease: "none" },
+          transitionStart,
+        );
+      }
+
+      // Hold final para que el último item se quede un rato antes de soltar el pin.
+      timeline.to({}, { duration: holdDuration, ease: "none" }, timelineDuration - holdDuration);
+
+      updateIndicators(0);
+
+      indicators.forEach((indicator, index) => {
+        const handleClick = () => {
+          const trigger = ScrollTrigger.getById("cifras-scroll");
+          if (!trigger) return;
+
+          // Mitad del "hold" de cada item
+          const itemTime =
+            index === 0
+              ? 0
+              : transitionStartOf(index - 1) + transitionDuration + holdDuration / 2;
+          const progress = Math.min(itemTime, timelineDuration - 0.01) / timelineDuration;
+          const scrollPosition = trigger.start + progress * (trigger.end - trigger.start);
+          window.scrollTo({ top: scrollPosition, behavior: "smooth" });
+        };
+
+        indicator.addEventListener("click", handleClick);
+        cleanupCallbacks.push(() => indicator.removeEventListener("click", handleClick));
+      });
+
+      ScrollTrigger.refresh();
+
+      return () => cleanupCallbacks.forEach((cleanup: any) => cleanup());
+    }, section);
+  };
+
+  const teardownCifras = () => {
+    cifrasContext?.revert();
+    cifrasContext = undefined;
+    initializedSection = undefined;
+  };
+
+  document.addEventListener("astro:before-swap", teardownCifras);
+  document.addEventListener("astro:page-load", initializeCifras);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeCifras, { once: true });
+  } else {
+    initializeCifras();
+  }
+</script>
+
+<style>
+  .cifras-tag {
+    text-box: normal;
+  }
+</style>

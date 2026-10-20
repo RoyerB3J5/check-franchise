@@ -371,19 +371,43 @@ html {
   animation: fadeUpFast 0.6s ease-out forwards;
 }
 
-.container-full {
-  width: 100%;
-  max-width: 100vw;
-  padding-left: 1rem;
-  padding-right: 1rem;
+.fade-up-lines,
+.fade-up-lines .fade-up-line-word,
+.fade-up-lines .fade-up-line-fragment {
+  text-box: normal;
 }
 
-@media (min-width: 1280px) {
-  .container-full {
-    padding-left: 0;
-    padding-right: 0;
-    max-width: 1280px;
+.fade-up-lines .fade-up-line-word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.fade-up-lines .fade-up-line-fragment {
+  display: inline-block;
+  transform: translateY(120%);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--fade-up-line-delay, 0s);
+  will-change: transform;
+}
+
+.fade-up-lines.active .fade-up-line-fragment {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up-lines .fade-up-line-word {
+    overflow: visible;
   }
+
+  .fade-up-lines .fade-up-line-fragment {
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
+.container-full {
+  @apply w-full px-4 xl:mx-auto xl:max-w-[1536px] xl:px-8;
 }
 
 .back-banner {

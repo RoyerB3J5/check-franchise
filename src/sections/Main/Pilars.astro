@@ -11,11 +11,11 @@ const { content} = Astro.props as Props;
   <img src="/images/decoration-o-r.webp" alt="Decoration" class="absolute top-[-10%] right-0 w-[153px] h-auto object-cover" width="153" height="346" decoding="async" loading="lazy"/>
   <div class='container-full flex flex-col justify-center items-center py-25 gap-10 relative z-0'>
     <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
-      <p class='body-sm uppercase'>
+      <p class='body-sm uppercase fade-up-lines'>
         {content.tag}
       </p>
-      <h2 class="heading-1 text-center" set:html={content.title}></h2>
-      <p set:html={content.description} class="body-md text-center"></p>
+      <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
+      <p set:html={content.description} class="body-md text-center fade-up-lines"></p>
     </div>
     <div class='w-full flex justify-center items-stretch gap-6'>
       <div class="w-[66%] flex flex-col justify-center items-center rounded-lg overflow-hidden">

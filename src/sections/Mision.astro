@@ -1,0 +1,52 @@
+---
+type Translations = typeof import("../i18n/en").default;
+type Content = Translations["us"]["history"];
+interface Props {
+  content: Content;
+}
+const { content} = Astro.props as Props;
+const i = 0;
+---
+<section class='w-full flex justify-center items-center relative'>
+  <img src="/images/decoration-w-l.webp" alt="Decoration" class="absolute top-[10%] left-0 w-[159px] h-auto object-cover" width="159" height="328" decoding="async" loading="lazy"/>
+  <div class='container-full flex justify-center items-stretch gap-6 py-8'>
+    <div class='bg-secondary flex flex-col justify-between items-center rounded-lg p-8 w-[50%] relative'>
+      <div class="bg-paragraph/10 flex justify-center items-center gap-1 rounded-lg p-1 absolute top-8 right-8">
+        {
+          content.map((i,index)=>(
+            <div class='bg-paragraph flex justify-center items-center w-8 h-8 rounded-[4px] text-white'>
+              <p class='body-md'>0{index+1}</p>
+            </div>
+          ))
+        }  
+      </div> 
+      <div class='w-full flex justify-start items-center text-paragraph h-10'>
+        <p class='subtitle uppercase'>{content[i].tag}</p>
+      </div>
+      <h2 class="heading-3 capitalize">{content[i].title}</h2>
+      {
+        content[i].description && (
+          <p class='body-md text-center' >{content[i].description}</p>
+        )
+      }
+      {
+        content[i].about && (
+          <div class='w-full grid grid-cols-2 justify-center items-stretch gap-6'>
+            {
+              content[i].about.map((item,index)=>(
+                <div class='flex flex-col justify-start items-start gap-6 p-4 rounded-lg border border-paragraph/10 w-full text-paragraph'>
+                  <h3 class='body-xl'>{item.title}</h3>
+                  <p class='body-md'>{item.description}</p>
+                </div>
+              ))
+            }
+            
+          </div>  
+        )
+      }
+    </div>
+    <div class="w-[50%] h-auto relative aspect-676/746 rounded-lg overflow-hidden">
+      <img src="/images/mision-1.webp" alt="How it works" width="1201" height="1310" decoding="async" loading="lazy" class='w-full h-full object-cover absolute inset-0'/>
+    </div>
+  </div>
+</section>

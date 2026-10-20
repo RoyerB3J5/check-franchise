@@ -23,7 +23,7 @@ interface Props {
 
 const {
   text = "",
-  baseBtnClass = "flex justify-center items-center gap-2 cursor-pointer transition-all duration-300 ease-in-out z-[10] box-border py-4 px-8 w-auto rounded-[8px] group",
+  baseBtnClass = "flex justify-center items-center gap-2 cursor-pointer transition-all duration-300 ease-in-out z-[10] box-border py-4 px-8 w-auto rounded-[8px]",
   extraBtnClass = "",
   baseTextClass = "text-[16px] font-semibold  leading-[150%]",
   textClass = "",
@@ -33,6 +33,15 @@ const {
   changeColor,
   icon,
 } = Astro.props as Props;
+
+const extraClasses = extraBtnClass.split(/\s+/).filter(Boolean);
+const surfaceClasses = extraClasses.filter(
+  (className) => className.startsWith("bg-") || className.startsWith("shadow-"),
+);
+const layoutClasses = extraClasses.filter((className) => !surfaceClasses.includes(className));
+const shadowColor = surfaceClasses
+  .find((className) => className.startsWith("shadow-"))
+  ?.match(/^shadow-\[0_8px_0_0_(#[\da-fA-F]{3,8})\]$/)?.[1];
 
 // Normalizar hrefs comunes: si por error tiene una barra inicial antes
 // de un esquema `tel:` o `mailto:` la removemos para evitar rutas internas
@@ -45,7 +54,9 @@ const normalizedHref =
 
 // Construir clases finales
 const buttonClasses =
-  `${baseBtnClass} ${extraBtnClass} `.trim();
+  `${baseBtnClass} ${layoutClasses.join(" ")} button-control relative isolate ${
+    shadowColor ? "button-has-compressible-shadow" : ""
+  }`.trim();
 const paragraphClasses = `${baseTextClass} ${textClass}`.trim();
 ---
 
@@ -57,6 +68,11 @@ const paragraphClasses = `${baseTextClass} ${textClass}`.trim();
       target={target}
       rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
     >
+      <span
+        aria-hidden="true"
+        class:list={["button-surface", ...surfaceClasses]}
+        style={shadowColor ? `--button-shadow-color: ${shadowColor};` : undefined}
+      ></span>
       {
         icon ? 
           <img src={`/images/${icon}.svg`} alt={icon} class="w-[16px] h-[16px]" /> : null 
@@ -66,6 +82,11 @@ const paragraphClasses = `${baseTextClass} ${textClass}`.trim();
     </a>
   ) : (
     <button type="button" class={buttonClasses}>
+      <span
+        aria-hidden="true"
+        class:list={["button-surface", ...surfaceClasses]}
+        style={shadowColor ? `--button-shadow-color: ${shadowColor};` : undefined}
+      ></span>
       {
         icon ? 
           <img src={`/images/${icon}.svg`} alt={icon} class="w-[16px] h-[16px]" /> : null 
@@ -74,3 +95,33 @@ const paragraphClasses = `${baseTextClass} ${textClass}`.trim();
     </button>
   )
 }
+
+<style>
+  .button-control {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .button-surface {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    transition:
+      transform 300ms ease-in-out,
+      box-shadow 300ms ease-in-out;
+  }
+
+  .button-control:hover .button-surface {
+    transform: scale(1.03);
+  }
+
+  .button-control:active .button-surface {
+    transform: scale(1);
+  }
+
+  .button-control.button-has-compressible-shadow:active .button-surface {
+    box-shadow: 0 3px 0 0 var(--button-shadow-color);
+  }
+</style>
