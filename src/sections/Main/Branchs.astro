@@ -9,25 +9,131 @@ const { content} = Astro.props as Props;
 
 // Comprueba si la URL coincide con la raíz o los prefijos de idioma (/ , /es, /es/, /en, /en/)
 const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
+const portfolioRows = [
+  Array.from({ length: 20 }, (_, index) => index + 1),
+  Array.from({ length: 19 }, (_, index) => index + 21),
+];
 ---
-<section class='bg-[#F3F0E9] w-full flex justify-center items-center relative''>
-  <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
-    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
-      <p class='body-sm uppercase'>
+<section class='bg-[#F3F0E9] w-full flex justify-center items-center relative'>
+  <div class='w-full flex flex-col justify-center items-center py-25 gap-10'>
+    <div class='flex flex-col justify-center items-center gap-8 text-paragraph container-full'>
+      <p class='body-sm uppercase fade-up-lines'>
         {content.tag}
       </p>
-      <h2 class="heading-1 text-center" set:html={content.title}></h2>
+      <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
     </div>
-    <div class="w-full grid grid-cols-6 justify-center items-center gap-2">
-      {
-        Array.from({ length: 12 }, (_, i) => (
-          <div class='w-full h-auto aspect-[187/115] relative overflow-hidden'>
-            <img src={`/images/portfolio/port-${i + 1}.webp`} alt={`Portfolio item ${i + 1}`} class="w-full h-full object-cover" width="600" height="369"/> 
+    <div
+      class="branch-carousel"
+      role="region"
+      aria-label={locale === "/es" ? "Imágenes del portafolio" : "Portfolio images"}
+    >
+      {portfolioRows.map((row) => (
+        <div class="branch-carousel__row" style={`--branch-duration: ${row.length * 4.5}s;`}>
+          <div class="branch-carousel__track">
+            {[0, 1].map((copy) => (
+              <div class="branch-carousel__set" aria-hidden={copy === 1 ? "true" : undefined}>
+                {row.map((imageNumber) => (
+                  <div class="branch-carousel__item">
+                    <img
+                      src={`/images/portfolio/port-${imageNumber}.webp`}
+                      alt={copy === 1 ? "" : `Portfolio item ${imageNumber}`}
+                      width="600"
+                      height="369"
+                      decoding="async"
+                      loading={
+                        copy === 0 &&
+                        (imageNumber <= 6 || (imageNumber >= 21 && imageNumber <= 26))
+                          ? "eager"
+                          : "lazy"
+                      }
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
-          
-        ))
-      }
+        </div>
+      ))}
     </div>
-    <Button text={content.button.label} href={`${locale}${content.button.href}`} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514]" textClass="text-white" />
+    <div class='container-full flex justify-center items-center'>
+      <Button text={content.button.label} href={`${locale}${content.button.href}`} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514]" textClass="text-white" />
+    </div>
+    
   </div>
 </section>
+
+<style>
+  .branch-carousel {
+    --branch-gap: 0.5rem;
+
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--branch-gap);
+    overflow: hidden;
+    container-type: inline-size;
+  }
+
+  .branch-carousel__row {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .branch-carousel__track {
+    display: flex;
+    width: max-content;
+    animation: branch-carousel-scroll var(--branch-duration) linear infinite;
+    will-change: transform;
+  }
+
+  .branch-carousel__set {
+    display: flex;
+    flex: none;
+    gap: var(--branch-gap);
+    padding-right: var(--branch-gap);
+  }
+
+  .branch-carousel__item {
+    position: relative;
+    flex: 0 0 calc((100cqi - 0.5rem) / 2);
+    aspect-ratio: 187 / 115;
+    overflow: hidden;
+  }
+
+  .branch-carousel__item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .branch-carousel:hover .branch-carousel__track,
+  .branch-carousel:focus-within .branch-carousel__track {
+    animation-play-state: paused;
+  }
+
+  @media (min-width: 640px) {
+    .branch-carousel__item {
+      flex-basis: calc((100cqi - 1.5rem) / 4);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .branch-carousel__item {
+      flex-basis: calc((100cqi - 2.5rem) / 6);
+    }
+  }
+
+  @keyframes branch-carousel-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .branch-carousel__track {
+      animation: none;
+      will-change: auto;
+    }
+  }
+</style>

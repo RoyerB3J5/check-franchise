@@ -1,5 +1,6 @@
 ---
 import Button from "../../../components/Button.astro";
+import Liston from "../../../components/Liston.astro";
 import en from "../../../i18n/en";
 import es from "../../../i18n/es";
 import Layout from "../../../layouts/Layout.astro";
@@ -28,8 +29,8 @@ const content = t.portfolio;
   canonicalPath="/portfolio"
 >
   <section class='w-full flex justify-center items-center bg-[#F3F0E9] relative'>
-    <img src="/images/decoration-w-r.webp" alt="Decoration" class="absolute bottom-[5%] right-0 w-[97px] h-auto object-cover z-5" width="97" height="275" decoding="async" loading="lazy"/>
-  <img src="/images/decoration-w-l.webp" alt="Decoration" class="absolute top-[10%] left-0 w-[159px] h-auto object-cover" width="159" height="328" decoding="async" loading="lazy"/>
+    <Liston src="/images/decoration-w-r.webp" w={172} h={542} grosor={160} class="absolute bottom-[5%] right-0 w-[97px] h-auto object-cover z-5" d="M 230 -70 C 207 -33, 180 10, 160 40 C 140 70, 128 83, 110 110 C 92 137, 66 170, 55 200 C 44 230, 40 265, 42 290 C 44 315, 54 330, 65 350 C 76 370, 87 390, 105 410 C 123 430, 146 452, 172 470 C 198 488, 231 503, 260 520" />
+    <Liston src="/images/decoration-w-l.webp" w={296} h={598} grosor={205} d="M -60 170 C -27 163, 10 161, 40 150 C 70 139, 93 114, 120 105 C 147 96, 179 92, 200 95 C 221 98, 240 108, 245 125 C 250 142, 249 161, 230 200 C 211 239, 162 316, 130 360 C 98 404, 60 435, 40 465 C 20 495, 22 511, 10 540 C -2 569, -17 607, -30 640" class="absolute top-[10%] left-0 w-[159px] h-auto object-cover"/>
     <div class="container-full flex flex-col justify-center items-center gap-10 py-25">
       <div class="flex flex-col justify-center items-center gap-8">
         <p class='subtitle uppercase'>{content.tag}</p>

@@ -7,17 +7,60 @@ interface Props {
 const { content} = Astro.props as Props;
 ---
 <div class='container-full flex justify-center items-stretch gap-6 relative'>
-    <div class="w-[34%] flex flex-col justify-start items-start text-white p-8 rounded-lg bg-accent gap-20">
-      <img src="/icons/person.svg" alt="Icono de Persona" width="30" height="24" decoding="async" loading="lazy" class='w-[30px] h-auto self-end'/>
+    <div class="founder-content-card w-[34%] flex flex-col justify-end items-start text-white p-8 rounded-lg bg-accent">
+      <img src="/icons/person.svg" alt="Icono de Persona" width="30" height="24" decoding="async" loading="lazy" class='w-[30px] h-auto self-end mb-auto'/>
       <div class="flex flex-col justify-center items-start gap-6">
         <p class="uppercase body-sm">{content.tag}</p>
         <h2 class="heading-3 text-secondary">Esdras Ribeiro</h2>
         <p class='body-md tracking-[0.64px]'>{content.subtitle}</p>
         <div class="w-10 h-[3px] bg-white"></div>
       </div>
-      <p class='body-md'>{content.description}</p>
+      <div class="founder-content-card__description">
+        <div class="founder-content-card__description-inner">
+          <p class="founder-content-card__description-text body-md mt-6">{content.description}</p>
+        </div>
+      </div>
     </div>
     <div class="w-[66%] h-auto aspect-909/512 overflow-hidden rounded-lg relative" >
       <img src="/images/fundador.webp" alt="Fundador" width="1672" height="941" decoding="async" loading="lazy" class='w-full h-full absolute object-cover inset-0' />
     </div>
   </div>
+
+<style>
+  .founder-content-card__description {
+    display: grid;
+    width: 100%;
+    grid-template-rows: minmax(0, 0fr);
+    transition: grid-template-rows 400ms ease-in-out;
+  }
+
+  .founder-content-card__description-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .founder-content-card__description-text {
+    text-box: normal;
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+      opacity 300ms ease-in-out,
+      transform 400ms ease-in-out;
+  }
+
+  .founder-content-card:hover .founder-content-card__description {
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .founder-content-card:hover .founder-content-card__description-text {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .founder-content-card__description,
+    .founder-content-card__description-text {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

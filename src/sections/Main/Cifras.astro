@@ -40,13 +40,26 @@ const { content } = Astro.props as Props;
     </div>
 
     <div
-      class="container-full flex h-full flex-col items-start justify-between py-8 text-paragraph md:py-20 xl:py-[156px]"
+      class="container-full flex h-full flex-col items-start justify-between py-8 text-paragraph md:py-20 3xl:py-[156px]"
     >
       <h2 class="heading-1 fade-up-lines">{content.title}</h2>
       <p
         data-cifras-number
-        class="self-center text-center text-[clamp(8rem,28vw,20rem)] font-medium uppercase leading-[110%] tracking-[6.4px]"
-      >{content.item[0].number}</p>
+        aria-label={content.item[0].number}
+        class="cifras-number relative h-[1.1em] w-full overflow-hidden text-center text-[clamp(8rem,28vw,20rem)] font-medium uppercase leading-[110%] tracking-[6.4px]"
+      >
+        {
+          content.item.map((item, index) => (
+            <span
+              data-cifras-number-value
+              aria-hidden={index === 0 ? "false" : "true"}
+              class="cifras-number-value absolute inset-0 block text-center"
+            >
+              {item.number}
+            </span>
+          ))
+        }
+      </p>
       <div data-cifras-tags class="grid w-full self-end overflow-hidden text-right">
         {
           content.item.map((item, index) => (
@@ -106,12 +119,15 @@ const { content } = Astro.props as Props;
 
     cifrasContext = gsap.context(() => {
       const numberElement = section.querySelector("[data-cifras-number]");
+      const numberValues = [
+        ...section.querySelectorAll<HTMLElement>("[data-cifras-number-value]"),
+      ];
       const tags = [...section.querySelectorAll<HTMLElement>("[data-cifras-tag]")];
       const indicators = [
         ...section.querySelectorAll<HTMLElement>("[data-cifras-indicator]"),
       ];
 
-      if (!numberElement || tags.length === 0) return;
+      if (!numberElement || tags.length === 0 || numberValues.length !== tags.length) return;
 
       const items = tags.map((tag) => ({
         number: tag.dataset.number ?? "",
@@ -129,6 +145,11 @@ const { content } = Astro.props as Props;
 
       const cleanupCallbacks: any[] = [];
 
+      numberValues.forEach((number, index) => {
+        number.textContent = index === 0 ? items[0].number : items[index - 1].number;
+      });
+      gsap.set(numberValues, { yPercent: 100, autoAlpha: 0 });
+      gsap.set(numberValues[0], { yPercent: 0, autoAlpha: 1 });
       gsap.set(tags, { yPercent: 100, autoAlpha: 0 });
       gsap.set(tags[0], { yPercent: 0, autoAlpha: 1 });
 
@@ -152,6 +173,10 @@ const { content } = Astro.props as Props;
         tags.forEach((tag, index) => {
           tag.setAttribute("aria-hidden", String(index !== activeIndex));
         });
+        numberValues.forEach((number, index) => {
+          number.setAttribute("aria-hidden", String(index !== activeIndex));
+        });
+        numberElement.setAttribute("aria-label", items[activeIndex].number);
       };
       ScrollTrigger.create({
         id: "cifras-enter-snap",
@@ -195,12 +220,19 @@ const { content } = Astro.props as Props;
             ease: "none",
             onUpdate: () => {
               if (!from || !to) {
-                numberElement.textContent =
+                numberValues[index + 1].textContent =
                   numberTween.progress < 0.5 ? items[index].number : items[index + 1].number;
                 return;
               }
 
-              const value = from.value + (to.value - from.value) * numberTween.progress;
+              const difference = to.value - from.value;
+              const stepCount = Math.min(8, Math.max(1, Math.ceil(Math.abs(difference) / 5)));
+              const steppedProgress =
+                Math.round(numberTween.progress * stepCount) / stepCount;
+              const value =
+                numberTween.progress >= 1
+                  ? to.value
+                  : Math.round(from.value + difference * steppedProgress);
               const sign =
                 value < 0
                   ? "-"
@@ -208,9 +240,20 @@ const { content } = Astro.props as Props;
                     ? from.positivePrefix
                     : to.positivePrefix;
               const suffix = numberTween.progress < 1 ? from.suffix : to.suffix;
-              numberElement.textContent = `${sign}${Math.round(Math.abs(value))}${suffix}`;
+              numberValues[index + 1].textContent = `${sign}${Math.round(Math.abs(value))}${suffix}`;
             },
           },
+          transitionStart,
+        );
+
+        timeline.to(
+          numberValues[index],
+          { yPercent: -100, autoAlpha: 0, duration: transitionDuration, ease: "none" },
+          transitionStart,
+        );
+        timeline.to(
+          numberValues[index + 1],
+          { yPercent: 0, autoAlpha: 1, duration: transitionDuration, ease: "none" },
           transitionStart,
         );
 
@@ -273,6 +316,11 @@ const { content } = Astro.props as Props;
 </script>
 
 <style>
+  .cifras-number,
+  .cifras-number-value {
+    text-box: normal;
+  }
+
   .cifras-tag {
     text-box: normal;
   }

@@ -1,4 +1,6 @@
 ---
+import Liston from "../../components/Liston.astro";
+
 type Translations = typeof import("../../i18n/en").default;
 type Content = Translations["main"]["pilars"];
 interface Props {
@@ -7,8 +9,9 @@ interface Props {
 const { content} = Astro.props as Props;
 ---
 <section class='w-full flex justify-center items-center relative'>
-  <img src="/images/decoration-o-l.webp" alt="Decoration" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z-5" width="145" height="400" decoding="async" loading="lazy"/>
-  <img src="/images/decoration-o-r.webp" alt="Decoration" class="absolute top-[-10%] right-0 w-[153px] h-auto object-cover" width="153" height="346" decoding="async" loading="lazy"/>
+  <Liston src="/images/decoration-o-l.webp" w={230} h={776} grosor={185}
+  d="M -60 -80 C -27 3, 5 93, 40 170 C 75 247, 126 315, 150 380 C 174 445, 188 512, 185 560 C 182 608, 151 648, 130 670 C 109 692, 92 684, 60 692 C 28 700, -20 707, -60 715" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z-5" />
+  <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute top-[-10%] right-0 w-[153px] h-auto object-cover" />
   <div class='container-full flex flex-col justify-center items-center py-25 gap-10 relative z-0'>
     <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
       <p class='body-sm uppercase fade-up-lines'>
@@ -17,35 +20,490 @@ const { content} = Astro.props as Props;
       <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
       <p set:html={content.description} class="body-md text-center fade-up-lines"></p>
     </div>
-    <div class='w-full flex justify-center items-stretch gap-6'>
-      <div class="w-[66%] flex flex-col justify-center items-center rounded-lg overflow-hidden">
-          <div class='w-full flex flex-col justify-between items-start bg-secondary p-8 aspect-909/319 h-auto'>
-            <img src='/icons/check-back.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='w-6 h-6 self-end'/>
-            <div class="flex flex-col justify-center items-start text-paragraph">
-              <h3 class='heading-3'>
-                {content.items[0].title}
-              </h3>
-              <div class="breakpoint-card__details">
-                <div class="w-10 h-0.75 bg-paragraph my-8"></div>
-                <p class='body-md'>
-                  {content.items[0].description}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class='w-full h-auto aspect-909/319 relative overflow-hidden'>
-            <img src={`/images/${content.items[0].image}.webp`} alt={content.items[0].title} width="909" height="319" decoding="async" loading="lazy" class="w-full h-full inset-0 absolute object-cover" />
-          </div>
-        </div>
+    <div data-pilars-list class="pilars-list">
       {
-        content.items.slice(1).map((item)=> (
-          <div class='w-[7%]  flex flex-col justify-between items-center py-8 bg-[#F3F0E9] rounded-lg'> 
-            <img src='/icons/check.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='w-6 h-6 '/>
-            <h3 class='heading-3 [writing-mode:vertical-rl] rotate-180 whitespace-nowrap'>{item.title}</h3>
-          </div>
+        content.items.map((item, index) => (
+          <button
+            type="button"
+            data-pilar-card
+            aria-label={item.title}
+            aria-describedby={`pilar-description-${index}`}
+            aria-pressed={index === 0 ? "true" : "false"}
+            class:list={["pilar-card", { "is-active": index === 0 }]}
+          >
+            <span
+              data-pilar-compact
+              class="pilar-card__compact"
+              aria-hidden={index === 0 ? "true" : "false"}
+            >
+              <img
+                src="/icons/check.svg"
+                alt=""
+                width="24"
+                height="24"
+                decoding="async"
+                loading="lazy"
+                class="h-6 w-6"
+              />
+              <span
+                class="pilar-card__title-slot pilar-card__title-slot--compact"
+              >
+                <span data-pilar-title-compact class="pilar-card__title heading-3">
+                  {item.title}
+                </span>
+              </span>
+            </span>
+
+            <span
+              data-pilar-expanded
+              class="pilar-card__expanded"
+              aria-hidden={index === 0 ? "false" : "true"}
+            >
+              <span class="pilar-card__content">
+                <img
+                  src="/icons/check-back.svg"
+                  alt=""
+                  width="24"
+                  height="24"
+                  decoding="async"
+                  loading="lazy"
+                  class="h-6 w-6 self-end"
+                />
+                <span class="pilar-card__copy text-paragraph">
+                  <span
+                    class="pilar-card__title-slot pilar-card__title-slot--expanded"
+                  >
+                    <span data-pilar-title-expanded class="pilar-card__title heading-3">
+                      {item.title}
+                    </span>
+                  </span>
+                  <span class="pilar-card__details">
+                    <span class="pilar-card__divider"></span>
+                    <span id={`pilar-description-${index}`} class="body-md">
+                      {item.description}
+                    </span>
+                  </span>
+                </span>
+              </span>
+              <span class="pilar-card__image">
+                <img
+                  src={`/images/${item.image}.webp`}
+                  alt=""
+                  width="909"
+                  height="319"
+                  decoding="async"
+                  loading="lazy"
+                />
+              </span>
+            </span>
+          </button>
         ))
       }
-      
     </div>
   </div>
 </section>
+
+<script>
+  let activeTitleFlight:
+    | { ghost: HTMLElement; card: HTMLElement; animations: Animation[] }
+    | undefined;
+
+  const clearTitleFlight = () => {
+    if (!activeTitleFlight) return;
+
+    activeTitleFlight.animations.forEach((animation) => animation.cancel());
+    activeTitleFlight.ghost.remove();
+    activeTitleFlight.card.classList.remove("is-title-flight");
+    activeTitleFlight = undefined;
+  };
+
+  const setActiveCard = (cards: HTMLButtonElement[], selectedCard: HTMLButtonElement) => {
+    cards.forEach((card) => {
+      const isActive = card === selectedCard;
+      card.classList.toggle("is-active", isActive);
+      card.setAttribute("aria-pressed", String(isActive));
+      card.querySelector("[data-pilar-compact]")?.setAttribute("aria-hidden", String(isActive));
+      card.querySelector("[data-pilar-expanded]")?.setAttribute("aria-hidden", String(!isActive));
+    });
+  };
+
+  const copyTitleTypography = (source: HTMLElement, target: HTMLElement) => {
+    const computed = getComputedStyle(source);
+    const properties = [
+      "font-family",
+      "font-size",
+      "font-weight",
+      "font-style",
+      "font-variant",
+      "font-feature-settings",
+      "line-height",
+      "letter-spacing",
+      "color",
+      "text-align",
+      "text-transform",
+      "text-decoration",
+      "text-shadow",
+      "word-spacing",
+      "text-box",
+      "text-box-trim",
+      "text-box-edge",
+    ];
+
+    properties.forEach((property) => {
+      const value = computed.getPropertyValue(property);
+      if (value) target.style.setProperty(property, value);
+    });
+  };
+
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const selectedCard = event.target.closest<HTMLButtonElement>("[data-pilar-card]");
+    const list = selectedCard?.closest<HTMLElement>("[data-pilars-list]");
+    if (!selectedCard || !list) return;
+
+    const cards = [...list.querySelectorAll<HTMLButtonElement>("[data-pilar-card]")];
+    if (selectedCard.classList.contains("is-active")) return;
+
+    clearTitleFlight();
+
+    const sourceTitle = selectedCard.querySelector<HTMLElement>("[data-pilar-title-compact]");
+    const targetTitle = selectedCard.querySelector<HTMLElement>("[data-pilar-title-expanded]");
+    if (!sourceTitle || !targetTitle || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setActiveCard(cards, selectedCard);
+      return;
+    }
+
+    const sourceRect = sourceTitle.getBoundingClientRect();
+    const previousActive = cards.find((card) => card.classList.contains("is-active"));
+
+    // Measure the destination in its final layout without animating the cards first.
+    list.classList.add("is-measuring");
+    setActiveCard(cards, selectedCard);
+    const targetRect = targetTitle.getBoundingClientRect();
+    if (previousActive) setActiveCard(cards, previousActive);
+    void list.offsetWidth;
+    list.classList.remove("is-measuring");
+    void list.offsetWidth;
+
+    if (!targetRect.width || !targetRect.height) {
+      setActiveCard(cards, selectedCard);
+      return;
+    }
+
+    const ghost = sourceTitle.cloneNode(true) as HTMLElement;
+    ghost.removeAttribute("data-pilar-title-compact");
+    ghost.setAttribute("aria-hidden", "true");
+    copyTitleTypography(sourceTitle, ghost);
+    ghost.style.position = "fixed";
+    ghost.style.display = "inline-block";
+    ghost.style.width = "max-content";
+    ghost.style.maxWidth = "none";
+    ghost.style.whiteSpace = "nowrap";
+    ghost.style.writingMode = "horizontal-tb";
+    ghost.style.transform = "none";
+    ghost.style.transformOrigin = "center center";
+    ghost.style.margin = "0";
+    ghost.style.zIndex = "1000";
+    ghost.style.pointerEvents = "none";
+    ghost.style.left = "-10000px";
+    ghost.style.top = "-10000px";
+    document.body.append(ghost);
+
+    const ghostWidth = ghost.offsetWidth;
+    const ghostHeight = ghost.offsetHeight;
+    const sourceCenterX = sourceRect.left + sourceRect.width / 2;
+    const sourceCenterY = sourceRect.top + sourceRect.height / 2;
+    const targetCenterX = targetRect.left + targetRect.width / 2;
+    const targetCenterY = targetRect.top + targetRect.height / 2;
+    const targetScaleX = Math.min(1, targetRect.width / ghostWidth);
+    const sourceRotation = getComputedStyle(sourceTitle).writingMode.startsWith("vertical") ? -90 : 0;
+
+    ghost.style.left = `${sourceCenterX - ghostWidth / 2}px`;
+    ghost.style.top = `${sourceCenterY - ghostHeight / 2}px`;
+    ghost.style.transform = `rotate(${sourceRotation}deg)`;
+
+    selectedCard.classList.add("is-title-flight");
+    const titleFlight = { ghost, card: selectedCard, animations: [] as Animation[] };
+    activeTitleFlight = titleFlight;
+
+    requestAnimationFrame(() => {
+      if (activeTitleFlight !== titleFlight) return;
+
+      // Let the card's flex transition start in the same frame as the title movement.
+      setActiveCard(cards, selectedCard);
+
+      const flight = ghost.animate(
+        [
+          {
+            left: `${sourceCenterX - ghostWidth / 2}px`,
+            top: `${sourceCenterY - ghostHeight / 2}px`,
+            transform: `rotate(${sourceRotation}deg) scaleX(1)`,
+          },
+          {
+            left: `${targetCenterX - ghostWidth / 2}px`,
+            top: `${targetCenterY - ghostHeight / 2}px`,
+            transform: `rotate(0deg) scaleX(${targetScaleX})`,
+          },
+        ],
+        { duration: 850, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "forwards" },
+      );
+
+      titleFlight.animations.push(flight);
+      flight.onfinish = () => {
+        if (activeTitleFlight === titleFlight) clearTitleFlight();
+      };
+    });
+  });
+</script>
+
+<style>
+  .pilars-list {
+    display: flex;
+    width: 100%;
+    aspect-ratio: 2.2 / 1;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+
+  .pilar-card {
+    position: relative;
+    display: block;
+    flex: 0 0 7%;
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    border-radius: 0.5rem;
+    background: #f3f0e9;
+    color: var(--color-paragraph);
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    transition:
+      flex-basis 550ms cubic-bezier(0.22, 1, 0.36, 1),
+      flex-grow 550ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pilar-card.is-active {
+    flex: 1 1 0%;
+    background: transparent;
+    cursor: default;
+  }
+
+  .pilars-list.is-measuring .pilar-card,
+  .pilars-list.is-measuring .pilar-card__compact,
+  .pilars-list.is-measuring .pilar-card__expanded {
+    transition: none;
+  }
+
+  .pilar-card:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  .pilar-card__compact,
+  .pilar-card__expanded {
+    position: absolute;
+    inset: 0;
+  }
+
+  .pilar-card__compact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 0.5rem;
+    opacity: 1;
+    transition:
+      opacity 250ms ease,
+      visibility 250ms ease;
+  }
+
+  .pilar-card__title-slot {
+    min-width: 0;
+  }
+
+  .pilar-card__title-slot--compact {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+
+  .pilar-card__title-slot--expanded {
+    display: block;
+  }
+
+  .pilar-card__title-slot--compact [data-pilar-title-compact] {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+  }
+
+  .pilar-card__title-slot--expanded [data-pilar-title-expanded] {
+    display: inline-block;
+    writing-mode: horizontal-tb;
+  }
+
+  .pilar-card.is-title-flight [data-pilar-title-expanded] {
+    opacity: 0;
+  }
+
+  .pilar-card__expanded {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition:
+      opacity 300ms ease,
+      visibility 300ms ease;
+  }
+
+  .pilar-card.is-active .pilar-card__compact {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .pilar-card.is-active .pilar-card__expanded {
+    position: relative;
+    height: 100%;
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .pilar-card__content,
+  .pilar-card__image {
+    flex: 1 1 50%;
+    min-height: 0;
+  }
+
+  .pilar-card__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: clamp(1rem, 1.5vw, 1.5rem);
+    padding: clamp(1.25rem, 2.1vw, 2rem);
+    background: var(--color-secondary);
+  }
+
+  .pilar-card__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pilar-card__details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pilar-card__divider {
+    width: 2.5rem;
+    height: 0.1875rem;
+    margin-block: clamp(1rem, 1.75vw, 2rem);
+    background: var(--color-paragraph);
+  }
+
+  .pilar-card__image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pilar-card__image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pilar-card .heading-3,
+  .pilar-card p {
+    text-box: normal;
+  }
+
+  @media (min-width: 1024px) {
+    .pilar-card:not(.is-active):hover,
+    .pilar-card:not(.is-active):focus-visible {
+      flex-basis: 9%;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .pilars-list {
+      flex-direction: column;
+      height: 50rem;
+      aspect-ratio: auto;
+      gap: 0.75rem;
+    }
+
+    .pilar-card {
+      height: auto;
+      flex: 0 0 4.5rem;
+    }
+
+    .pilar-card.is-active {
+      flex: 1 1 0%;
+    }
+
+    .pilar-card__compact {
+      position: relative;
+      height: 100%;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+    }
+
+    .pilar-card__title-slot--compact {
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+
+    .pilar-card__title-slot--compact [data-pilar-title-compact] {
+      writing-mode: horizontal-tb;
+      transform: none;
+      white-space: normal;
+    }
+
+    .pilar-card__expanded {
+      display: none;
+    }
+
+    .pilar-card.is-active .pilar-card__compact {
+      display: none;
+    }
+
+    .pilar-card.is-active .pilar-card__expanded {
+      display: flex;
+      position: relative;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .pilar-card__content {
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .pilar-card__divider {
+      margin-block: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pilar-card,
+    .pilar-card__compact,
+    .pilar-card__expanded {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

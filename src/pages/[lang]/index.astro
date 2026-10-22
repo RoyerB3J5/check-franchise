@@ -36,6 +36,7 @@ const seo = t.seo.main;
   canonicalPath="/"
 >
   <Hero content={t.main.hero} />
+  
   <Cifras content={t.main.cifras} />
   <BreakPoint content={t.main.breakPoint} />
   <Pilars content={t.main.pilars} />
@@ -46,3 +47,28 @@ const seo = t.seo.main;
   <Banner content={t.main.banner} />
   <Questions content={t.main.questions} />
 </Layout>
+
+<script>
+  import { initGlobalScrollSnap } from "../../lib/scrollSnapper";
+
+  let cleanupScrollSnap: (() => void) | undefined;
+
+  const initializeScrollSnap = () => {
+    cleanupScrollSnap?.();
+    cleanupScrollSnap = initGlobalScrollSnap();
+  };
+
+  const teardownScrollSnap = () => {
+    cleanupScrollSnap?.();
+    cleanupScrollSnap = undefined;
+  };
+
+  document.addEventListener("astro:before-swap", teardownScrollSnap);
+  document.addEventListener("astro:page-load", initializeScrollSnap);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeScrollSnap, { once: true });
+  } else {
+    initializeScrollSnap();
+  }
+</script>

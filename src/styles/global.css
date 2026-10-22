@@ -30,6 +30,7 @@
 
     text-box-trim: trim-both;
     text-box-edge: cap alphabetic;
+    text-box: normal;
 
     -webkit-text-size-adjust: 100%;
   }
@@ -38,6 +39,7 @@
   *::after {
     text-box-trim: trim-both;
     text-box-edge: cap alphabetic;
+    text-box: normal;
   }
 }
 html {

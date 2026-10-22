@@ -1,5 +1,6 @@
 ---
 import Button from "../../components/Button.astro";
+import Liston from "../../components/Liston.astro";
 
 type Translations = typeof import("../../i18n/en").default;
 type Content = Translations["main"]["questions"];
@@ -9,17 +10,40 @@ interface Props {
 const { content} = Astro.props as Props;
 ---
 <section class='w-full flex justify-center items-center bg-primary relative'>
-  <img src="/images/decoration-r.webp" alt="Decoration" class="absolute bottom-[5%] right-0 w-[169px] h-auto object-cover z-5" width="169" height="456" decoding="async" loading="lazy"/>
+  <Liston src="/images/decoration-r.webp" w={262} h={814} grosor={230}
+  d="M 340 -90 C 310 -57, 273 -30, 250 10 C 227 50, 228 98, 200 150 C 172 202, 102 272, 80 320 C 58 368, 58 400, 65 440 C 72 480, 99 527, 120 560 C 141 593, 167 600, 190 640 C 213 680, 238 757, 260 800 C 282 843, 300 867, 320 900" class="absolute bottom-[5%] right-0 w-[169px] h-auto object-cover z-5" />
   <div class="container-full flex  justify-center items-start py-25 gap-6 relative z-0">
-    <div class="w-[60%] bg-white flex flex-col justify-center items-center gap-10 p-10 rounded-lg">
+    <div class="w-[60%] bg-white flex flex-col justify-center items-center gap-10 p-10 rounded-lg" data-questions-accordion>
       {
-        content.items.map((item)=>(
+        content.items.map((item, index)=>(
           <>
-            <div class='w-full flex flex-col justify-center items-start '>
-              <div class='w-full flex justify-between items-center gap-4'>
-                <h3 class='body-xl text-accent'>{item.question}</h3>
-              </div>
-              <p class="body-md text-paragraph mt-8">{item.answer}</p>
+            <div class="w-full flex flex-col justify-center items-start" data-question-item>
+              <h3 class="w-full">
+                <button
+                  type="button"
+                  class="w-full flex justify-between items-center gap-4 text-left cursor-pointer"
+                  aria-expanded={index === 0 ? "true" : "false"}
+                  aria-controls={`question-answer-${index}`}
+                  data-question-toggle
+                >
+                  <span class="body-xl text-accent">{item.question}</span>
+                  <img
+                    src={index === 0 ? "/icons/minus.svg" : "/icons/plus.svg"}
+                    alt=""
+                    aria-hidden="true"
+                    class="w-8 h-8 shrink-0"
+                    decoding="async"
+                    loading="lazy"
+                    data-question-icon
+                  />
+                </button>
+              </h3>
+              <p
+                id={`question-answer-${index}`}
+                class="body-md text-paragraph mt-8"
+                hidden={index !== 0}
+                data-question-answer
+              >{item.answer}</p>
             </div>
             <div class="w-full h-[1px] bg-paragraph/30 last:hidden">
 
@@ -30,9 +54,34 @@ const { content} = Astro.props as Props;
       }
     </div>
     <div class='flex flex-col justify-start items-start gap-12 w-[40%] text-white'>
-      <h2 class='heading-2'>{content.title}</h2>
-      <p class="body-md">{content.description}</p>
+      <h2 class='heading-2 fade-up-lines'>{content.title}</h2>
+      <p class="body-md fade-up-lines">{content.description}</p>
       <Button text={content.buttonLabel} href="#" icon="whats" extraBtnClass="bg-[#25D366] shadow-[0_8px_0_0_#137839]" textClass="text-white"/>
     </div>
   </div>
 </section>
+
+<script>
+  const accordions = document.querySelectorAll<HTMLElement>("[data-questions-accordion]");
+
+  accordions.forEach((accordion) => {
+    const items = accordion.querySelectorAll<HTMLElement>("[data-question-item]");
+
+    items.forEach((item) => {
+      const button = item.querySelector<HTMLButtonElement>("[data-question-toggle]");
+
+      button?.addEventListener("click", () => {
+        items.forEach((otherItem) => {
+          const otherButton = otherItem.querySelector<HTMLButtonElement>("[data-question-toggle]");
+          const answer = otherItem.querySelector<HTMLParagraphElement>("[data-question-answer]");
+          const icon = otherItem.querySelector<HTMLImageElement>("[data-question-icon]");
+          const isActive = otherItem === item;
+
+          otherButton?.setAttribute("aria-expanded", String(isActive));
+          if (answer) answer.hidden = !isActive;
+          if (icon) icon.src = isActive ? "/icons/minus.svg" : "/icons/plus.svg";
+        });
+      });
+    });
+  });
+</script>

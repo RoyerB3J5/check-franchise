@@ -1,5 +1,6 @@
 ---
 import Button from "../../components/Button.astro";
+import Liston from "../../components/Liston.astro";
 type Translations = typeof import("../../i18n/en").default;
 type Content = Translations["main"]["review"];
 interface Props {
@@ -10,48 +11,478 @@ const { content} = Astro.props as Props;
 // Comprueba si la URL coincide con la raíz o los prefijos de idioma (/ , /es, /es/, /en, /en/)
 const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
 ---
-<section class='bg-[#F3F0E9] w-full flex justify-center items-center relative''>
-  <img src="/images/decoration-w-r.webp" alt="Decoration" class="absolute bottom-[-4%] right-0 w-[97px] h-auto object-cover z-5" width="97" height="275" decoding="async" loading="lazy"/>
-  <img src="/images/decoration-w-l.webp" alt="Decoration" class="absolute top-[-10%] left-0 w-[159px] h-auto object-cover" width="159" height="328" decoding="async" loading="lazy"/>
-  <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
-    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
-      <p class='body-sm uppercase'>
-        {content.tag}
-      </p>
-      <h2 class="heading-1 text-center" set:html={content.title}></h2>
+<section class="bg-[#F3F0E9] w-full flex justify-center items-center relative">
+  <Liston src="/images/decoration-w-r.webp" w={172} h={542} grosor={160} class="absolute bottom-[-4%] right-0 w-[97px] h-auto object-cover z-5" d="M 230 -70 C 207 -33, 180 10, 160 40 C 140 70, 128 83, 110 110 C 92 137, 66 170, 55 200 C 44 230, 40 265, 42 290 C 44 315, 54 330, 65 350 C 76 370, 87 390, 105 410 C 123 430, 146 452, 172 470 C 198 488, 231 503, 260 520" />
+  <Liston src="/images/decoration-w-l.webp" w={296} h={598} grosor={205} d="M -60 170 C -27 163, 10 161, 40 150 C 70 139, 93 114, 120 105 C 147 96, 179 92, 200 95 C 221 98, 240 108, 245 125 C 250 142, 249 161, 230 200 C 211 239, 162 316, 130 360 C 98 404, 60 435, 40 465 C 20 495, 22 511, 10 540 C -2 569, -17 607, -30 640" class="absolute top-[-10%] left-0 w-[159px] h-auto object-cover"/>
+  <div class="container-full flex flex-col justify-center items-center py-25 gap-10">
+    <div class="flex flex-col justify-center items-center gap-8 text-paragraph">
+      <p class="body-sm uppercase fade-up-lines">{content.tag}</p>
+      <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
     </div>
-    <div class="w-full flex justify-center items-stretch gap-6">
-  
-    <div class="w-full grid grid-cols-4 items-stretch gap-6">
-      <div class='flex flex-col justify-center items-center py-20 px-8 rounded-lg bg-white gap-9'>
-        <div class='flex flex-col justify-center items-center gap-4 text-paragraph'>
-          <p class='heading-1'>5.0</p>
-          <img src="/icons/stars.svg" alt="Stars" width="136" height="16" class='w-[136px] h-auto' decoding="async" loading="lazy" />
-          <p class='body-md'>{content.info}</p>
+
+    <div class="reviews-layout">
+      <div class="reviews-summary rounded-lg bg-white">
+        <div class="reviews-summary__info text-paragraph">
+          <p class="heading-1">5.0</p>
+          <img
+            src="/icons/stars.svg"
+            alt={locale === "/es" ? "5 estrellas" : "5 stars"}
+            width="136"
+            height="16"
+            class="reviews-summary__stars"
+            decoding="async"
+            loading="lazy"
+          />
+          <p class="body-md">{content.info}</p>
         </div>
-        <img src="/icons/logo-orange.svg" alt="Stars" width="89" height="43" class='w-[89px] h-auto' decoding="async" loading="lazy"/>
+        <img
+          src="/icons/logo-orange.svg"
+          alt="Click Franchise"
+          width="89"
+          height="43"
+          class="reviews-summary__logo"
+          decoding="async"
+          loading="lazy"
+        />
       </div>
 
-      <div class="col-span-3 grid grid-cols-3 items-stretch gap-6 relative overflow-hidden">
-        {
-          content.items.slice(0, 3).map((item) => (
-            <div class='flex flex-col justify-between items-start p-8 rounded-lg bg-white'>
-              <div class="flex flex-col justify-center items-start gap-2">
-                <p class='text-[40px] text-primary font-bold leading-[150%]'>“</p>
-                <p class="body-md text-paragraph">{item.description}</p>
-              </div>
-              <div class='flex flex-col justify-center items-start text-paragraph'>
-                <img src="/icons/stars.svg" alt="Stars" width="136" height="16" class='w-[69px] h-auto' decoding="async" loading="lazy" />
-                <h3 class="mt-4 mb-2 body-md-semibold">{item.name}</h3>
-                <p class='body-sm'>{item.enterprise}</p>
-              </div>
-            </div>
-          ))
-        }
+      <div
+        class="reviews-carousel"
+        data-reviews-carousel
+        role="region"
+        aria-roledescription={locale === "/es" ? "carrusel" : "carousel"}
+        aria-label={locale === "/es" ? "Reseñas de clientes" : "Customer reviews"}
+        tabindex="0"
+      >
+        <div class="reviews-carousel__viewport" data-review-viewport>
+          <div class="reviews-carousel__track" data-review-track>
+            {content.items.map((item, index) => (
+              <article
+                class="reviews-carousel__card rounded-lg bg-white"
+                data-review-card
+                role="group"
+                aria-roledescription={locale === "/es" ? "reseña" : "review"}
+                aria-label={`${index + 1} ${locale === "/es" ? "de" : "of"} ${content.items.length}`}
+              >
+                <div class="flex flex-col justify-center items-start gap-2">
+                  <p class="text-[40px] text-primary font-bold leading-[150%]" aria-hidden="true">“</p>
+                  <p class="body-md text-paragraph">{item.description}</p>
+                </div>
+                <div class="flex flex-col justify-center items-start text-paragraph">
+                  <img
+                    src="/icons/stars.svg"
+                    alt={locale === "/es" ? "5 estrellas" : "5 stars"}
+                    width="136"
+                    height="16"
+                    class="w-[69px] h-auto"
+                    decoding="async"
+                    loading="lazy"
+                  />
+                  <h3 class="mt-4 mb-2 body-md-semibold">{item.name}</h3>
+                  <p class="body-sm">{item.enterprise}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
 
-  </div>
     <Button text={content.button.label} href={`${locale}${content.button.href}`} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514]" textClass="text-white" />
   </div>
 </section>
+
+<script>
+  const reviewCarousels = document.querySelectorAll<HTMLElement>("[data-reviews-carousel]");
+
+  reviewCarousels.forEach((carousel) => {
+    const track = carousel.querySelector<HTMLElement>("[data-review-track]");
+    const viewport = carousel.querySelector<HTMLElement>("[data-review-viewport]");
+    if (!track || !viewport) return;
+
+    const cards = [...track.querySelectorAll<HTMLElement>("[data-review-card]")];
+    if (cards.length < 2) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let visibleCount = 0;
+    let currentIndex = 0;
+    let autoplayId: number | undefined;
+    let resizeFrame = 0;
+    let isTransitioning = false;
+    let isDragging = false;
+    let hasDragged = false;
+    let isHoverPaused = false;
+    let activePointerId: number | undefined;
+    let dragStartX = 0;
+    let dragStartTranslate = 0;
+    let dragDelta = 0;
+
+    const getVisibleCount = () => {
+      const count = window.matchMedia("(min-width: 1024px)").matches
+        ? 3
+        : window.matchMedia("(min-width: 640px)").matches
+          ? 2
+          : 1;
+      return Math.min(count, cards.length);
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayId === undefined) return;
+      window.clearInterval(autoplayId);
+      autoplayId = undefined;
+    };
+
+    const startAutoplay = () => {
+      stopAutoplay();
+      if (
+        reducedMotion.matches ||
+        document.hidden ||
+        isHoverPaused ||
+        isDragging ||
+        cards.length <= visibleCount ||
+        carousel.contains(document.activeElement)
+      ) {
+        return;
+      }
+
+      autoplayId = window.setInterval(() => {
+        currentIndex += 1;
+        moveToCurrentCard(true);
+      }, 6000);
+    };
+
+    const moveToCurrentCard = (animate = false) => {
+      const card = track.children.item(currentIndex);
+      if (!(card instanceof HTMLElement)) return;
+      isTransitioning = animate;
+      track.style.transform = `translate3d(-${card.offsetLeft}px, 0, 0)`;
+    };
+
+    const rebuildLoop = () => {
+      stopAutoplay();
+      isTransitioning = false;
+      const pointerId = activePointerId;
+      activePointerId = undefined;
+      if (pointerId !== undefined && viewport.hasPointerCapture(pointerId)) {
+        viewport.releasePointerCapture(pointerId);
+      }
+      isDragging = false;
+      hasDragged = false;
+      carousel.classList.remove("is-dragging");
+      track.style.transition = "none";
+      track.querySelectorAll("[data-review-clone]").forEach((clone) => clone.remove());
+
+      visibleCount = getVisibleCount();
+      const makeClone = (card: HTMLElement) => {
+        const clone = card.cloneNode(true) as HTMLElement;
+        clone.removeAttribute("data-review-card");
+        clone.setAttribute("data-review-clone", "");
+        clone.setAttribute("aria-hidden", "true");
+        return clone;
+      };
+      const leadingClones = cards.slice(-visibleCount).map(makeClone);
+      const trailingClones = cards.slice(0, visibleCount).map(makeClone);
+      track.prepend(...leadingClones);
+      track.append(...trailingClones);
+      carousel.classList.toggle("is-draggable", cards.length > visibleCount && !reducedMotion.matches);
+
+      currentIndex = visibleCount;
+      moveToCurrentCard();
+      void track.offsetWidth;
+      track.style.transition = "";
+      startAutoplay();
+    };
+
+    track.addEventListener("transitionend", (event) => {
+      if (event.target !== track || event.propertyName !== "transform") return;
+      isTransitioning = false;
+
+      const firstOriginalIndex = visibleCount;
+      const afterLastOriginalIndex = visibleCount + cards.length;
+      if (currentIndex >= afterLastOriginalIndex) {
+        currentIndex -= cards.length;
+      } else if (currentIndex < firstOriginalIndex) {
+        currentIndex += cards.length;
+      } else {
+        return;
+      }
+
+      track.style.transition = "none";
+      moveToCurrentCard();
+      void track.offsetWidth;
+      track.style.transition = "";
+    });
+
+    const getTrackTranslateX = () => {
+      const transform = window.getComputedStyle(track).transform;
+      if (transform === "none") return 0;
+      if (typeof DOMMatrixReadOnly !== "undefined") return new DOMMatrixReadOnly(transform).m41;
+
+      const values = transform.match(/matrix(?:3d)?\((.+)\)/)?.[1].split(",").map(Number);
+      if (!values) return 0;
+      return values.length === 16 ? values[12] : values[4] ?? 0;
+    };
+
+    const finishDrag = (shouldAdvance: boolean) => {
+      if (activePointerId === undefined) return;
+
+      const threshold = Math.max(36, viewport.clientWidth / visibleCount * 0.18);
+      const direction = shouldAdvance && Math.abs(dragDelta) >= threshold
+        ? dragDelta < 0 ? 1 : -1
+        : 0;
+
+      isDragging = false;
+      activePointerId = undefined;
+      carousel.classList.remove("is-dragging");
+      track.style.transition = "";
+
+      if (getVisibleCount() !== visibleCount) {
+        rebuildLoop();
+        return;
+      }
+
+      if (direction !== 0) currentIndex += direction;
+      moveToCurrentCard(direction !== 0 || hasDragged);
+      hasDragged = false;
+      startAutoplay();
+    };
+
+    viewport.addEventListener("pointerdown", (event) => {
+      if (
+        reducedMotion.matches ||
+        isTransitioning ||
+        cards.length <= visibleCount ||
+        (event.pointerType === "mouse" && event.button !== 0)
+      ) {
+        return;
+      }
+
+      stopAutoplay();
+      isDragging = true;
+      hasDragged = false;
+      activePointerId = event.pointerId;
+      dragStartX = event.clientX;
+      dragStartTranslate = getTrackTranslateX();
+      dragDelta = 0;
+      track.style.transition = "none";
+      viewport.setPointerCapture(event.pointerId);
+    });
+
+    viewport.addEventListener("pointermove", (event) => {
+      if (!isDragging || event.pointerId !== activePointerId) return;
+
+      dragDelta = event.clientX - dragStartX;
+      if (Math.abs(dragDelta) > 4) {
+        hasDragged = true;
+        carousel.classList.add("is-dragging");
+        event.preventDefault();
+      }
+      const previousCard = track.children.item(currentIndex - 1);
+      const nextCard = track.children.item(currentIndex + 1);
+      const minimumTranslate = nextCard instanceof HTMLElement ? -nextCard.offsetLeft : dragStartTranslate;
+      const maximumTranslate = previousCard instanceof HTMLElement ? -previousCard.offsetLeft : dragStartTranslate;
+      const draggedTranslate = Math.min(maximumTranslate, Math.max(minimumTranslate, dragStartTranslate + dragDelta));
+      track.style.transform = `translate3d(${draggedTranslate}px, 0, 0)`;
+    });
+
+    viewport.addEventListener("pointerup", (event) => {
+      if (event.pointerId !== activePointerId) return;
+      finishDrag(true);
+    });
+
+    viewport.addEventListener("pointercancel", (event) => {
+      if (event.pointerId !== activePointerId) return;
+      finishDrag(false);
+    });
+
+    viewport.addEventListener("lostpointercapture", (event) => {
+      if (event.pointerId !== activePointerId) return;
+      finishDrag(false);
+    });
+
+    carousel.addEventListener("pointerenter", (event) => {
+      if (event.pointerType !== "mouse") return;
+      isHoverPaused = true;
+      stopAutoplay();
+    });
+    carousel.addEventListener("pointerleave", (event) => {
+      if (event.pointerType !== "mouse") return;
+      isHoverPaused = false;
+      startAutoplay();
+    });
+    carousel.addEventListener("focusin", stopAutoplay);
+    carousel.addEventListener("focusout", (event) => {
+      if (event.relatedTarget instanceof Node && carousel.contains(event.relatedTarget)) return;
+      startAutoplay();
+    });
+    document.addEventListener("visibilitychange", startAutoplay);
+    reducedMotion.addEventListener("change", () => {
+      rebuildLoop();
+    });
+
+    window.addEventListener("resize", () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        if (isDragging) return;
+        const nextVisibleCount = getVisibleCount();
+        if (nextVisibleCount !== visibleCount) {
+          rebuildLoop();
+          return;
+        }
+
+        track.style.transition = "none";
+        if (currentIndex >= visibleCount + cards.length) currentIndex -= cards.length;
+        if (currentIndex < visibleCount) currentIndex += cards.length;
+        isTransitioning = false;
+        moveToCurrentCard();
+        void track.offsetWidth;
+        track.style.transition = "";
+      });
+    });
+
+    rebuildLoop();
+  });
+</script>
+
+<style>
+  .reviews-layout {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .reviews-summary {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .reviews-summary__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .reviews-summary__stars {
+    width: 136px;
+    height: auto;
+  }
+
+  .reviews-summary__logo {
+    width: 89px;
+    height: auto;
+  }
+
+  .reviews-carousel {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .reviews-carousel__viewport {
+    width: 100%;
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+
+  .reviews-carousel__track {
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    gap: 1.5rem;
+    transform: translate3d(0, 0, 0);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .reviews-carousel.is-draggable:not(.is-dragging) .reviews-carousel__viewport {
+    cursor: grab;
+  }
+
+  .reviews-carousel.is-dragging,
+  .reviews-carousel.is-dragging * {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .reviews-carousel__card {
+    display: flex;
+    min-width: 0;
+    flex: 0 0 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 2rem;
+  }
+
+  .reviews-carousel:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+
+  @media (min-width: 640px) {
+    .reviews-summary {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 2rem;
+    }
+
+    .reviews-summary__info {
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    .reviews-carousel__card {
+      flex-basis: calc((100% - 1.5rem) / 2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .reviews-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      align-items: stretch;
+    }
+
+    .reviews-summary {
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(2rem, 4vw, 5rem) 2rem;
+    }
+
+    .reviews-summary__info {
+      flex-direction: column;
+    }
+
+    .reviews-carousel__card {
+      flex-basis: calc((100% - 3rem) / 3);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reviews-carousel__viewport {
+      overflow: visible;
+    }
+
+    .reviews-carousel__track {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+      transform: none !important;
+      transition: none;
+      will-change: auto;
+    }
+
+    .reviews-carousel__card {
+      flex: initial;
+    }
+
+    .reviews-carousel [data-review-clone] {
+      display: none;
+    }
+  }
+</style>

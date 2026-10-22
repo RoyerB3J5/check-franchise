@@ -1,4 +1,6 @@
 ---
+import Liston from "../components/Liston.astro";
+
 type Translations = typeof import("../i18n/en").default;
 type Content = Translations["franchiseBusiness"]["company"];
 interface Props {
@@ -7,7 +9,8 @@ interface Props {
 const { content} = Astro.props as Props;
 ---
 <section class='w-full flex flex-col justify-center items-center relative bg-[#F3F0E9]'>
-  <img src="/images/decoration-o-l.webp" alt="Decoration" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z-5" width="145" height="400" decoding="async" loading="lazy"/>
+  <Liston src="/images/decoration-o-l.webp" w={230} h={776} grosor={185}
+  d="M -60 -80 C -27 3, 5 93, 40 170 C 75 247, 126 315, 150 380 C 174 445, 188 512, 185 560 C 182 608, 151 648, 130 670 C 109 692, 92 684, 60 692 C 28 700, -20 707, -60 715" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z-5" />
   <div class='container-full flex justify-between items-start py-25'>
     <h2 class='body-xl max-w-[326px] text-paragraph'>{content.tag}</h2>
     <div class="flex justify-center items-center gap-3">

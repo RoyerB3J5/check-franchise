@@ -8,6 +8,7 @@ import {
 } from "../constants/info";
 import { ChevronDown, ChevronRight, Menu, X, Plus, Minus } from "@lucide/astro";
 import Button from "./Button.astro";
+import Liston from "./Liston.astro";
 
 type Translations = typeof import("../i18n/en").default;
 type FooterContent = Translations["footer"];
@@ -93,7 +94,8 @@ const socialMedia = [
   <div
       class="bg-white py-16 md:py-20 flex justify-center items-center w-full relative"
     >
-      <img src="/images/decoration-b.webp" alt="Decoración inferior" class="absolute bottom-0 left-0 w-[368px] h-auto" width="368" height="191" />
+      <Liston src="/images/decoration-b.webp" w={630} h={354} grosor={185} class="absolute bottom-0 left-0 w-[368px] h-auto"
+      d="M -60 320 C -40 318, -27 321, 0 315 C 27 309, 58 306, 100 285 C 142 264, 200 224, 250 190 C 300 156, 358 105, 400 80 C 442 55, 476 38, 500 40 C 524 42, 545 68, 545 95 C 545 122, 519 166, 500 200 C 481 234, 448 270, 430 300 C 412 330, 403 357, 395 380 C 387 403, 385 420, 380 440" />
       <div
         class="container-full flex flex-col md:flex-row justify-center md:justify-between items-start md:items-stretch gap-[34px] md:gap-8 xl:gap-0"
       >

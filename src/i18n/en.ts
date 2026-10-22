@@ -222,7 +222,7 @@ export default {
       title:
         "Tu próxima sede empieza con <span class='text-primary'> una conversación de 15 minutos.</span>",
       description:
-        "Cuéntanos en qué punto estás. Te decimos, sin rodeos, si tu negocio está listo para ser franquicia — o cuál franquicia está lista para ti.",
+        "Cuéntanos en qué punto estás. Te decimos, sin rodeos, si tu negocio está listo para ser franquicia o cuál franquicia está lista para ti.",
       buttons: [
         {
           label: "Agendar mi llamada",
