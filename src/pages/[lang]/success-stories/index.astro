@@ -6,6 +6,7 @@ import HeroBanner from "../../../sections/HeroBanner.astro";
 import ReviewContent from "../../../components/ReviewContent.astro";
 import type { Language } from "../../../types/language.type";
 import Call from "../../../sections/Call.astro";
+import Cases from "../../../sections/Cases.astro";
 
 export function getStaticPaths() {
   return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
@@ -28,8 +29,11 @@ const seo = t.seo.successStories;
   canonicalPath="/success-stories"
 >
   <HeroBanner content={t.caseSuccess.hero} />
-  <section class='w-full flex justify-center items-center bg-[#F3F0E9]'>
-    <ReviewContent content={t.main.review} />
+  <section class='flex justify-center items-center bg-[#F3F0E9] w-full'>
+    <div class=' py-25 container-full flex justify-center items-center '>
+      <ReviewContent content={t.main.review} />
+    </div>
   </section>  
+  <Cases content={t.caseSuccess.cases} />
   <Call content={t.caseSuccess.next} />
 </Layout>

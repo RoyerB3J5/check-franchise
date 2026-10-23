@@ -8,23 +8,285 @@ interface Props {
 }
 const { content} = Astro.props as Props;
 ---
-<section class='w-full flex flex-col justify-center items-center relative bg-[#F3F0E9]'>
+<section class='w-full flex flex-col justify-center items-center relative bg-[#F3F0E9]' data-company-section>
   <Liston src="/images/decoration-o-l.webp" w={230} h={776} grosor={185}
   d="M -60 -80 C -27 3, 5 93, 40 170 C 75 247, 126 315, 150 380 C 174 445, 188 512, 185 560 C 182 608, 151 648, 130 670 C 109 692, 92 684, 60 692 C 28 700, -20 707, -60 715" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z-5" />
-  <div class='container-full flex justify-between items-start py-25'>
-    <h2 class='body-xl max-w-[326px] text-paragraph'>{content.tag}</h2>
-    <div class="flex justify-center items-center gap-3">
-      <div class='flex flex-col justify-center items-start gap-14'>
-        {
-          content.list.map((item)=>(
-            <p class='heading-3 text-primary' set:html={item}></p>
-          ))
-        }
+  <div class='container-full flex flex-col lg:flex-row justify-between items-start py-25 gap-12'>
+    <h2 class='body-xl max-w-[326px] text-paragraph fade-up-lines'>{content.tag}</h2>
+    <div class="company-carousel flex w-full items-center justify-end gap-3" data-company-carousel role="region" aria-label={content.tag} aria-roledescription="carrusel">
+      <div class="company-carousel__viewport relative overflow-hidden" id="company-carousel-items" aria-live="off">
+        <div class="company-carousel__track flex flex-col gap-y-14">
+          {
+            content.list.map((item)=>(
+              <p
+                class="company-carousel__item heading-3"
+                set:html={item}
+                data-company-item
+                data-position="below"
+                aria-hidden="true"
+              ></p>
+            ))
+          }
+        </div>
       </div>
-      <div class='flex flex-col justify-center items-center gap-2'>
-        <img src="/icons/arrow-up.svg" alt="Arrow up" class="w-10 h-10"/>
-        <img src="/icons/arrow-up.svg" alt="Arrow up" class="w-10 h-10 rotate-180"/>
+      <div class='flex shrink-0 flex-col justify-center items-center gap-2'>
+        <button type="button" class="company-carousel__arrow" aria-label="Elemento siguiente" aria-controls="company-carousel-items" data-carousel-up>
+          <img src="/icons/arrow-up.svg" alt="" aria-hidden="true" class="w-10 h-10" />
+        </button>
+        <button type="button" class="company-carousel__arrow" aria-label="Elemento anterior" aria-controls="company-carousel-items" data-carousel-down>
+          <img src="/icons/arrow-up.svg" alt="" aria-hidden="true" class="w-10 h-10 rotate-180" />
+        </button>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  import { ScrollTrigger } from "../lib/gsap";
+
+  const carousel = document.querySelector<HTMLElement>("[data-company-carousel]");
+
+  if (carousel) {
+    const viewport = carousel.querySelector<HTMLElement>(".company-carousel__viewport");
+    const track = carousel.querySelector<HTMLElement>(".company-carousel__track");
+    const upButton = carousel.querySelector<HTMLButtonElement>("[data-carousel-up]");
+    const downButton = carousel.querySelector<HTMLButtonElement>("[data-carousel-down]");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let items = track ? Array.from(track.querySelectorAll<HTMLElement>("[data-company-item]")) : [];
+    let autoplayId: number | undefined;
+    let resizeId: number | undefined;
+    let isAnimating = false;
+
+    const setPositions = (orderedItems: HTMLElement[]) => {
+      const positions = ["top", "upper", "center", "lower", "bottom"];
+
+      orderedItems.forEach((item, index) => {
+        item.dataset.position = positions[index] ?? "below";
+        item.setAttribute("aria-hidden", String(index >= positions.length));
+      });
+    };
+
+    const fitViewport = (orderedItems: HTMLElement[]) => {
+      if (!viewport || !track) return;
+
+      const visibleItems = orderedItems.slice(0, 5);
+      const gap = Number.parseFloat(window.getComputedStyle(track).rowGap) || 0;
+      const itemsHeight = visibleItems.reduce((total, item) => total + item.offsetHeight, 0);
+      viewport.style.height = `${itemsHeight + gap * Math.max(visibleItems.length - 1, 0)}px`;
+    };
+
+    const currentOrder = () => track ? Array.from(track.querySelectorAll<HTMLElement>("[data-company-item]")) : [];
+
+    const move = (direction: 1 | -1) => {
+      if (!track || !viewport || items.length <= 1 || isAnimating) return;
+
+      isAnimating = true;
+      items = currentOrder();
+      const gap = Number.parseFloat(window.getComputedStyle(track).rowGap) || 0;
+
+      let shift: number;
+      if (direction > 0) {
+        const outgoingItem = items[0];
+        shift = outgoingItem.offsetHeight + gap;
+        const nextOrder = [...items.slice(1), outgoingItem];
+        setPositions(nextOrder);
+        fitViewport(nextOrder);
+        void track.offsetHeight;
+        track.style.transform = `translateY(-${shift}px)`;
+
+        const finishForwardMove = (event: TransitionEvent) => {
+          if (event.target !== track || event.propertyName !== "transform") return;
+          track.removeEventListener("transitionend", finishForwardMove);
+          track.style.transition = "none";
+          track.append(outgoingItem);
+          track.style.transform = "translateY(0px)";
+          items = currentOrder();
+          setPositions(items);
+          fitViewport(items);
+          void track.offsetHeight;
+          requestAnimationFrame(() => {
+            track.style.removeProperty("transition");
+            isAnimating = false;
+            ScrollTrigger.refresh();
+          });
+        };
+
+        track.addEventListener("transitionend", finishForwardMove);
+      } else {
+        const incomingItem = items[items.length - 1];
+        shift = incomingItem.offsetHeight + gap;
+        track.style.transition = "none";
+        track.prepend(incomingItem);
+        items = currentOrder();
+        setPositions(items);
+        fitViewport(items);
+        track.style.transform = `translateY(-${shift}px)`;
+        void track.offsetHeight;
+
+        const finishBackwardMove = (event: TransitionEvent) => {
+          if (event.target !== track || event.propertyName !== "transform") return;
+          track.removeEventListener("transitionend", finishBackwardMove);
+          track.style.transition = "none";
+          track.style.transform = "translateY(0px)";
+          fitViewport(items);
+          void track.offsetHeight;
+          requestAnimationFrame(() => {
+            track.style.removeProperty("transition");
+            isAnimating = false;
+            ScrollTrigger.refresh();
+          });
+        };
+
+        track.addEventListener("transitionend", finishBackwardMove);
+        requestAnimationFrame(() => {
+          track.style.removeProperty("transition");
+          track.style.transform = "translateY(0px)";
+        });
+      }
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayId !== undefined) {
+        window.clearInterval(autoplayId);
+        autoplayId = undefined;
+      }
+    };
+
+    const startAutoplay = () => {
+      if (autoplayId !== undefined || reduceMotion.matches || items.length <= 1) return;
+      autoplayId = window.setInterval(() => move(1), 6000);
+    };
+
+    upButton?.addEventListener("click", () => move(1));
+    downButton?.addEventListener("click", () => move(-1));
+    carousel.addEventListener("mouseenter", stopAutoplay);
+    carousel.addEventListener("mouseleave", startAutoplay);
+    carousel.addEventListener("focusin", stopAutoplay);
+    carousel.addEventListener("focusout", (event) => {
+      const nextTarget = event.relatedTarget;
+      if (!(nextTarget instanceof Node) || !carousel.contains(nextTarget)) startAutoplay();
+    });
+
+    items = currentOrder();
+    setPositions(items);
+    fitViewport(items);
+    requestAnimationFrame(() => {
+      carousel.dataset.ready = "true";
+    });
+    startAutoplay();
+
+    ScrollTrigger.create({
+      id: "company-enter-snap",
+      trigger: carousel.closest<HTMLElement>("[data-company-section]") ?? carousel,
+      start: "top bottom",
+      end: "top top",
+      snap: {
+        snapTo: (progress: number) => (progress >= 0.7 ? 1 : progress),
+        duration: { min: 0.2, max: 0.6 },
+        delay: 0,
+        ease: "power2.out",
+        directional: false,
+      },
+    });
+
+    window.addEventListener("resize", () => {
+      if (resizeId !== undefined) window.clearTimeout(resizeId);
+      resizeId = window.setTimeout(() => {
+        if (!isAnimating) {
+          fitViewport(currentOrder());
+          ScrollTrigger.refresh();
+        }
+      }, 100);
+    });
+  }
+</script>
+
+<style>
+  .company-carousel__viewport {
+    transition: height 500ms ease;
+  }
+
+  .company-carousel__track {
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .company-carousel__item {
+    --company-indent: 0px;
+    flex: none;
+    width: calc(100% - var(--company-indent));
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: var(--company-indent);
+    padding-right: 0.5rem;
+    color: var(--color-paragraph);
+    opacity: 0;
+    transition:
+      margin-left 650ms cubic-bezier(0.22, 1, 0.36, 1),
+      width 650ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 500ms ease,
+      color 500ms ease;
+  }
+
+  .company-carousel:not([data-ready]) .company-carousel__item {
+    transition: none;
+  }
+
+  .company-carousel:not([data-ready]) .company-carousel__viewport,
+  .company-carousel:not([data-ready]) .company-carousel__track {
+    transition: none;
+  }
+
+  .company-carousel__item[data-position="top"],
+  .company-carousel__item[data-position="bottom"],
+  .company-carousel__item[data-position="below"] {
+    --company-indent: 80px;
+  }
+
+  .company-carousel__item[data-position="upper"],
+  .company-carousel__item[data-position="lower"] {
+    --company-indent: 40px;
+  }
+
+  .company-carousel__item[data-position="top"],
+  .company-carousel__item[data-position="bottom"] { opacity: 0.3; }
+  .company-carousel__item[data-position="upper"],
+  .company-carousel__item[data-position="lower"] { opacity: 0.5; }
+  .company-carousel__item[data-position="center"] { color: var(--color-primary); opacity: 1; }
+
+  .company-carousel__arrow {
+    display: block;
+    border-radius: 5px;
+    transition: opacity 200ms ease;
+  }
+
+  .company-carousel__arrow:hover {
+    opacity: 0.65;
+  }
+
+  .company-carousel__arrow:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 767px) {
+    .company-carousel__item[data-position="top"],
+    .company-carousel__item[data-position="bottom"],
+    .company-carousel__item[data-position="below"] {
+      --company-indent: 40px;
+    }
+
+    .company-carousel__item[data-position="upper"],
+    .company-carousel__item[data-position="lower"] {
+      --company-indent: 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .company-carousel__viewport,
+    .company-carousel__track,
+    .company-carousel__item,
+    .company-carousel__arrow {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

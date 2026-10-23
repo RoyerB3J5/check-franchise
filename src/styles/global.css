@@ -265,12 +265,23 @@ html {
   }
 }
 
+@keyframes ZoomOut {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .fade-up-a {
   opacity: 0;
 }
 
 .fade-up-a.active {
-  animation: fadeUpFast 0.3s ease-in-out forwards;
+  animation: fadeUpFast 0.3s ease-in-out var(--fade-up-delay, 0s) forwards;
 }
 
 .fade-down-a {
@@ -304,6 +315,14 @@ html {
 
 .fade-right-a.active {
   animation: fadeRight 0.6s ease-in-out forwards;
+}
+
+.zoom-out-a {
+  opacity: 0;
+}
+
+.zoom-out-a.active {
+  animation: ZoomOut var(--zoom-out-duration, 0.6s) ease-in-out forwards;
 }
 
 [class*="reveal-"] img {
@@ -387,8 +406,13 @@ html {
 .fade-up-lines .fade-up-line-fragment {
   display: inline-block;
   transform: translateY(120%);
-  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--fade-up-line-delay, 0s);
+  transition:
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(
+    var(--zoom-out-duration, 0s) +
+    var(--fade-up-lines-delay, 0s) +
+    var(--fade-up-line-delay, 0s)
+  );
   will-change: transform;
 }
 

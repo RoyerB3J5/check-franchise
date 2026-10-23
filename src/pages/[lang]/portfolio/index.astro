@@ -18,6 +18,20 @@ const translations = { es, en };
 const t = translations[lang];
 const seo = t.seo.portfolio;
 const content = t.portfolio;
+const allPortfolioNumbers = Array.from({ length: 39 }, (_, index) => index + 1);
+const portfolioNumbersBySector: Record<string, number[]> = {
+  alimentos: [21, 29, 3, 17, 10, 12, 24, 30, 31, 28, 34, 36, 39],
+  servicios: [1, 7, 4, 2, 5, 9, 14, 26, 16, 22],
+  salud: [23, 32, 38, 18],
+  educación: [25, 33, 27],
+  retail: [20, 15, 8],
+  tecnología: [11],
+};
+const portfolioSectorByNumber = new Map<number, string>(
+  Object.entries(portfolioNumbersBySector).flatMap(([sector, numbers]) =>
+    numbers.map((number) => [number, sector] as [number, string]),
+  ),
+);
 ---
 
 <Layout
@@ -33,24 +47,131 @@ const content = t.portfolio;
     <Liston src="/images/decoration-w-l.webp" w={296} h={598} grosor={205} d="M -60 170 C -27 163, 10 161, 40 150 C 70 139, 93 114, 120 105 C 147 96, 179 92, 200 95 C 221 98, 240 108, 245 125 C 250 142, 249 161, 230 200 C 211 239, 162 316, 130 360 C 98 404, 60 435, 40 465 C 20 495, 22 511, 10 540 C -2 569, -17 607, -30 640" class="absolute top-[10%] left-0 w-[159px] h-auto object-cover"/>
     <div class="container-full flex flex-col justify-center items-center gap-10 py-25">
       <div class="flex flex-col justify-center items-center gap-8">
-        <p class='subtitle uppercase'>{content.tag}</p>
-        <h1 class='heading-2 text-center' set:html={content.title}></h1>
-        <p class='body-md  text-center' set:html={content.description}></p>
+        <p class='subtitle uppercase fade-up-lines'>{content.tag}</p>
+        <h1 class='heading-2 text-center fade-up-lines' set:html={content.title}></h1>
+        <p class='body-md  text-center fade-up-lines' set:html={content.description}></p>
       </div>
-      <div class='bg-white p-2 flex justify-center items-center rounded-lg'>
+      <div
+        data-portfolio-filters
+        class='bg-white p-2 flex flex-wrap justify-center items-center rounded-lg fade-up-a'
+        role="group"
+        aria-label="Filtrar marcas por categoría"
+      >
         {
-          content.sectors.map((item)=>(
-            <button class='py-4 px-8 flex justify-center items-center rounded-[4px] cursor-pointer'>
-              <p class='body-md text-paragraph'>{item.title}</p>
-            </button>  
+          content.sectors.map((item) => (
+            <button
+              type="button"
+              data-portfolio-filter
+              data-filter={item.id}
+              data-image-order={
+                item.id === "todos"
+                  ? allPortfolioNumbers.join(",")
+                  : (portfolioNumbersBySector[item.id] ?? []).join(",")
+              }
+              aria-pressed={item.id === "todos" ? "true" : "false"}
+              class:list={[
+                "flex cursor-pointer items-center justify-center rounded-[4px] px-8 py-4 transition-colors duration-200",
+                {
+                  "bg-paragraph text-white": item.id === "todos",
+                  "text-paragraph hover:bg-paragraph/10": item.id !== "todos",
+                },
+              ]}
+            >
+              <span class='body-md'>{item.title}</span>
+            </button>
           ))
         }
       </div>
-      <div>
-
+      <div
+        data-portfolio-grid
+        class='w-full grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 justify-center items-center'
+        aria-live="polite"
+      >
+        {
+          Array.from({length: 39}).map((_, index)=>(
+            <div
+              data-portfolio-card
+              data-image-number={index + 1}
+              data-sector={portfolioSectorByNumber.get(index + 1) ?? ""}
+              class='w-full h-auto aspect-600/369 overflow-hidden'
+            >
+              <img src={`/images/portfolio/port-${index+1}.webp`} alt={`Portfolio image ${index+1}`} decoding="async" loading="lazy" width="600" height="369" class='w-full h-auto object-cover' />
+            </div>
+          ))
+        }
       </div>
-      <Button text={content.button.label} href={content.button.href} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514]" textClass="text-white" />
+      <Button text={content.button.label} href={content.button.href} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514] fade-up-a" textClass="text-white" />
     </div>
     
   </section>
 </Layout>
+
+<script>
+  let portfolioCleanup: (() => void) | undefined;
+  let initializedFilters: HTMLElement | undefined;
+
+  const initializePortfolioFilters = () => {
+    const filters = document.querySelector<HTMLElement>("[data-portfolio-filters]");
+    if (!filters || filters === initializedFilters) return;
+
+    portfolioCleanup?.();
+    initializedFilters = filters;
+
+    const grid = document.querySelector<HTMLElement>("[data-portfolio-grid]");
+    if (!grid) return;
+
+    const buttons = [...filters.querySelectorAll<HTMLButtonElement>("[data-portfolio-filter]")];
+    const cards = [...grid.querySelectorAll<HTMLElement>("[data-portfolio-card]")];
+    const cleanupCallbacks: Array<() => void> = [];
+
+    const selectFilter = (selectedButton: HTMLButtonElement) => {
+      const orderedNumbers = (selectedButton.dataset.imageOrder ?? "")
+        .split(",")
+        .map(Number)
+        .filter((number) => Number.isInteger(number) && number > 0);
+      const visibleNumbers = new Set(orderedNumbers);
+      const gridOrder = new Map(orderedNumbers.map((number, index) => [number, index]));
+
+      cards.forEach((card) => {
+        const imageNumber = Number(card.dataset.imageNumber);
+        card.hidden = !visibleNumbers.has(imageNumber);
+        card.style.order = String(gridOrder.get(imageNumber) ?? orderedNumbers.length);
+      });
+
+      buttons.forEach((button) => {
+        const isSelected = button === selectedButton;
+        button.setAttribute("aria-pressed", String(isSelected));
+        button.classList.toggle("bg-paragraph", isSelected);
+        button.classList.toggle("text-white", isSelected);
+        button.classList.toggle("text-paragraph", !isSelected);
+      });
+    };
+
+    buttons.forEach((button) => {
+      const handleClick = () => selectFilter(button);
+      button.addEventListener("click", handleClick);
+      cleanupCallbacks.push(() => button.removeEventListener("click", handleClick));
+    });
+
+    const initialFilter =
+      buttons.find((button) => button.dataset.filter === "todos") ?? buttons[0];
+    if (initialFilter) selectFilter(initialFilter);
+
+    portfolioCleanup = () => cleanupCallbacks.forEach((cleanup) => cleanup());
+  };
+
+  const teardownPortfolioFilters = () => {
+    portfolioCleanup?.();
+    portfolioCleanup = undefined;
+    initializedFilters = undefined;
+  };
+
+  document.addEventListener("astro:before-swap", teardownPortfolioFilters);
+  document.addEventListener("astro:page-load", initializePortfolioFilters);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializePortfolioFilters, { once: true });
+  } else {
+    initializePortfolioFilters();
+  }
+</script>

@@ -11,11 +11,11 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
   <img src="/images/decoration-l.webp" alt="Decoration" class="absolute top-[4%] left-0 w-[115px] h-auto object-cover" width="115" height="411" decoding="async" loading="lazy"/>
   <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
     <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
-      <p class='body-sm uppercase'>
+      <p class='body-sm uppercase fade-up-lines'>
         {content.tag}
       </p>
-      <h2 class="heading-1 text-center" set:html={content.title}></h2>
-      <p set:html={content.description} class="body-md text-center"></p>
+      <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
+      <p set:html={content.description} class="body-md text-center fade-up-lines"></p>
     </div>
     <div class='w-full grid grid-cols-2 justify-center items-stretch gap-6'>
       <div class='breakpoint-cards w-full h-full min-h-0 grid grid-cols-1 gap-6 justify-center items-center'>
@@ -46,7 +46,7 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
           ))
         }
       </div>
-      <div class='w-full h-auto aspect-676/777 overflow-hidden rounded-lg relative' >
+      <div class='w-full h-auto aspect-676/777 overflow-hidden rounded-lg relative fade-left-a' >
         <img src="/images/who.webp" alt="Who we are" class="w-full h-full absolute inset-0 object-cover" width="1165" height="1350" decoding="async" loading="lazy"/>
       </div>
     </div>

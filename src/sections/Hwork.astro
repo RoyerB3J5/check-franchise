@@ -4,28 +4,387 @@ type Content = Translations["franchiseBusiness"]["hWork"];
 interface Props {
   content: Content;
 }
-const { content} = Astro.props as Props;
+const { content } = Astro.props as Props;
 ---
-<section class='w-full flex justify-center items-center relative'>
-  <div class='container-full flex justify-center items-stretch gap-6 py-8'>
-    <div class='bg-secondary flex flex-col justify-between items-center rounded-lg p-8 w-[40%] relative'>
-      <div class="bg-paragraph/10 flex justify-center items-center gap-1 rounded-lg p-1 absolute top-8 right-8">
-        {
-          content.map((i,index)=>(
-            <div class='bg-paragraph flex justify-center items-center w-8 h-8 rounded-[4px] text-white'>
-              <p class='body-md'>0{index+1}</p>
-            </div>
-          ))
-        }  
-      </div> 
-      <div class='w-full flex justify-start items-center text-paragraph h-10'>
-        <p class='subtitle uppercase'>{content[0].tag}</p>
+
+<section
+  data-hwork-section
+  class="relative flex h-screen w-full items-center justify-center bg-white"
+>
+  <div
+    data-hwork-stage
+    class="container-full flex h-full flex-col items-stretch justify-center gap-4 py-4 md:h-auto md:flex-row md:gap-6 md:py-8"
+  >
+    <div
+      data-hwork-copy-card
+      class="relative flex h-[55%] w-full flex-col items-center justify-between rounded-lg bg-secondary md:h-auto md:w-[40%]"
+    >
+      <div class="absolute inset-0 flex min-h-0 w-full flex-col">
+        <div class="relative min-h-0 w-full flex-1">
+          <div
+            class="absolute right-8 top-8 z-10 flex items-center justify-center gap-1 rounded-lg bg-paragraph/10 p-1"
+            role="group"
+            aria-label="Etapas de trabajo"
+          >
+            {
+              content.map((item, index) => (
+                <button
+                  type="button"
+                  data-hwork-indicator
+                  data-index={index}
+                  aria-label={"Ver etapa " + (index + 1) + ": " + item.title}
+                  aria-pressed={index === 0 ? "true" : "false"}
+                  class:list={[
+                    "flex h-8 w-8 cursor-pointer items-center justify-center rounded-[4px] transition-colors duration-300",
+                    {
+                      "bg-paragraph text-white": index === 0,
+                      "text-paragraph": index !== 0,
+                    },
+                  ]}
+                >
+                  <span class="body-md">0{index + 1}</span>
+                </button>
+              ))
+            }
+          </div>
+
+          {
+            content.map((item, index) => (
+              <div
+                data-hwork-content
+                data-index={index}
+                aria-hidden={index === 0 ? "false" : "true"}
+                class="hwork-content absolute inset-0 flex flex-col items-center justify-between text-paragraph"
+                class:list={{ "is-active": index === 0 }}
+              >
+                <div class="flex h-10 w-full items-center justify-start">
+                  <p class="subtitle hwork-fade-lines uppercase" data-hwork-line-reveal>{item.tag}</p>
+                </div>
+                <h2
+                  class="heading-3 hwork-fade-lines capitalize text-center"
+                  data-hwork-line-reveal
+                  set:html={item.title}
+                ></h2>
+                <p class="body-md hwork-fade-lines text-center" data-hwork-line-reveal set:html={item.description}></p>
+              </div>
+            ))
+          }
+        </div>
       </div>
-      <h2 class="heading-3 capitalize">{content[0].title}</h2>
-      <p class='body-md'>{content[0].description}</p>
     </div>
-    <div class="w-[60%] h-auto relative aspect-793/746 rounded-lg overflow-hidden">
-      <img src="/images/hwork-1.webp" alt="How it works" width="1300" height="694" decoding="async" loading="lazy" class='w-full h-full object-cover absolute inset-0'/>
+
+    <div
+      data-hwork-images
+      class="relative h-[45%] w-full overflow-hidden rounded-lg md:aspect-793/746 md:h-auto md:w-[60%]"
+      aria-live="polite"
+    >
+      {
+        content.map((item, index) => (
+          <img
+            data-hwork-image
+            data-index={index}
+            src={"/images/hwork-" + (index + 1) + ".webp"}
+            alt={"Etapa " + (index + 1) + ": " + item.title}
+            aria-hidden={index === 0 ? "false" : "true"}
+            width="1300"
+            height="694"
+            decoding="async"
+            loading={index === 0 ? "eager" : "lazy"}
+            fetchpriority={index === 0 ? "high" : "auto"}
+            style={
+              index === 0
+                ? "clip-path: inset(0% 0% 0% 0%)"
+                : "clip-path: inset(100% 0% 0% 0%)"
+            }
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        ))
+      }
     </div>
   </div>
 </section>
+
+<script>
+  import { gsap, ScrollTrigger } from "../lib/gsap";
+
+  let hworkContext: any;
+  let initializedSection: HTMLElement | undefined;
+
+  const initializeHwork = () => {
+    const section = document.querySelector<HTMLElement>("[data-hwork-section]");
+    if (!section || section === initializedSection) return;
+
+    hworkContext?.revert();
+    initializedSection = section;
+
+    hworkContext = gsap.context(() => {
+      const images = [...section.querySelectorAll<HTMLImageElement>("[data-hwork-image]")];
+      const contents = [...section.querySelectorAll<HTMLElement>("[data-hwork-content]")];
+      const indicators = [
+        ...section.querySelectorAll<HTMLButtonElement>("[data-hwork-indicator]"),
+      ];
+
+      if (images.length < 2 || contents.length !== images.length) return;
+
+      const lastIndex = contents.length - 1;
+      const transitionDuration = 0.75;
+      const holdDuration = 0.55;
+      const step = transitionDuration + holdDuration;
+      const timelineDuration = holdDuration + lastIndex * step;
+      const transitionStartOf = (index: number) => holdDuration + index * step;
+      const cleanupCallbacks: Array<() => void> = [];
+      let activeIndex = 0;
+      let isContextActive = true;
+      let lineResizeTimeout: number | undefined;
+      const lineRevealElements = [
+        ...section.querySelectorAll<HTMLElement>("[data-hwork-line-reveal]"),
+      ];
+
+      const prepareLineReveal = (element: HTMLElement) => {
+        element
+          .querySelectorAll(".hwork-fade-line-word, .hwork-fade-line-fragment")
+          .forEach((wrapper) => wrapper.replaceWith(...wrapper.childNodes));
+
+        const textNodes: Text[] = [];
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+        let node: Node | null;
+
+        while ((node = walker.nextNode())) {
+          if (/\S/.test(node.textContent ?? "")) textNodes.push(node as Text);
+        }
+
+        textNodes.forEach((textNode) => {
+          const fragment = document.createDocumentFragment();
+          const tokens = textNode.textContent?.match(/\s+|[^\s]+/gu) ?? [];
+
+          tokens.forEach((token) => {
+            if (/^\s+$/u.test(token)) {
+              fragment.append(document.createTextNode(token));
+              return;
+            }
+
+            const word = document.createElement("span");
+            word.className = "hwork-fade-line-word";
+            const wordFragment = document.createElement("span");
+            wordFragment.className = "hwork-fade-line-fragment";
+            wordFragment.textContent = token;
+            word.append(wordFragment);
+            fragment.append(word);
+          });
+
+          textNode.replaceWith(fragment);
+        });
+
+        const words = [...element.querySelectorAll<HTMLElement>(".hwork-fade-line-word")];
+        const lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+        const lineTolerance = Number.isFinite(lineHeight) ? lineHeight * 0.35 : 4;
+        let lineIndex = -1;
+        let previousTop: number | null = null;
+
+        words.forEach((word) => {
+          const top = word.getBoundingClientRect().top;
+          if (previousTop === null || Math.abs(top - previousTop) > lineTolerance) {
+            lineIndex += 1;
+            previousTop = top;
+          }
+          word.firstElementChild?.setAttribute("style", "--hwork-fade-line-delay: " + lineIndex * 0.1 + "s");
+        });
+      };
+
+      lineRevealElements.forEach(prepareLineReveal);
+      contents[0].querySelectorAll<HTMLElement>("[data-hwork-line-reveal]").forEach((element) => {
+        element.classList.add("is-revealed");
+      });
+
+      const reprepareLineReveal = () => {
+        window.clearTimeout(lineResizeTimeout);
+        lineResizeTimeout = window.setTimeout(() => {
+          if (isContextActive) lineRevealElements.forEach(prepareLineReveal);
+        }, 120);
+      };
+      window.addEventListener("resize", reprepareLineReveal);
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(() => {
+          if (isContextActive) lineRevealElements.forEach(prepareLineReveal);
+        });
+      }
+
+      gsap.set(images, { clipPath: "inset(100% 0% 0% 0%)" });
+      gsap.set(images[0], { clipPath: "inset(0% 0% 0% 0%)" });
+
+      const updateActiveContent = (nextIndex: number) => {
+        if (nextIndex === activeIndex) return;
+
+        const previousContent = contents[activeIndex];
+        const nextContent = contents[nextIndex];
+
+        previousContent.classList.remove("is-active");
+        previousContent.style.visibility = "hidden";
+        previousContent.setAttribute("aria-hidden", "true");
+        previousContent.querySelectorAll<HTMLElement>("[data-hwork-line-reveal]").forEach((element) => {
+          element.classList.remove("is-revealed");
+        });
+
+        nextContent.style.visibility = "visible";
+        nextContent.setAttribute("aria-hidden", "false");
+        nextContent.querySelectorAll<HTMLElement>("[data-hwork-line-reveal]").forEach((element) => {
+          element.classList.remove("is-revealed");
+        });
+        void nextContent.offsetHeight;
+        nextContent.classList.add("is-active");
+        nextContent.querySelectorAll<HTMLElement>("[data-hwork-line-reveal]").forEach((element) => {
+          element.classList.add("is-revealed");
+        });
+
+        activeIndex = nextIndex;
+      };
+
+      const updateActiveStep = (progress: number) => {
+        const elapsed = progress * timelineDuration;
+        let nextIndex = 0;
+
+        for (let index = 0; index < lastIndex; index += 1) {
+          if (elapsed >= transitionStartOf(index) + transitionDuration / 2) {
+            nextIndex = index + 1;
+          }
+        }
+
+        indicators.forEach((indicator, index) => {
+          const isActive = index === nextIndex;
+          indicator.classList.toggle("bg-paragraph", isActive);
+          indicator.classList.toggle("text-white", isActive);
+          indicator.classList.toggle("text-paragraph", !isActive);
+          indicator.setAttribute("aria-pressed", String(isActive));
+        });
+
+        images.forEach((image, index) => {
+          image.setAttribute("aria-hidden", String(index !== nextIndex));
+        });
+
+        updateActiveContent(nextIndex);
+      };
+
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          id: "hwork-scroll",
+          trigger: section,
+          start: "top top",
+          end: () => "+=" + Math.round(window.innerHeight * timelineDuration),
+          pin: true,
+          pinSpacing: true,
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => updateActiveStep(self.progress),
+        },
+      });
+
+      for (let index = 0; index < lastIndex; index += 1) {
+        timeline.fromTo(
+          images[index + 1],
+          { clipPath: "inset(100% 0% 0% 0%)" },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: transitionDuration,
+            ease: "none",
+          },
+          transitionStartOf(index),
+        );
+      }
+
+      timeline.to({}, { duration: holdDuration, ease: "none" }, timelineDuration - holdDuration);
+
+      updateActiveStep(0);
+
+      indicators.forEach((indicator, index) => {
+        const handleClick = () => {
+          const trigger = ScrollTrigger.getById("hwork-scroll");
+          if (!trigger) return;
+
+          const itemTime =
+            index === 0
+              ? 0
+              : transitionStartOf(index - 1) + transitionDuration + holdDuration / 2;
+          const progress = Math.min(itemTime, timelineDuration - 0.01) / timelineDuration;
+          const scrollPosition = trigger.start + progress * (trigger.end - trigger.start);
+          window.scrollTo({ top: scrollPosition, behavior: "smooth" });
+        };
+
+        indicator.addEventListener("click", handleClick);
+        cleanupCallbacks.push(() => indicator.removeEventListener("click", handleClick));
+      });
+
+      ScrollTrigger.refresh();
+
+      return () => {
+        isContextActive = false;
+        window.removeEventListener("resize", reprepareLineReveal);
+        window.clearTimeout(lineResizeTimeout);
+        cleanupCallbacks.forEach((cleanup) => cleanup());
+      };
+    }, section);
+  };
+
+  const teardownHwork = () => {
+    hworkContext?.revert();
+    hworkContext = undefined;
+    initializedSection = undefined;
+  };
+
+  document.addEventListener("astro:before-swap", teardownHwork);
+  document.addEventListener("astro:page-load", initializeHwork);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeHwork, { once: true });
+  } else {
+    initializeHwork();
+  }
+</script>
+
+<style>
+  .hwork-content {
+    padding: 1.25rem;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  @media (min-width: 768px) {
+    .hwork-content {
+      padding: 2rem;
+    }
+  }
+
+  .hwork-content.is-active {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .hwork-fade-lines :global(.hwork-fade-line-word) {
+    display: inline-block;
+    overflow: hidden;
+  }
+
+  .hwork-fade-lines :global(.hwork-fade-line-fragment) {
+    display: inline-block;
+    transform: translateY(120%);
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--hwork-fade-line-delay, 0s);
+    will-change: transform;
+  }
+
+  .hwork-fade-lines.is-revealed :global(.hwork-fade-line-fragment) {
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hwork-fade-lines :global(.hwork-fade-line-word) {
+      overflow: visible;
+    }
+
+    .hwork-fade-lines :global(.hwork-fade-line-fragment) {
+      transform: none;
+      transition: none;
+      will-change: auto;
+    }
+  }
+</style>

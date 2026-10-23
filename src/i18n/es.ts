@@ -396,9 +396,11 @@ export default {
       list: [
         "Registro en los estados que lo exigen<br/> (California, Nueva York, Illinois, entre otros).",
         "Manuales de operación y programa de<br/>entrenamiento.",
-        "<span class='text-primary'>Identidad de marca, presentación para<br/> inversionistas y guía del franquiciado.</span>",
+        "Identidad de marca, presentación para<br/> inversionistas y guía del franquiciado.",
         "Página de tu marca en nuestro portal de<br/> ventas, con candidatos calificados.",
         "Acompañamiento en tus primeras ventas y en<br/> el onboarding de tus primeros franquiciados.",
+        "Diagnóstico de franqueabilidad y modelo económico <br/> (fee inicial, regalías, retorno del franquiciado).",
+        "FDD y contrato de franquicia, elaborados con <br/> nuestro equipo legal estadounidense.",
       ],
     },
     offer: {

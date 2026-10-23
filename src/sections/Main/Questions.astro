@@ -13,7 +13,7 @@ const { content} = Astro.props as Props;
   <Liston src="/images/decoration-r.webp" w={262} h={814} grosor={230}
   d="M 340 -90 C 310 -57, 273 -30, 250 10 C 227 50, 228 98, 200 150 C 172 202, 102 272, 80 320 C 58 368, 58 400, 65 440 C 72 480, 99 527, 120 560 C 141 593, 167 600, 190 640 C 213 680, 238 757, 260 800 C 282 843, 300 867, 320 900" class="absolute bottom-[5%] right-0 w-[169px] h-auto object-cover z-5" />
   <div class="container-full flex  justify-center items-start py-25 gap-6 relative z-0">
-    <div class="w-[60%] bg-white flex flex-col justify-center items-center gap-10 p-10 rounded-lg" data-questions-accordion>
+    <div class="w-[60%] bg-white flex flex-col justify-center items-center gap-10 p-10 rounded-lg fade-up-a" data-questions-accordion>
       {
         content.items.map((item, index)=>(
           <>

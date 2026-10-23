@@ -14,10 +14,10 @@ const { content} = Astro.props as Props;
   <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute top-[-10%] right-0 w-[153px] h-auto object-cover" />
   <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
     <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
-      <p class='body-sm uppercase'>
+      <p class='body-sm uppercase fade-up-lines'>
         {content.tag}
       </p>
-      <h2 class="heading-1 text-center" set:html={content.title}></h2>
+      <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
     </div>
     <div class='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center items-start'>
       {
@@ -27,6 +27,7 @@ const { content} = Astro.props as Props;
             class={`breakpoint-card bg-primary w-full flex flex-col justify-between items-start p-8 bg-[#F3F0E9] border-0 rounded-lg text-left h-auto aspect-443/330`}
             aria-expanded="false"
             data-breakpoint-card
+            data-step-index={index}
           >
             <p class='heading-1 self-end'>0{index + 1}</p>
             <div class="flex flex-col justify-center items-start text-paragraph">
@@ -43,8 +44,22 @@ const { content} = Astro.props as Props;
           </button>  
         ))
       }
-      <div class='w-full h-auto aspect-443/330 overflow-hidden rounded-lg relative' >
-        <img src="/images/steps.webp" alt="Steps" class="w-full h-full object-cover absolute inset-0" width="443" height="330" decoding="async" loading="lazy"/>
+      <div class='w-full h-auto aspect-443/330 overflow-hidden rounded-lg relative' aria-live="polite">
+        {
+          content.items.map((item, index) => (
+            <img
+              src={`/images/step-${index + 1}.webp`}
+              alt={item.title}
+              class="step-preview w-full h-full object-cover absolute inset-0"
+              width="443"
+              height="330"
+              decoding="async"
+              loading="lazy"
+              aria-hidden="true"
+              data-step-preview={index}
+            />
+          ))
+        }
       </div>
     </div>
   </div>
@@ -52,17 +67,66 @@ const { content} = Astro.props as Props;
 
 <script>
   const cards = document.querySelectorAll<HTMLButtonElement>("[data-breakpoint-card]");
+  const previews = document.querySelectorAll<HTMLImageElement>("[data-step-preview]");
+  const isSmallScreen = window.matchMedia("(max-width: 767px)");
+  let activePreviewIndex: string | undefined;
+
+  const showPreview = (card: HTMLButtonElement) => {
+    activePreviewIndex = card.dataset.stepIndex;
+    previews.forEach((preview) => {
+      const isActive = preview.dataset.stepPreview === activePreviewIndex;
+      preview.classList.toggle("is-visible", isActive);
+      preview.setAttribute("aria-hidden", String(!isActive));
+    });
+  };
+
+  const hidePreview = (card: HTMLButtonElement) => {
+    if (activePreviewIndex !== card.dataset.stepIndex) return;
+
+    activePreviewIndex = undefined;
+    previews.forEach((preview) => {
+      preview.classList.remove("is-visible");
+      preview.setAttribute("aria-hidden", "true");
+    });
+  };
 
   cards.forEach((card) => {
+    card.addEventListener("mouseenter", () => {
+      if (!isSmallScreen.matches) showPreview(card);
+    });
+
+    card.addEventListener("mouseleave", () => {
+      if (!isSmallScreen.matches) hidePreview(card);
+    });
+
     card.addEventListener("click", () => {
       const isExpanded = card.getAttribute("aria-expanded") === "true";
       card.setAttribute("aria-expanded", String(!isExpanded));
       card.classList.toggle("is-active", !isExpanded);
+
+      if (isSmallScreen.matches) {
+        if (isExpanded) hidePreview(card);
+        else showPreview(card);
+      }
     });
   });
 </script>
 
 <style>
+  .step-preview {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 450ms ease-in-out,
+      visibility 0s linear 450ms;
+  }
+
+  .step-preview.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
   .breakpoint-card {
     background-color: #f3f0e9;
     transition:
@@ -164,8 +228,13 @@ const { content} = Astro.props as Props;
   @media (prefers-reduced-motion: reduce) {
     .breakpoint-card,
     .breakpoint-card__details,
-    .breakpoint-card__icon {
+    .breakpoint-card__icon,
+    .step-preview {
       transition-duration: 0.01ms;
+    }
+
+    .step-preview {
+      transition-delay: 0ms;
     }
   }
 </style>

@@ -8,7 +8,7 @@ interface Props {
 }
 const { content} = Astro.props as Props;
 ---
-<section class="w-full h-[100svh] flex justify-center items-center relative" data-banner-section data-scroll-snap>
+<section class="w-full h-[100svh] flex justify-center items-center relative" data-banner-section>
   
   <img src="/images/banner.webp" alt="Banner" class="w-full h-full object-cover absolute inset-0 object-left" width="1672" height="941" decoding="async" loading="lazy"/>
   <div class="container-full flex flex-col justify-start items-start gap-8 h-full py-20 3xl:py-30 relative z-5">
@@ -20,3 +20,106 @@ const { content} = Astro.props as Props;
     </div>
   </div>  
 </section>
+
+<script>
+  import { gsap, ScrollTrigger } from "../../lib/gsap";
+
+  let bannerTransitionContext: { revert: () => void } | undefined;
+  let transitionPanel: HTMLElement | undefined;
+  let originalPanelMarginBottom: string | undefined;
+  let resizeTimeout: number | undefined;
+
+  const teardownBannerTransition = () => {
+    window.clearTimeout(resizeTimeout);
+    bannerTransitionContext?.revert();
+
+    if (transitionPanel && originalPanelMarginBottom !== undefined) {
+      transitionPanel.style.marginBottom = originalPanelMarginBottom;
+    }
+
+    bannerTransitionContext = undefined;
+    transitionPanel = undefined;
+    originalPanelMarginBottom = undefined;
+  };
+
+  const initializeBannerTransition = () => {
+    const banner = document.querySelector<HTMLElement>("[data-banner-section]");
+    const founder = document.querySelector<HTMLElement>("[data-banner-transition-panel]");
+    const innerPanel = founder?.querySelector<HTMLElement>("[data-banner-transition-inner]");
+
+    if (!banner || !founder || !innerPanel || founder.nextElementSibling !== banner) return;
+    if (founder === transitionPanel) return;
+
+    teardownBannerTransition();
+    transitionPanel = founder;
+    originalPanelMarginBottom = founder.style.marginBottom;
+
+    bannerTransitionContext = gsap.context(() => {
+      const panelHeight = innerPanel.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const difference = panelHeight - viewportHeight;
+      const fakeScrollRatio = difference > 0
+        ? difference / (difference + viewportHeight)
+        : 0;
+
+      if (fakeScrollRatio) {
+        founder.style.marginBottom = `${panelHeight * fakeScrollRatio}px`;
+      }
+
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          id: "founder-to-banner-transition",
+          trigger: founder,
+          start: "bottom bottom",
+          end: () => fakeScrollRatio ? `+=${innerPanel.offsetHeight}` : "bottom top",
+          pinSpacing: false,
+          pin: true,
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      if (fakeScrollRatio) {
+        timeline.to(innerPanel, {
+          yPercent: -100,
+          y: window.innerHeight,
+          duration: 1 / (1 - fakeScrollRatio) - 1,
+          ease: "none",
+        });
+      }
+
+      timeline
+        .fromTo(founder, { scale: 1, opacity: 1 }, { scale: 0.7, opacity: 0.5, duration: 0.9 })
+        .to(founder, { opacity: 0, duration: 0.1 });
+
+      ScrollTrigger.refresh();
+    }, founder);
+  };
+
+  const handleResize = () => {
+    window.clearTimeout(resizeTimeout);
+    resizeTimeout = window.setTimeout(() => {
+      teardownBannerTransition();
+      initializeBannerTransition();
+    }, 120);
+  };
+
+  const initializeBannerPage = () => {
+    window.addEventListener("resize", handleResize);
+    initializeBannerTransition();
+  };
+
+  const teardownBannerPage = () => {
+    window.removeEventListener("resize", handleResize);
+    teardownBannerTransition();
+  };
+
+  document.addEventListener("astro:before-swap", teardownBannerPage);
+  document.addEventListener("astro:page-load", initializeBannerPage);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeBannerPage, { once: true });
+  } else {
+    initializeBannerPage();
+  }
+</script>

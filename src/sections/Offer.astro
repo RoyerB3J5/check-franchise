@@ -9,17 +9,17 @@ const { content} = Astro.props as Props;
 <section class='w-full flex flex-col justify-center items-center relative'>
   <div class="container-full flex flex-col justify-center items-start gap-10 py-25">
     <div class='flex flex-col justify-center items-start gap-8 text-paragraph'>
-      <h2 class="heading-1" set:html={content.title}></h2>
-      <p class='body-md' set:html={content.description}></p>
+      <h2 class="heading-1 fade-up-lines" set:html={content.title}></h2>
+      <p class='body-md fade-up-lines' set:html={content.description}></p>
     </div>
     <div class="flex justify-center items-start gap-6 w-full relative">
-      <div class='w-[60%] h-auto relative aspect-[793/446] rounded-lg overflow-hidden'>
+      <div class='w-[60%] h-auto relative aspect-[793/446] rounded-lg overflow-hidden fade-right-a'>
         <img src='/images/offer.webp' alt='Offer' width="1300" height="694" decoding="async" loading="lazy" class='h-full w-full absolute inset-0 object-cover'/>
       </div>
       <div class='flex flex-col justify-start items-center w-[40%] gap-6 text-paragraph'>
         {
-          content.servicios.map((item)=>(
-            <div class="border-t border-paragraph/30 flex flex-col justify-start items-start gap-6 py-6 w-full">
+          content.servicios.map((item,index)=>(
+            <div class="border-t border-paragraph/30 flex flex-col justify-start items-start gap-6 py-6 w-full fade-up-a" style={`--fade-up-delay: ${index * 0.1}s`}>
               <h3 class="heading-3">{item.title}</h3>
               <p class='body-md' set:html={item.description}></p>
             </div>

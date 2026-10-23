@@ -9,7 +9,7 @@ const { content} = Astro.props as Props;
 ---
 <section class='w-full flex justify-center items-center bg-[#F3F0E9] '>
   <div class='container-full flex flex-col justify-center items-center py-20 gap-14 text-paragraph'>
-    <h2 set:html={content.title} class='heading-2'></h2>
-    <Button text={content.button.label} href={content.button.href} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514]" textClass="text-white" />
+    <h2 set:html={content.title} class='heading-2 text-center fade-up-lines'></h2>
+    <Button text={content.button.label} href={content.button.href} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514] fade-up-a" textClass="text-white" />
   </div>  
 </section>  

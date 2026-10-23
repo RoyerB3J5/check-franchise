@@ -24,7 +24,7 @@ const { content} = Astro.props as Props;
           content.items.map((item)=>( 
             <button
               type="button"
-              class='consultor-card w-full flex flex-col justify-between items-start bg-white p-8 aspect-326/423 h-auto rounded-lg text-left'
+              class='consultor-card w-full flex flex-col justify-between items-start bg-white p-8 aspect-326/423 h-auto rounded-lg text-left fade-up-a'
               aria-expanded="false"
               data-consultor-card
             >
@@ -47,8 +47,8 @@ const { content} = Astro.props as Props;
           ))
         }
       </div>
-      <div class='w-full h-auto relative overflow-hidden aspect-676/855 rounded-lg'>
-        <img src='/images/consultors.webp' alt="Consultors" width="1122" height="1402" decoding="async" loading="lazy" class="w-full h-full absolute inset-0 object-cover"/>
+      <div class='w-full h-auto relative overflow-hidden aspect-676/855 rounded-lg fade-left-a'>
+        <img src='/images/consultors.webp' alt="Consultors" width="1122" height="1402" decoding="async" loading="lazy" class="w-full h-full absolute inset-0 object-cover "/>
       </div>
     </div>
   </div>

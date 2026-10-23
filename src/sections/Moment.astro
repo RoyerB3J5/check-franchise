@@ -24,8 +24,8 @@ const cardPositions = [
   <Liston src="/images/decoration-o-r.webp"w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute bottom-[-5%] right-0 w-[153px] h-auto object-cover" />
   <div class='container-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 gap-y-20 gap-x-6 justify-center items-start py-25'>
     <div class="w-full aspect-square flex flex-col justify-start items-start gap-8 text-paragraph lg:col-start-1 lg:row-start-1">
-      <p class="subtitle uppercase">{content.tag}</p>
-      <h2 set:html={content.title} class='heading-1'></h2>
+      <p class="subtitle uppercase fade-up-lines">{content.tag}</p>
+      <h2 set:html={content.title} class='heading-1 fade-up-lines'></h2>
     </div>
     {
       content.items.map((item,index)=>( 

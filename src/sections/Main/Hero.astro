@@ -10,7 +10,7 @@ const { content} = Astro.props as Props;
 // Comprueba si la URL coincide con la raíz o los prefijos de idioma (/ , /es, /es/, /en, /en/)
 const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
 ---
-<section class='w-full h-[calc(100svh-80px)] md:h-[calc(100svh-80px)] relative flex items-center justify-center text-white' >
+<section class='w-full h-[calc(100svh-80px)] md:h-[calc(100svh-80px)] relative flex items-center justify-center text-white ' >
   <img src="/images/hero-main.webp" alt="Hero image" decoding="async" loading="lazy" width="1920" height="974" class='w-full h-full object-cover inset-0 absolute z-0 object-top' />
   <div class="container-full flex flex-col justify-start items-start gap-6 md:gap-8 h-full py-10 md:py-12 relative z-5">
     <p class='body-small uppercase fade-up-lines'>{content.tag}</p>
