@@ -10,10 +10,10 @@ const { content} = Astro.props as Props;
     <div class="founder-content-card w-[34%] flex flex-col justify-end items-start text-white p-8 rounded-lg bg-accent">
       <img src="/icons/person.svg" alt="Icono de Persona" width="30" height="24" decoding="async" loading="lazy" class='w-[30px] h-auto self-end mb-auto'/>
       <div class="flex flex-col justify-center items-start gap-6">
-        <p class="uppercase body-sm">{content.tag}</p>
-        <h2 class="heading-3 text-secondary">Esdras Ribeiro</h2>
-        <p class='body-md tracking-[0.64px]'>{content.subtitle}</p>
-        <div class="w-10 h-[3px] bg-white"></div>
+        <p class="uppercase body-sm fade-up-lines">{content.tag}</p>
+        <h2 class="heading-3 text-secondary fade-up-lines">Esdras Ribeiro</h2>
+        <p class='body-md tracking-[0.64px] fade-up-lines'>{content.subtitle}</p>
+        <div class="w-10 h-[3px] bg-white "></div>
       </div>
       <div class="founder-content-card__description">
         <div class="founder-content-card__description-inner">

@@ -19,23 +19,28 @@ const { content} = Astro.props as Props;
   <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute bottom-[20%] right-0 w-[153px] h-auto object-cover" />
   <div class='container-full flex flex-col justify-center items-center py-25 gap-10 text-paragraph'>
     <h2 class='heading-1 fade-up-lines' set:html={content.title}></h2>
-    <div class="grid grid-cols-1 justify-center items-center gap-2 w-[676px]">
+    <div data-cases-stack class="flex w-full max-w-[676px] flex-col items-stretch justify-start gap-2">
       {
-        content.places.map((item,index)=>(
-          <div class='relative group'>
-            <div class='flex justify-between items-center w-full px-8 rounded-lg border border-paragraph/30 py-1.5'>
-              <div class='h-[158px] w-auto relative overflow-hidden aspect-257/158'>
+        content.places.map((item,index)=>{
+          return (
+          <div
+            data-case-card
+            style={`--case-index: ${index}; --case-offset-mobile: ${index * 12}px; --case-offset-tablet: ${index * 16}px; --case-offset-desktop: ${index * 24}px;`}
+            class={`relative group  `}
+          >
+            <div class='relative z-0 flex w-full items-center justify-between gap-3 rounded-lg border border-paragraph/30 bg-white px-3 py-3 sm:gap-0 sm:px-8 sm:py-1.5'>
+              <div class='relative h-[100px] w-[84px] shrink-0 overflow-hidden sm:h-[158px] sm:w-[257px] sm:aspect-257/158'>
                 <img src={`/images/cases/place-${index+1}.webp`} alt={item.title} width="600" height="396" decoding="async" loading="lazy" class='w-full h-full absolute inset-0 object-cover'/> 
               </div>
-              <div class='w-[276px] flex flex-col justify-center items-start gap-8 text-paragraph'>
+              <div class='flex min-w-0 flex-1 flex-col items-start justify-center gap-2 text-paragraph sm:w-[276px] sm:flex-none sm:gap-8'>
                 <h3 class='body-xl'>{item.title}</h3>
                 <p class='body-md'>{item.description}</p>
                 <div class='w-10 h-[3px] bg-paragraph'></div>
               </div>
             </div>
-            <div class='w-full h-full justify-between items-center px-8 bg-[#F3F0E9] rounded-lg absolute hidden group-hover:flex '>
-              <img src={`/images/cases/seo-${index+1}.webp`} alt={item.title} width="1254" height="1254" decoding="async" loading="lazy" class='w-auto h-[112px] rounded-full'/>
-              <div class='flex flex-col justify-center items-start gap-6 text-paragraph'>
+            <div class='absolute left-0 top-0 z-5 flex h-full w-full items-center justify-between gap-3 rounded-lg bg-[#F3F0E9] px-3 opacity-0 invisible pointer-events-none transition-opacity duration-300 ease-in-out group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto sm:gap-10 sm:px-8'>
+              <img src={`/images/cases/seo-${index+1}.webp`} alt={item.title} width="1254" height="1254" decoding="async" loading="lazy" class='h-[72px] w-[72px] shrink-0 rounded-full sm:h-[112px] sm:w-[112px]'/>
+              <div class='flex min-w-0 flex-col justify-center items-start gap-3 text-paragraph sm:gap-6'>
                 <h4 class='body-lg'>{item.name}</h4>
                 <p class='body-md'>{item.para}</p>
               </div>
@@ -43,8 +48,152 @@ const { content} = Astro.props as Props;
           </div>  
             
 
-        ))
+        )
+        } )
       }
     </div>
   </div>
-</section>  
+</section>
+
+<script>
+  import { gsap, ScrollTrigger } from "../lib/gsap";
+
+  let casesMedia: any;
+  let stackFinishTrigger: any;
+  let initializedStack: HTMLElement | undefined;
+
+  const stickyTopAt = (index: number) => {
+    const spacing = window.innerWidth >= 1024 ? 24 : window.innerWidth >= 640 ? 16 : 12;
+    const base = window.innerWidth >= 1024 ? 80 : 72;
+    return base + index * spacing;
+  };
+
+  const settleStack = (stack: HTMLElement, cards: HTMLElement[]) => {
+    if (stack.classList.contains("is-settled")) return;
+
+    const naturalHeight = stack.getBoundingClientRect().height;
+    const firstTop = stickyTopAt(0);
+    const finalTop = stickyTopAt(cards.length - 1);
+    const finalCardHeight = cards[cards.length - 1].getBoundingClientRect().height;
+    const compactHeight = finalTop - firstTop + finalCardHeight;
+    const stackTop = Math.max(0, naturalHeight - compactHeight);
+
+    stack.style.height = `${Math.max(naturalHeight, stackTop + compactHeight)}px`;
+    cards.forEach((card, index) => {
+      card.style.setProperty(
+        "--case-settled-top",
+        `${stackTop + stickyTopAt(index) - firstTop}px`,
+      );
+    });
+    stack.classList.add("is-settled");
+  };
+
+  const resetStack = (stack: HTMLElement, cards: HTMLElement[]) => {
+    stack.classList.remove("is-settled");
+    stack.style.removeProperty("height");
+    cards.forEach((card) => card.style.removeProperty("--case-settled-top"));
+  };
+
+  const initializeCasesStack = () => {
+    const stack = document.querySelector<HTMLElement>("[data-cases-stack]");
+    if (!stack || stack === initializedStack) return;
+
+    casesMedia?.revert();
+    initializedStack = stack;
+
+    const cards = [...stack.querySelectorAll<HTMLElement>("[data-case-card]")];
+    if (cards.length < 2) return;
+
+    casesMedia = gsap.matchMedia();
+    casesMedia.add("(prefers-reduced-motion: no-preference)", () => {
+      const lastIndex = cards.length - 1;
+
+      cards.slice(0, lastIndex).forEach((card, index) => {
+        const finalScale = 1 - (lastIndex - index) * 0.016;
+
+        gsap.fromTo(
+          card,
+          { scale: 1 },
+          {
+            scale: finalScale,
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: () => `top ${stickyTopAt(index)}px`,
+              endTrigger: cards[lastIndex],
+              end: () => `top ${stickyTopAt(lastIndex)}px`,
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      });
+
+    });
+
+    const lastIndex = cards.length - 1;
+    stackFinishTrigger = ScrollTrigger.create({
+      trigger: cards[lastIndex],
+      start: () => `top ${stickyTopAt(lastIndex)}px`,
+      end: "max",
+      onEnter: () => settleStack(stack, cards),
+      onLeaveBack: () => resetStack(stack, cards),
+      invalidateOnRefresh: true,
+    });
+
+    ScrollTrigger.refresh();
+  };
+
+  const teardownCasesStack = () => {
+    stackFinishTrigger?.kill();
+    stackFinishTrigger = undefined;
+    casesMedia?.revert();
+    casesMedia = undefined;
+    const stack = initializedStack;
+    if (stack) {
+      resetStack(stack, [...stack.querySelectorAll<HTMLElement>("[data-case-card]")]);
+    }
+    initializedStack = undefined;
+  };
+
+  document.addEventListener("astro:before-swap", teardownCasesStack);
+  document.addEventListener("astro:page-load", initializeCasesStack);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeCasesStack, { once: true });
+  } else {
+    initializeCasesStack();
+  }
+</script>
+
+<style>
+  [data-case-card] {
+    position: sticky;
+    top: calc(72px + var(--case-offset-mobile));
+    z-index: calc(10 + var(--case-index));
+    transform-origin: top center;
+  }
+
+  @media (min-width: 640px) {
+    [data-case-card] {
+      top: calc(72px + var(--case-offset-tablet));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    [data-case-card] {
+      top: calc(80px + var(--case-offset-desktop));
+    }
+  }
+
+  [data-cases-stack].is-settled {
+    position: relative;
+  }
+
+  [data-cases-stack].is-settled [data-case-card] {
+    position: absolute;
+    top: var(--case-settled-top);
+    left: 0;
+    width: 100%;
+  }
+</style>

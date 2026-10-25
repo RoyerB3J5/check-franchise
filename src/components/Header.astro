@@ -43,7 +43,7 @@ const lang = match ? match[1] : "en";
         alt="Logo de Click Franchise"
         width="112"
         height="45"
-        class="cursor-pointer w-[157px] md:w-[112px] h-auto"
+        class="cursor-pointer w-[112px] h-auto"
       />
     </a>
     <div
@@ -80,7 +80,7 @@ const lang = match ? match[1] : "en";
       </nav>
     </div>
     <div class="flex justify-center items-center gap-4">
-      <Button text="WhatsApp" icon="whats" extraBtnClass="bg-[#25D366] shadow-[0_8px_0_0_#137839]" textClass="text-white"/>
+      <Button text="WhatsApp" icon="whats" extraBtnClass="bg-[#25D366] shadow-[0_8px_0_0_#137839] hidden md:flex" textClass="text-white"/>
       {/*<ChangeLanguage /> */}
       
       <button
@@ -90,16 +90,8 @@ const lang = match ? match[1] : "en";
         class="flex xl:hidden items-center justify-center cursor-pointer rounded"
         id="hamburger-btn"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="21"
-          height="16"
-          viewBox="0 0 21 16"
-          fill="none"
-        >
-          <path
-            d="M0 16V13.3333H20.5V16H0ZM0 9.33333V6.66667H20.5V9.33333H0ZM0 2.66667V0H20.5V2.66667H0Z"
-            fill="#151515"></path>
+        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="16" viewBox="0 0 21 16" fill="none">
+          <path d="M0 16V13.3333H20.5V16H0ZM0 9.33333V6.66667H20.5V9.33333H0ZM0 2.66667V0H20.5V2.66667H0Z" fill="white"/>
         </svg>
       </button>
     </div>

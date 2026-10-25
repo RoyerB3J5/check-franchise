@@ -70,7 +70,7 @@ const portfolioSectorByNumber = new Map<number, string>(
               }
               aria-pressed={item.id === "todos" ? "true" : "false"}
               class:list={[
-                "flex cursor-pointer items-center justify-center rounded-[4px] px-8 py-4 transition-colors duration-200",
+                "flex cursor-pointer items-center justify-center rounded-[4px] px-8 py-4 transition-colors duration-200 ",
                 {
                   "bg-paragraph text-white": item.id === "todos",
                   "text-paragraph hover:bg-paragraph/10": item.id !== "todos",
@@ -93,7 +93,7 @@ const portfolioSectorByNumber = new Map<number, string>(
               data-portfolio-card
               data-image-number={index + 1}
               data-sector={portfolioSectorByNumber.get(index + 1) ?? ""}
-              class='w-full h-auto aspect-600/369 overflow-hidden'
+              class='w-full h-auto aspect-600/369 overflow-hidden fade-up-a'
             >
               <img src={`/images/portfolio/port-${index+1}.webp`} alt={`Portfolio image ${index+1}`} decoding="async" loading="lazy" width="600" height="369" class='w-full h-auto object-cover' />
             </div>

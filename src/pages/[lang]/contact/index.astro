@@ -27,7 +27,7 @@ const content = t.contact;
   keywords={seo.keywords}
   canonicalPath="/contact"
 >
-  <section class='w-full flex justify-center items-center relative'>
+  <section class='relative flex w-full items-center justify-center'>
     <Liston
     src="/images/decoration-l.webp"
     w={115} h={411}
@@ -36,11 +36,11 @@ const content = t.contact;
     class="absolute bottom-[15%] left-0 w-[115px] h-auto"
   />
   <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute top-[20%] right-0 w-[153px] h-auto object-cover" />
-    <div class='container-full flex justify-center items-center gap-20 py-25 text-paragraph relative z-5'>
-      <div class='w-[50%] h-auto relative aspect-688/530 overflow-hidden rounded-lg'>
-        <img src='/images/map.webp' alt='Map' decoding="async" loading="lazy" width="688" height="530" class='w-full h-full absolute inset-0 object-cover' />
+    <div class='container-full relative z-5 flex items-center justify-center gap-20 py-25 text-paragraph lg:grid lg:grid-cols-2 lg:items-start'>
+      <div data-contact-map class='relative h-auto w-[50%] aspect-688/530 overflow-hidden rounded-lg lg:w-full'>
+        <img src='/images/map.webp' alt='Map' decoding="async" loading="eager" fetchpriority="high" width="688" height="530" class='absolute inset-0 h-full w-full object-cover' />
       </div>
-      <div class='w-[50%] flex flex-col justify-center items-center gap-40'>
+      <div data-contact-copy class='flex w-[50%] flex-col items-center justify-center gap-40 lg:w-full'>
           <div class=' flex flex-col justify-center items-start gap-18 text-paragraph w-full'> 
             <h2 class='heading-1' set:html={content.location.title}></h2>
             {
@@ -62,3 +62,49 @@ const content = t.contact;
     </div>
   </section>
 </Layout>
+
+<style>
+  @media (min-width: 1024px) {
+    [data-contact-map] {
+      position: sticky;
+      top: 50px;
+      opacity: 0;
+      animation: contact-map-reveal 1.4s ease-out 350ms both;
+    }
+
+    [data-contact-copy] {
+      animation: contact-copy-arrive 1.6s cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+      will-change: transform;
+    }
+
+    @keyframes contact-copy-arrive {
+      from {
+        transform: translateX(calc(-100% - 5rem));
+      }
+
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes contact-map-reveal {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-contact-map],
+    [data-contact-copy] {
+      animation: none !important;
+      opacity: 1;
+      transform: none;
+      will-change: auto;
+    }
+  }
+</style>

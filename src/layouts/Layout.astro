@@ -123,19 +123,23 @@ const {
       });
     };
 
+    const revealElement = (element) => {
+      // Fuerza un reflow para que el navegador vea el estado inicial antes de animar.
+      element.getBoundingClientRect();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          element.classList.add("active");
+        });
+      });
+    };
+
     const animationObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const el = entry.target;
+
           if (entry.isIntersecting) {
-            const el = entry.target;
-            // Fuerza un reflow para que el navegador "vea" el estado inicial
-            // antes de aplicar .active; si no, salta directo al estado final.
-            el.getBoundingClientRect();
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                el.classList.add("active");
-              });
-            });
+            revealElement(el);
             animationObserver.unobserve(entry.target);
           }
         });
@@ -143,13 +147,20 @@ const {
       { threshold: 0.3 },
     );
 
-    const lineRevealElements = [...document.querySelectorAll(".fade-up-lines")];
+    const lineRevealElements = [
+      ...document.querySelectorAll(".fade-up-lines, .fade-up-lines-raw"),
+    ];
     const otherAnimationElements = document.querySelectorAll(
-      ".fade-up-a, .fade-down-a, .fade-left-a, .fade-right-a, .fade-up-words, .fade-up-slow, .reveal-ltr, .reveal-rtl, .reveal-tl-br, .fade-up-gallery, .reveal-liston, .zoom-out-a",
+      ".fade-up-a, .fade-down-a, .fade-left-a, .fade-right-a, .fade-up-words, .fade-up-slow, .reveal-ltr, .reveal-rtl, .reveal-tl-br, .fade-up-gallery, .zoom-out-a",
     );
 
     otherAnimationElements.forEach((element) => {
-      if (!element.classList.contains("fade-up-lines")) animationObserver.observe(element);
+      if (
+        !element.classList.contains("fade-up-lines") &&
+        !element.classList.contains("fade-up-lines-raw")
+      ) {
+        animationObserver.observe(element);
+      }
     });
 
     const initializeLineReveals = () => {

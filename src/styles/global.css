@@ -398,12 +398,24 @@ html {
   text-box: normal;
 }
 
-.fade-up-lines .fade-up-line-word {
-  display: inline-block;
-  overflow: hidden;
+.fade-up-lines-raw,
+.fade-up-lines-raw .fade-up-line-word,
+.fade-up-lines-raw .fade-up-line-fragment {
+  text-box-trim: none;
+  text-box-edge: auto;
 }
 
-.fade-up-lines .fade-up-line-fragment {
+.fade-up-lines .fade-up-line-word,
+.fade-up-lines-raw .fade-up-line-word {
+  display: inline-block;
+  overflow: hidden;
+  /* Deja espacio para descendentes dentro de la máscara sin separar las líneas. */
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+}
+
+.fade-up-lines .fade-up-line-fragment,
+.fade-up-lines-raw .fade-up-line-fragment {
   display: inline-block;
   transform: translateY(120%);
   transition:
@@ -416,16 +428,19 @@ html {
   will-change: transform;
 }
 
-.fade-up-lines.active .fade-up-line-fragment {
+.fade-up-lines.active .fade-up-line-fragment,
+.fade-up-lines-raw.active .fade-up-line-fragment {
   transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fade-up-lines .fade-up-line-word {
+  .fade-up-lines .fade-up-line-word,
+  .fade-up-lines-raw .fade-up-line-word {
     overflow: visible;
   }
 
-  .fade-up-lines .fade-up-line-fragment {
+  .fade-up-lines .fade-up-line-fragment,
+  .fade-up-lines-raw .fade-up-line-fragment {
     transform: none;
     transition: none;
     will-change: auto;

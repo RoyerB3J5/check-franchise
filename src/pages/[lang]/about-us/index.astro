@@ -3,7 +3,7 @@ import en from "../../../i18n/en";
 import es from "../../../i18n/es";
 import Layout from "../../../layouts/Layout.astro";
 import HeroBanner from "../../../sections/HeroBanner.astro";
-import Mision from "../../../sections/Mision.astro";
+import Hwork from "../../../sections/Hwork.astro";
 import Squad from "../../../sections/Squad.astro";
 
 import type { Language } from "../../../types/language.type";
@@ -29,6 +29,6 @@ const seo = t.seo.aboutUs;
   canonicalPath="/about-us"
 >
   <HeroBanner content={t.us.hero} />
-  <Mision content={t.us.history} />
+  <Hwork content={t.us.history} variant="mission" imagePrefix="mission" />
   <Squad content={t.us.team} contentFounder={t.main.founder} />
 </Layout>

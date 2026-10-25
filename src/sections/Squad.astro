@@ -1,4 +1,4 @@
----
+ ---
 import FounderContent from "./FounderContent.astro";
 
 type Translations = typeof import("../i18n/en").default;
@@ -10,18 +10,18 @@ interface Props {
 const { content, contentFounder } = Astro.props as Props;
 ---
 <section class="w-full flex flex-col justify-center items-center py-25 gap-10">
-  <h2 set:html={content.title} class='heading-1 text-center'></h2>
+  <h2 set:html={content.title} class='heading-1 text-center fade-up-lines'></h2>
   <FounderContent content={contentFounder} />
   <div class='container-full grid grid-cols-4 justify-center items-stretch gap-6'>
     {
       content.members.map((member,index)=>(
-        <div class='bg-[#F3F0E9] flex flex-col justify-center items-center gap-6 rounded-lg'>
+        <div class='bg-[#F3F0E9] flex flex-col justify-center items-center gap-6 rounded-lg fade-up-a'>
           <div class='w-full h-auto aspect-158/201 rounded-lg overflow-hidden relative'>
             <img src={`/images/${member.img}.webp`} alt={member.title} width="1092" height="1440" decoding="async" loading="lazy" class='w-full h-full object-cover absolute inset-0'/>
           </div>
           <div class="flex flex-col justify-center items-start gap-4 px-4 pb-4 text-paragraph w-full">
-            <h3 class='body-lg'>{member.title}</h3>
-            <p class='body-md'>{member.description}</p>
+            <h3 class='body-lg fade-up-lines'>{member.title}</h3>
+            <p class='body-md fade-up-lines'>{member.description}</p>
           </div>
         </div>
       ))

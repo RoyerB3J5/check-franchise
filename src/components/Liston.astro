@@ -34,14 +34,98 @@ const id = `m-${crypto.randomUUID().slice(0, 8)}`; // id único por instancia
   <image href={src} width={w} height={h} mask={`url(#${id})`} />
 </svg>
 
+<script>
+  import { gsap, ScrollTrigger } from "../lib/gsap";
+  import { CustomEase } from "gsap/CustomEase";
+
+  gsap.registerPlugin(CustomEase);
+  const listonEase = CustomEase.create("liston-reveal", "0.65, 0, 0.35, 1");
+
+  let listonMedia: any;
+  let initializedListons: SVGSVGElement[] = [];
+
+  const initializeListons = () => {
+    const listons = [
+      ...document.querySelectorAll<SVGSVGElement>(".reveal-liston"),
+    ];
+    if (listons.length === 0) return;
+    if (
+      listons.length === initializedListons.length &&
+      listons.every((liston, index) => liston === initializedListons[index])
+    ) {
+      return;
+    }
+
+    listonMedia?.revert();
+    initializedListons = listons;
+    listonMedia = gsap.matchMedia();
+
+    const paths = listons
+      .map((liston) => liston.querySelector<SVGPathElement>(".trazo"))
+      .filter((path): path is SVGPathElement => path !== null);
+
+    listonMedia.add("(prefers-reduced-motion: no-preference)", () => {
+      listons.forEach((liston) => {
+        const path = liston.querySelector<SVGPathElement>(".trazo");
+        if (!path) return;
+
+        const styles = getComputedStyle(liston);
+        const duration = Number.parseFloat(styles.getPropertyValue("--dur"));
+        const delay = Number.parseFloat(styles.getPropertyValue("--delay"));
+
+        gsap.fromTo(
+          path,
+          { strokeDashoffset: 1 },
+          {
+            strokeDashoffset: 0,
+            // El path está normalizado a 1: redondearlo a píxeles hace que salte a 0.
+            autoRound: false,
+            duration: Number.isFinite(duration) ? duration : 1.5,
+            delay: Number.isFinite(delay) ? delay : 0,
+            ease: listonEase,
+            scrollTrigger: {
+              trigger: liston,
+              start: "top 85%",
+              // Al volver desde abajo, espera a que el listón esté visible para ocultarlo.
+              end: "top 15%",
+              toggleActions: "play none reverse reverse",
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      });
+
+      ScrollTrigger.refresh();
+    });
+
+    listonMedia.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(paths, { strokeDashoffset: 0 });
+    });
+  };
+
+  const teardownListons = () => {
+    listonMedia?.revert();
+    listonMedia = undefined;
+    initializedListons = [];
+  };
+
+  document.addEventListener("astro:before-swap", teardownListons);
+  document.addEventListener("astro:page-load", initializeListons);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeListons, { once: true });
+  } else {
+    initializeListons();
+  }
+</script>
+
 <style>
   .liston { display: block; }
-  .trazo { stroke-dasharray: 1; stroke-dashoffset: 1; }
-  .liston.active .trazo {
-    animation: dibujar var(--dur) cubic-bezier(.65, 0, .35, 1) var(--delay) forwards;
+  .trazo {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
   }
-  @keyframes dibujar { to { stroke-dashoffset: 0; } }
   @media (prefers-reduced-motion: reduce) {
-    .trazo { stroke-dashoffset: 0; animation: none !important; }
+    .trazo { stroke-dashoffset: 0; }
   }
 </style>

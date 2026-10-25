@@ -1,23 +1,55 @@
 ---
-type Translations = typeof import("../i18n/en").default;
-type Content = Translations["franchiseBusiness"]["hWork"];
+import Liston from "../components/Liston.astro";
+
+type Content = Array<{
+  tag: string;
+  title: string;
+  description?: string;
+  about?: Array<{
+    title: string;
+    description: string;
+  }>;
+}>;
 interface Props {
   content: Content;
+  variant?: "hwork" | "mission";
+  imagePrefix?: string;
 }
-const { content } = Astro.props as Props;
+const {
+  content,
+  variant = "hwork",
+  imagePrefix,
+} = Astro.props as Props;
+const resolvedImagePrefix = imagePrefix ?? (variant === "mission" ? "mission" : "hwork");
+const isMission = variant === "mission";
 ---
 
 <section
   data-hwork-section
   class="relative flex h-screen w-full items-center justify-center bg-white"
 >
+  {
+    isMission && (
+      <Liston
+        src="/images/decoration-w-l.webp"
+        w={296}
+        h={598}
+        grosor={205}
+        d="M -60 170 C -27 163, 10 161, 40 150 C 70 139, 93 114, 120 105 C 147 96, 179 92, 200 95 C 221 98, 240 108, 245 125 C 250 142, 249 161, 230 200 C 211 239, 162 316, 130 360 C 98 404, 60 435, 40 465 C 20 495, 22 511, 10 540 C -2 569, -17 607, -30 640"
+        class="pointer-events-none absolute left-0 top-[10%] h-auto w-[159px] object-cover"
+      />
+    )
+  }
   <div
     data-hwork-stage
-    class="container-full flex h-full flex-col items-stretch justify-center gap-4 py-4 md:h-auto md:flex-row md:gap-6 md:py-8"
+    class="container-full relative z-10 flex h-full flex-col items-stretch justify-center gap-4 py-4 md:h-auto md:flex-row md:gap-6 md:py-8"
   >
     <div
       data-hwork-copy-card
-      class="relative flex h-[55%] w-full flex-col items-center justify-between rounded-lg bg-secondary md:h-auto md:w-[40%]"
+      class:list={[
+        "relative flex h-[55%] w-full flex-col items-center justify-between rounded-lg bg-secondary md:h-auto",
+        isMission ? "md:w-1/2" : "md:w-[40%]",
+      ]}
     >
       <div class="absolute inset-0 flex min-h-0 w-full flex-col">
         <div class="relative min-h-0 w-full flex-1">
@@ -65,7 +97,30 @@ const { content } = Astro.props as Props;
                   data-hwork-line-reveal
                   set:html={item.title}
                 ></h2>
-                <p class="body-md hwork-fade-lines text-center" data-hwork-line-reveal set:html={item.description}></p>
+                {
+                  item.description && (
+                    <p
+                      class="body-md hwork-fade-lines text-center"
+                      data-hwork-line-reveal
+                      set:html={item.description}
+                    ></p>
+                  )
+                }
+                {
+                  item.about && (
+                    <div
+                      class="grid w-full grid-cols-2 items-stretch justify-center gap-3 text-left md:gap-6"
+                      data-hwork-line-reveal
+                    >
+                      {item.about.map((aboutItem) => (
+                        <div class="flex w-full flex-col items-start justify-start gap-3 rounded-lg border border-paragraph/10 p-3 text-paragraph md:gap-6 md:p-4">
+                          <h3 class="body-xl hwork-fade-lines" data-hwork-line-reveal set:html={aboutItem.title}></h3>
+                          <p class="body-md hwork-fade-lines" data-hwork-line-reveal set:html={aboutItem.description}></p>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                }
               </div>
             ))
           }
@@ -75,7 +130,10 @@ const { content } = Astro.props as Props;
 
     <div
       data-hwork-images
-      class="relative h-[45%] w-full overflow-hidden rounded-lg md:aspect-793/746 md:h-auto md:w-[60%]"
+      class:list={[
+        "relative h-[45%] w-full overflow-hidden rounded-lg md:h-auto",
+        isMission ? "md:aspect-676/746 md:w-1/2" : "md:aspect-793/746 md:w-[60%]",
+      ]}
       aria-live="polite"
     >
       {
@@ -83,7 +141,7 @@ const { content } = Astro.props as Props;
           <img
             data-hwork-image
             data-index={index}
-            src={"/images/hwork-" + (index + 1) + ".webp"}
+            src={"/images/" + resolvedImagePrefix + "-" + (index + 1) + ".webp"}
             alt={"Etapa " + (index + 1) + ": " + item.title}
             aria-hidden={index === 0 ? "false" : "true"}
             width="1300"
@@ -92,9 +150,7 @@ const { content } = Astro.props as Props;
             loading={index === 0 ? "eager" : "lazy"}
             fetchpriority={index === 0 ? "high" : "auto"}
             style={
-              index === 0
-                ? "clip-path: inset(0% 0% 0% 0%)"
-                : "clip-path: inset(100% 0% 0% 0%)"
+              "clip-path: inset(0% 0% 0% 0% round 0 0 0.5rem 0.5rem)"
             }
             class="absolute inset-0 h-full w-full object-cover"
           />
@@ -124,7 +180,7 @@ const { content } = Astro.props as Props;
         ...section.querySelectorAll<HTMLButtonElement>("[data-hwork-indicator]"),
       ];
 
-      if (images.length < 2 || contents.length !== images.length) return;
+      if (images.length === 0 || contents.length === 0 || indicators.length !== contents.length) return;
 
       const lastIndex = contents.length - 1;
       const transitionDuration = 0.75;
@@ -209,8 +265,12 @@ const { content } = Astro.props as Props;
         });
       }
 
-      gsap.set(images, { clipPath: "inset(100% 0% 0% 0%)" });
-      gsap.set(images[0], { clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set(images, {
+        clipPath: "inset(0% 0% 0% 0% round 0 0 0.5rem 0.5rem)",
+        visibility: "hidden",
+        zIndex: 1,
+      });
+      gsap.set(images[0], { visibility: "visible", zIndex: 2 });
 
       const updateActiveContent = (nextIndex: number) => {
         if (nextIndex === activeIndex) return;
@@ -258,7 +318,8 @@ const { content } = Astro.props as Props;
         });
 
         images.forEach((image, index) => {
-          image.setAttribute("aria-hidden", String(index !== nextIndex));
+          const visibleImageIndex = Math.min(nextIndex, images.length - 1);
+          image.setAttribute("aria-hidden", String(index !== visibleImageIndex));
         });
 
         updateActiveContent(nextIndex);
@@ -279,20 +340,30 @@ const { content } = Astro.props as Props;
         },
       });
 
+      timeline.to({}, { duration: timelineDuration, ease: "none" }, 0);
+
       for (let index = 0; index < lastIndex; index += 1) {
-        timeline.fromTo(
+        if (!images[index + 1]) continue;
+
+        const transitionStart = transitionStartOf(index);
+
+        timeline.set(
           images[index + 1],
-          { clipPath: "inset(100% 0% 0% 0%)" },
+          { visibility: "visible", zIndex: 1 },
+          transitionStart,
+        );
+        timeline.set(images[index], { zIndex: 2 }, transitionStart);
+        timeline.fromTo(
+          images[index],
+          { clipPath: "inset(0% 0% 0% 0% round 0 0 0.5rem 0.5rem)" },
           {
-            clipPath: "inset(0% 0% 0% 0%)",
+            clipPath: "inset(0% 0% 100% 0% round 0 0 0.5rem 0.5rem)",
             duration: transitionDuration,
             ease: "none",
           },
-          transitionStartOf(index),
+          transitionStart,
         );
       }
-
-      timeline.to({}, { duration: holdDuration, ease: "none" }, timelineDuration - holdDuration);
 
       updateActiveStep(0);
 
