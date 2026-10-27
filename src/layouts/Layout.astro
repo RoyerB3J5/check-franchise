@@ -185,3 +185,55 @@ const {
     });
   });
 </script>
+
+<script define:vars={{ devMode: import.meta.env.DEV }}>
+  if (devMode) {
+    const storageKey = "click-franchise-dev-scroll";
+    const currentLocation =
+      window.location.pathname + window.location.search + window.location.hash;
+    const navigation = performance.getEntriesByType("navigation")[0];
+    let savedPosition = null;
+
+    try {
+      savedPosition = JSON.parse(sessionStorage.getItem(storageKey) ?? "null");
+    } catch {
+      sessionStorage.removeItem(storageKey);
+    }
+
+    sessionStorage.removeItem(storageKey);
+
+    window.addEventListener("pagehide", () => {
+      sessionStorage.setItem(
+        storageKey,
+        JSON.stringify({
+          location: currentLocation,
+          x: window.scrollX,
+          y: window.scrollY,
+        }),
+      );
+    });
+
+    if (
+      navigation?.type === "reload" &&
+      savedPosition?.location === currentLocation &&
+      Number.isFinite(savedPosition.x) &&
+      Number.isFinite(savedPosition.y)
+    ) {
+      const restorePosition = () => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            window.scrollTo(savedPosition.x, savedPosition.y);
+          });
+        });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", restorePosition, {
+          once: true,
+        });
+      } else {
+        restorePosition();
+      }
+    }
+  }
+</script>

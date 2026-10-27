@@ -11,20 +11,20 @@ const { content} = Astro.props as Props;
 <section class='bg-[#F3F0E9] w-full flex justify-center items-center relative'>
   <Liston src="/images/decoration-r.webp" w={262} h={814} grosor={230}
   d="M 340 -90 C 310 -57, 273 -30, 250 10 C 227 50, 228 98, 200 150 C 172 202, 102 272, 80 320 C 58 368, 58 400, 65 440 C 72 480, 99 527, 120 560 C 141 593, 167 600, 190 640 C 213 680, 238 757, 260 800 C 282 843, 300 867, 320 900" class="absolute bottom-[-10%] right-0 w-[169px] h-auto object-cover z-5" />
-  <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
-    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
+  <div class='container-full flex flex-col justify-center items-center py-14 md:py-25 gap-10'>
+    <div class='flex flex-col justify-center items-start md:items-center gap-8 text-paragraph'>
       <p class='body-sm uppercase fade-up-lines'>
         {content.tag}
       </p>
-      <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
+      <h2 class="heading-1 text-start md:text-center fade-up-lines" set:html={content.title}></h2>
     </div>
-    <div class='w-full grid grid-cols-2 justify-center items-stretch gap-6 relative'>
-      <div class='w-full grid grid-cols-2 gap-6 relative'>
+    <div class='w-full grid grid-cols-1 md:grid-cols-2 justify-center items-stretch gap-4 md:gap-6 relative'>
+      <div class='w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 relative'>
         {
           content.items.map((item)=>( 
             <button
               type="button"
-              class='consultor-card w-full flex flex-col justify-between items-start bg-white p-8 aspect-326/423 h-auto rounded-lg text-left fade-up-a'
+              class='consultor-card w-full flex flex-col justify-between items-start bg-white p-8 aspect-398/335 md:aspect-326/423 h-auto rounded-lg text-left fade-up-a'
               aria-expanded="false"
               data-consultor-card
             >

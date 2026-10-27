@@ -6,10 +6,10 @@ interface Props {
 }
 const { content} = Astro.props as Props;
 ---
-<div class='container-full flex justify-center items-stretch gap-6 relative'>
-    <div class="founder-content-card w-[34%] flex flex-col justify-end items-start text-white p-8 rounded-lg bg-accent">
+<div class='container-full flex flex-col md:flex-row justify-center items-stretch gap-0 md:gap-6 relative'>
+    <div class="founder-content-card w-full md:w-[34%] flex flex-col justify-end items-start text-white p-8 rounded-lg bg-accent">
       <img src="/icons/person.svg" alt="Icono de Persona" width="30" height="24" decoding="async" loading="lazy" class='w-[30px] h-auto self-end mb-auto'/>
-      <div class="flex flex-col justify-center items-start gap-6">
+      <div class="founder-content-card__main flex flex-col justify-center items-start gap-6">
         <p class="uppercase body-sm fade-up-lines">{content.tag}</p>
         <h2 class="heading-3 text-secondary fade-up-lines">Esdras Ribeiro</h2>
         <p class='body-md tracking-[0.64px] fade-up-lines'>{content.subtitle}</p>
@@ -21,7 +21,7 @@ const { content} = Astro.props as Props;
         </div>
       </div>
     </div>
-    <div class="w-[66%] h-auto aspect-909/512 overflow-hidden rounded-lg relative fade-left-a" >
+    <div class="w-full md:w-[66%] h-auto aspect-398/506 md:aspect-909/512 overflow-hidden rounded-lg relative fade-left-a -translate-y-3 md:translate-y-0" >
       <img src="/images/fundador.webp" alt="Fundador" width="1672" height="941" decoding="async" loading="lazy" class='w-full h-full absolute object-cover inset-0' />
     </div>
   </div>
@@ -55,6 +55,21 @@ const { content} = Astro.props as Props;
   .founder-content-card:hover .founder-content-card__description-text {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  @media (max-width: 767px) {
+    .founder-content-card {
+      height: 379px;
+      justify-content: space-between;
+    }
+
+    .founder-content-card__main {
+      margin-top: auto;
+    }
+
+    .founder-content-card > img {
+      margin-bottom: 0;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

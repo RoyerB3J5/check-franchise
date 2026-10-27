@@ -70,7 +70,7 @@ export default {
       title:
         "Tu negocio ya funciona.<br/> <span class='text-primary'> ¿Hasta dónde puede llegar?</span>",
       description:
-        "Tu negocio funciona y otros quieren replicarlo. Esa es la señal.<br/> Nosotros te ayudamos a franquiciarlo.",
+        "Tu negocio funciona y otros quieren replicarlo. Esa es la señal.<br class='hidden md:block'/> Nosotros te ayudamos a franquiciarlo.",
       items: [
         {
           title: "Si tienes un negocio.",

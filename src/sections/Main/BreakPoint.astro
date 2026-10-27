@@ -8,20 +8,20 @@ const { content} = Astro.props as Props;
 const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
 ---
 <section class='bg-[#F3F0E9] w-full flex justify-center items-center relative'>
-  <div class='container-full flex flex-col justify-center items-center py-25 gap-10'>
-    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
+  <div class='container-full flex flex-col justify-center items-center py-14 md:py-25 gap-10'>
+    <div class='flex flex-col justify-center items-start md:items-center gap-8 text-paragraph'>
       <p class='body-sm uppercase fade-up-lines'>
         {content.tag}
       </p>
-      <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
-      <p set:html={content.description} class="body-md text-center fade-up-lines"></p>
+      <h2 class="heading-1 text-start md:text-center fade-up-lines" set:html={content.title}></h2>
+      <p set:html={content.description} class="body-md text-start md:text-center fade-up-lines"></p>
     </div>
-    <div class='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center items-start'>
+    <div class='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-center items-start'>
       {
         content.items.map((item, index)=>( 
           <button
             type="button"
-            class={`breakpoint-card ${cardBackgrounds[index] ?? "bg-primary"} w-full flex flex-col justify-between items-start px-8 py-10 bg-white border-0 rounded-lg h-85.75 text-left`}
+            class={`breakpoint-card ${cardBackgrounds[index] ?? "bg-primary"} w-full flex flex-col justify-between items-start px-8 py-10 bg-white border-0 rounded-lg h-[299px] md:h-85.75 text-left`}
             aria-expanded="false"
             data-breakpoint-card
           >

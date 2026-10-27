@@ -395,7 +395,7 @@ html {
 .fade-up-lines,
 .fade-up-lines .fade-up-line-word,
 .fade-up-lines .fade-up-line-fragment {
-  text-box: normal;
+  text-box: trim-both cap alphabetic;
 }
 
 .fade-up-lines-raw,
@@ -408,16 +408,18 @@ html {
 .fade-up-lines .fade-up-line-word,
 .fade-up-lines-raw .fade-up-line-word {
   display: inline-block;
-  overflow: hidden;
-  /* Deja espacio para descendentes dentro de la máscara sin separar las líneas. */
-  padding-bottom: 0.18em;
-  margin-bottom: -0.18em;
+  vertical-align: baseline;
+  overflow: visible;
+  /* Amplía solo la máscara: acentos y descendentes no añaden altura al layout. */
+  clip-path: inset(-0.3em -0.15em);
 }
 
 .fade-up-lines .fade-up-line-fragment,
 .fade-up-lines-raw .fade-up-line-fragment {
   display: inline-block;
-  transform: translateY(120%);
+  vertical-align: baseline;
+  /* Desplaza el texto fuera de la máscara ampliada antes de revelarlo. */
+  transform: translateY(calc(100% + 0.3em));
   transition:
     transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: calc(
@@ -437,6 +439,7 @@ html {
   .fade-up-lines .fade-up-line-word,
   .fade-up-lines-raw .fade-up-line-word {
     overflow: visible;
+    clip-path: none;
   }
 
   .fade-up-lines .fade-up-line-fragment,

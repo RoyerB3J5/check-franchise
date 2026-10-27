@@ -12,13 +12,13 @@ const { content} = Astro.props as Props;
   <Liston src="/images/decoration-o-l.webp" w={230} h={776} grosor={185}
   d="M -60 -80 C -27 3, 5 93, 40 170 C 75 247, 126 315, 150 380 C 174 445, 188 512, 185 560 C 182 608, 151 648, 130 670 C 109 692, 92 684, 60 692 C 28 700, -20 707, -60 715" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z-5" />
   <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute top-[-10%] right-0 w-[153px] h-auto object-cover" />
-  <div class='container-full flex flex-col justify-center items-center py-25 gap-10 relative z-0'>
-    <div class='flex flex-col justify-center items-center gap-8 text-paragraph'>
+  <div class='container-full flex flex-col justify-center items-center py-14 md:py-25 gap-10 relative z-0'>
+    <div class='flex flex-col justify-center items-start md:items-center gap-8 text-paragraph'>
       <p class='body-sm uppercase fade-up-lines'>
         {content.tag}
       </p>
-      <h2 class="heading-1 text-center fade-up-lines" set:html={content.title}></h2>
-      <p set:html={content.description} class="body-md text-center fade-up-lines"></p>
+      <h2 class="heading-1 text-start md:text-center fade-up-lines" set:html={content.title}></h2>
+      <p set:html={content.description} class="body-md text-start md:text-center fade-up-lines"></p>
     </div>
     <div data-pilars-list class="pilars-list">
       {
@@ -169,7 +169,11 @@ const { content} = Astro.props as Props;
 
     const sourceTitle = selectedCard.querySelector<HTMLElement>("[data-pilar-title-compact]");
     const targetTitle = selectedCard.querySelector<HTMLElement>("[data-pilar-title-expanded]");
-    if (!sourceTitle || !targetTitle || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      !sourceTitle ||
+      !targetTitle ||
+      matchMedia("(max-width: 767px), (prefers-reduced-motion: reduce)").matches
+    ) {
       setActiveCard(cards, selectedCard);
       return;
     }
@@ -392,6 +396,7 @@ const { content} = Astro.props as Props;
     padding: clamp(1.25rem, 2.1vw, 2rem);
     background: var(--color-secondary);
   }
+ 
 
   .pilar-card__copy {
     display: flex;
@@ -490,12 +495,47 @@ const { content} = Astro.props as Props;
     }
 
     .pilar-card__content {
+      justify-content: space-between;
       gap: 1rem;
-      padding: 1rem;
     }
 
     .pilar-card__divider {
       margin-block: 1rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .pilars-list {
+      height: auto;
+    }
+
+    .pilar-card.is-active {
+      flex: 0 0 auto;
+    }
+
+    .pilar-card__compact {
+      padding: 2rem 1rem;
+      justify-content: space-between;
+    }
+
+    .pilar-card__compact > img {
+      order: 2;
+    }
+
+    .pilar-card__title-slot--compact {
+      order: 1;
+      flex: 0 1 auto;
+      align-items: flex-start;
+    }
+
+    .pilar-card__content {
+      max-height: 227px;
+    }
+
+    .pilar-card__image {
+      width: 100%;
+      aspect-ratio: 265 / 93;
+      flex: 0 0 auto;
     }
   }
 
