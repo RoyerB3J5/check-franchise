@@ -10,16 +10,16 @@ const { content} = Astro.props as Props;
 // Comprueba si la URL coincide con la raíz o los prefijos de idioma (/ , /es, /es/, /en, /en/)
 const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
 ---
-<section class='w-full h-[calc(100dvh-80px)] relative flex items-center justify-center text-paragraph' >
+<section class='w-full h-[calc(100svh-80px)] md:h-[calc(60svh-80px)] xl:h-[calc(100svh-80px)] relative flex items-center justify-center text-paragraph' >
   <img src="/images/hero-banner.webp" alt="Hero image" decoding="async" loading="lazy" width="1920" height="974" class='w-full h-full object-cover inset-0 absolute z-0 object-top' />
   <div class='back-banner absolute inset-0 z-1'></div>
   <div class="container-full flex flex-col justify-center items-center h-full relative z-5">
     <div
-      class='bg-[#F3F0E9] flex flex-col justify-center items-center gap-8 p-10 rounded-lg zoom-out-a'
+      class='bg-[#F3F0E9] flex flex-col justify-center items-center gap-8 px-4 py-8 md:p-10 rounded-lg zoom-out-a max-w-[318px] md:max-w-none'
       style="--zoom-out-duration: 0.6s; --fade-up-delay: 1s"
     >
       <p class='subtitle uppercase fade-up-lines'>{content.tag}</p>
-      <h1 class='heading-2 max-w-[596px] text-center fade-up-lines' set:html={content.title}></h1>
+      <h1 class='heading-2 max-w-[80%] md:max-w-[596px] text-center fade-up-lines' set:html={content.title}></h1>
       <p class='body-md max-w-[554px] text-center fade-up-lines' set:html={content.description}></p>
       {
         content.button.label !== "" ? <Button text={content.button.label} href={content.button.href} extraBtnClass="bg-accent shadow-[0_8px_0_0_#172514] fade-up-a" textClass="text-white" /> : null

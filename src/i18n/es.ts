@@ -281,7 +281,7 @@ export default {
       tag: "Una oportunidad diseñada para crecer contigo",
       title: "¿Para <span class='text-primary'>quién es? </span>",
       description:
-        "Ya sea que vivas en EE. UU., estés planeando mudarte o quieras expandir tu <br/> negocio, tenemos un modelo pensado para tu próximo paso.",
+        "Ya sea que vivas en EE. UU., estés planeando mudarte o quieras expandir tu <br class='hidden md:block'/> negocio, tenemos un modelo pensado para tu próximo paso.",
       items: [
         {
           title: "Ya vives en EE. UU.",
@@ -303,7 +303,7 @@ export default {
     steps: {
       tag: "Tu Recorrido",
       title:
-        " 5 Pasos hacia <br/>  <span class='text-primary'>la Apertura. </span>",
+        "5 Pasos hacia <br class='hidden md:block'/>  <span class='text-primary'>la Apertura. </span>",
       items: [
         {
           title: "Perfil.",
