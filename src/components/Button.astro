@@ -96,6 +96,35 @@ const paragraphClasses = `${baseTextClass} ${textClass}`.trim();
   )
 }
 
+<script>
+  const clickAnimations = new WeakMap<HTMLElement, Animation>();
+
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest<HTMLElement>(".button-control");
+    const surface = button?.querySelector<HTMLElement>(".button-surface");
+    if (!button || !surface || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    clickAnimations.get(surface)?.cancel();
+    const styles = getComputedStyle(surface);
+    const rest = { transform: styles.transform, boxShadow: styles.boxShadow };
+    const shadowColor = styles.getPropertyValue("--button-shadow-color").trim();
+    const animation = surface.animate(
+      [
+        rest,
+        {
+          transform: "scale(0.97)",
+          boxShadow: shadowColor ? `0 3px 0 0 ${shadowColor}` : rest.boxShadow,
+          offset: 0.4,
+        },
+        rest,
+      ],
+      { duration: 350, easing: "ease-in-out" },
+    );
+    clickAnimations.set(surface, animation);
+  });
+</script>
+
 <style>
   .button-control {
     position: relative;
@@ -117,11 +146,4 @@ const paragraphClasses = `${baseTextClass} ${textClass}`.trim();
     transform: scale(1.03);
   }
 
-  .button-control:active .button-surface {
-    transform: scale(1);
-  }
-
-  .button-control.button-has-compressible-shadow:active .button-surface {
-    box-shadow: 0 3px 0 0 var(--button-shadow-color);
-  }
 </style>
