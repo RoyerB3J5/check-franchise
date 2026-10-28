@@ -43,6 +43,21 @@ const id = `m-${crypto.randomUUID().slice(0, 8)}`; // id único por instancia
 
   let listonMedia: any;
   let initializedListons: SVGSVGElement[] = [];
+  let refreshFrame = 0;
+  let initializationFrame = 0;
+
+  // Deja que las demás secciones registren sus ScrollTriggers (incluidos los
+  // que fijan secciones) antes de medir las posiciones de cada listón.
+  const scheduleListonRefresh = () => {
+    if (refreshFrame) cancelAnimationFrame(refreshFrame);
+
+    refreshFrame = requestAnimationFrame(() => {
+      refreshFrame = requestAnimationFrame(() => {
+        refreshFrame = 0;
+        ScrollTrigger.refresh();
+      });
+    });
+  };
 
   const initializeListons = () => {
     const listons = [
@@ -72,6 +87,9 @@ const id = `m-${crypto.randomUUID().slice(0, 8)}`; // id único por instancia
         const styles = getComputedStyle(liston);
         const duration = Number.parseFloat(styles.getPropertyValue("--dur"));
         const delay = Number.parseFloat(styles.getPropertyValue("--delay"));
+        const pinnedContainer = ScrollTrigger.getAll().find(
+          (trigger) => trigger.pin?.contains(liston),
+        )?.pin;
 
         gsap.fromTo(
           path,
@@ -85,17 +103,29 @@ const id = `m-${crypto.randomUUID().slice(0, 8)}`; // id único por instancia
             ease: listonEase,
             scrollTrigger: {
               trigger: liston,
-              start: "top 85%",
-              // Al volver desde abajo, espera a que el listón esté visible para ocultarlo.
-              end: "top 15%",
-              toggleActions: "play none reverse reverse",
+              // Mide los listones después de los pins de otras secciones.
+              // GSAP activa la ordenación en cada refresh al definir esta prioridad.
+              refreshPriority: -1,
+              pinnedContainer,
+              // Mantiene los límites alcanzables al inicio y al final de la página.
+              start: "clamp(top 80%)",
+              // Al subir, empieza la reversa con el borde inferior a mitad
+              // de pantalla, mientras el listón todavía tiene una parte visible.
+              end: "clamp(bottom 50%)",
+              toggleActions: "play play reverse reverse",
+              // También responde si se cambia de dirección sin salir de la zona.
+              onUpdate: (self) => {
+                if (!self.isActive) return;
+                if (self.direction > 0) self.animation?.play();
+                else self.animation?.reverse();
+              },
               invalidateOnRefresh: true,
             },
           },
         );
       });
 
-      ScrollTrigger.refresh();
+      scheduleListonRefresh();
     });
 
     listonMedia.add("(prefers-reduced-motion: reduce)", () => {
@@ -104,18 +134,26 @@ const id = `m-${crypto.randomUUID().slice(0, 8)}`; // id único por instancia
   };
 
   const teardownListons = () => {
+    cancelAnimationFrame(initializationFrame);
+    if (refreshFrame) cancelAnimationFrame(refreshFrame);
+    refreshFrame = 0;
     listonMedia?.revert();
     listonMedia = undefined;
     initializedListons = [];
   };
 
   document.addEventListener("astro:before-swap", teardownListons);
-  document.addEventListener("astro:page-load", initializeListons);
+  const scheduleListonInitialization = () => {
+    cancelAnimationFrame(initializationFrame);
+    initializationFrame = requestAnimationFrame(initializeListons);
+  };
+  document.addEventListener("astro:page-load", scheduleListonInitialization);
+  window.addEventListener("load", scheduleListonRefresh, { once: true });
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initializeListons, { once: true });
+    document.addEventListener("DOMContentLoaded", scheduleListonInitialization, { once: true });
   } else {
-    initializeListons();
+    scheduleListonInitialization();
   }
 </script>
 

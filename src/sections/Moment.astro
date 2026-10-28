@@ -13,7 +13,7 @@ const cardPositions = [
   "lg:col-start-3 lg:row-start-2",
 ];
 ---
-<section class='w-full flex flex-col justify-center items-center relative z-5'>
+<section data-moment-section class='w-full flex flex-col justify-center items-center relative z-5'>
   <Liston
     src="/images/decoration-l.webp"
     w={115} h={411}
@@ -22,8 +22,8 @@ const cardPositions = [
     class="absolute top-[10%] left-0 w-[115px] h-auto"
   />
   <Liston src="/images/decoration-o-r.webp"w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute bottom-[-5%] right-0 w-[153px] h-auto object-cover" />
-  <div class='container-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 gap-y-20 gap-x-6 justify-center items-start py-14 md:py-20 xl:py-25'>
-    <div class="w-full aspect-square flex flex-col justify-start items-start gap-8 text-paragraph lg:col-start-1 lg:row-start-1">
+  <div class='container-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 gap-y-4 md:gap-y-10 xl:gap-y-20 gap-x-6 justify-center items-start py-14 md:py-20 xl:py-25'>
+    <div class="w-full md:aspect-square flex flex-col justify-start items-start gap-8 text-paragraph lg:col-start-1 lg:row-start-1 mb-6 md:mb-0">
       <p class="subtitle uppercase fade-up-lines">{content.tag}</p>
       <h2 set:html={content.title} class='heading-1 fade-up-lines'></h2>
     </div>
@@ -31,7 +31,7 @@ const cardPositions = [
       content.items.map((item,index)=>( 
         <button
             type="button"
-            class={`breakpoint-card bg-primary ${cardPositions[index] ?? ""} w-full flex flex-col justify-between items-start px-8 py-10 bg-[#F3F0E9] border-0 rounded-lg text-left h-auto aspect-443/400`}
+            class={`breakpoint-card bg-primary ${cardPositions[index] ?? ""} w-full flex flex-col justify-between items-start px-8 py-10 bg-[#F3F0E9] border-0 rounded-lg text-left h-auto aspect-443/300 md:aspect-443/470 xl:aspect-443/400`}
             aria-expanded="false"
             data-breakpoint-card
           >
@@ -52,7 +52,7 @@ const cardPositions = [
     }
     <button
       type="button"
-      class='breakpoint-card bg-primary w-full h-auto aspect-443/400 overflow-hidden rounded-lg relative py-10 px-8 flex flex-col justify-between items-start border-0 text-left lg:col-start-2 lg:row-start-3'
+      class='breakpoint-card bg-primary w-full h-auto aspect-443/300 md:aspect-443/400 overflow-hidden rounded-lg relative py-10 px-8 flex flex-col justify-between items-start border-0 text-left lg:col-start-2 lg:row-start-3'
       aria-expanded="false"
       data-breakpoint-card
     >
@@ -67,7 +67,7 @@ const cardPositions = [
   </div>
 </section>
 <script>
-  const cards = document.querySelectorAll<HTMLButtonElement>("[data-breakpoint-card]");
+  const cards = document.querySelectorAll<HTMLButtonElement>("[data-moment-section] [data-breakpoint-card]");
 
   cards.forEach((card) => {
     card.addEventListener("click", () => {
@@ -102,76 +102,67 @@ const cardPositions = [
     transform: scale(0.8);
   }
 
-  @media (min-width: 768px) {
-    .breakpoint-card.bg-primary:hover,
-    .breakpoint-card.bg-primary.is-active {
-      background-color: var(--color-primary);
-    }
-
-    .breakpoint-card.bg-secondary:hover,
-    .breakpoint-card.bg-secondary.is-active {
-      background-color: var(--color-secondary);
-    }
-
-    .breakpoint-card.bg-third:hover,
-    .breakpoint-card.bg-third.is-active {
-      background-color: var(--color-third);
-    }
-
-    .breakpoint-card:hover,
-    .breakpoint-card.is-active {
-      color: var(--color-paragraph);
-    }
-
-    .breakpoint-card:hover .breakpoint-card__details,
-    .breakpoint-card.is-active .breakpoint-card__details {
-      max-height: 12rem;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .breakpoint-card:hover .breakpoint-card__icon:not(.breakpoint-card__icon--back),
-    .breakpoint-card.is-active .breakpoint-card__icon:not(.breakpoint-card__icon--back) {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-
-    .breakpoint-card:hover .breakpoint-card__icon--back,
-    .breakpoint-card.is-active .breakpoint-card__icon--back {
-      opacity: 1;
-      transform: scale(1);
-    }
+  .breakpoint-card.bg-primary.is-active {
+    background-color: var(--color-primary);
   }
 
-  @media (max-width: 767px) {
-    .breakpoint-card.bg-primary.is-active {
+  .breakpoint-card.bg-secondary.is-active {
+    background-color: var(--color-secondary);
+  }
+
+  .breakpoint-card.bg-third.is-active {
+    background-color: var(--color-third);
+  }
+
+  .breakpoint-card.is-active {
+    color: var(--color-paragraph);
+  }
+
+  .breakpoint-card.is-active .breakpoint-card__details {
+    max-height: 12rem;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .breakpoint-card.is-active .breakpoint-card__icon:not(.breakpoint-card__icon--back) {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .breakpoint-card.is-active .breakpoint-card__icon--back {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @media (min-width: 1024px) {
+    .breakpoint-card.bg-primary:hover {
       background-color: var(--color-primary);
     }
 
-    .breakpoint-card.bg-secondary.is-active {
+    .breakpoint-card.bg-secondary:hover {
       background-color: var(--color-secondary);
     }
 
-    .breakpoint-card.bg-third.is-active {
+    .breakpoint-card.bg-third:hover {
       background-color: var(--color-third);
     }
 
-    .breakpoint-card.is-active {
+    .breakpoint-card:hover {
       color: var(--color-paragraph);
     }
 
-    .breakpoint-card.is-active .breakpoint-card__details {
+    .breakpoint-card:hover .breakpoint-card__details {
       max-height: 12rem;
       opacity: 1;
       transform: translateY(0);
     }
 
-    .breakpoint-card.is-active .breakpoint-card__icon:not(.breakpoint-card__icon--back) {
+    .breakpoint-card:hover .breakpoint-card__icon:not(.breakpoint-card__icon--back) {
       opacity: 0;
       transform: scale(0.8);
     }
 
-    .breakpoint-card.is-active .breakpoint-card__icon--back {
+    .breakpoint-card:hover .breakpoint-card__icon--back {
       opacity: 1;
       transform: scale(1);
     }

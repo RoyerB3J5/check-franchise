@@ -26,7 +26,7 @@ const isMission = variant === "mission";
 
 <section
   data-hwork-section
-  class="relative flex h-screen w-full items-center justify-center bg-white"
+  class="relative flex h-svh max-h-screen min-h-0 w-full shrink-0 items-center justify-center overflow-clip bg-white"
 >
   {
     isMission && (
@@ -36,19 +36,19 @@ const isMission = variant === "mission";
         h={598}
         grosor={205}
         d="M -60 170 C -27 163, 10 161, 40 150 C 70 139, 93 114, 120 105 C 147 96, 179 92, 200 95 C 221 98, 240 108, 245 125 C 250 142, 249 161, 230 200 C 211 239, 162 316, 130 360 C 98 404, 60 435, 40 465 C 20 495, 22 511, 10 540 C -2 569, -17 607, -30 640"
-        class="pointer-events-none absolute left-0 top-[10%] h-auto w-[159px] object-cover"
+        class="pointer-events-none absolute left-0 top-[17%] h-auto w-[109px] object-cover z-5"
       />
     )
   }
   <div
     data-hwork-stage
-    class="container-full relative z-10 flex h-full flex-col items-stretch justify-center gap-4 py-4 md:h-auto md:flex-row md:gap-6 md:py-8"
+    class="container-full relative  flex h-full max-h-full min-h-0 flex-col items-stretch justify-center gap-4 py-4 lg:flex-row md:gap-6 md:py-8"
   >
     <div
       data-hwork-copy-card
       class:list={[
-        "relative flex h-[55%] w-full flex-col items-center justify-between rounded-lg bg-secondary md:h-auto",
-        isMission ? "md:w-1/2" : "md:w-[40%]",
+        "relative flex h-full min-h-0 min-w-0 w-full flex-col items-center justify-between overflow-hidden rounded-lg bg-secondary",
+        isMission ? "lg:w-1/2" : "lg:w-[40%]",
       ]}
     >
       <div class="absolute inset-0 flex min-h-0 w-full flex-col">
@@ -99,11 +99,42 @@ const isMission = variant === "mission";
                 ></h2>
                 {
                   item.description && (
-                    <p
-                      class="body-md hwork-fade-lines text-center"
-                      data-hwork-line-reveal
-                      set:html={item.description}
-                    ></p>
+                    <div class='flex min-h-0 w-full flex-1 flex-col items-center justify-center gap-4 lg:flex-none lg:gap-10'>
+                      <p
+                        class="body-md hwork-fade-lines text-center"
+                        data-hwork-line-reveal
+                        set:html={item.description}
+                      ></p>
+                      <div
+                        data-hwork-images
+                        class:list={[
+                          "relative h-auto w-full aspect-118/111  overflow-hidden rounded-lg lg:hidden block",
+                        ]}
+                        aria-live="polite"
+                      >
+                        {
+                          content.map((item, index) => (
+                            <img
+                              data-hwork-image
+                              data-index={index}
+                              src={"/images/" + resolvedImagePrefix + "-" + (index + 1) + ".webp"}
+                              alt={"Etapa " + (index + 1) + ": " + item.title}
+                              aria-hidden={index === 0 ? "false" : "true"}
+                              width="1300"
+                              height="694"
+                              decoding="async"
+                              loading={index === 0 ? "eager" : "lazy"}
+                              fetchpriority={index === 0 ? "high" : "auto"}
+                              style={
+                                "clip-path: inset(0% 0% 0% 0% round 0 0 0.5rem 0.5rem)"
+                              }
+                              class="absolute inset-0 h-full w-full object-cover"
+                            />
+                          ))
+                        }
+                      </div>
+                    </div>
+
                   )
                 }
                 {
@@ -131,8 +162,8 @@ const isMission = variant === "mission";
     <div
       data-hwork-images
       class:list={[
-        "relative h-[45%] w-full overflow-hidden rounded-lg md:h-auto",
-        isMission ? "md:aspect-676/746 md:w-1/2" : "md:aspect-793/746 md:w-[60%]",
+        "relative h-full min-h-0 min-w-0 w-full overflow-hidden rounded-lg hidden lg:block",
+        isMission ? "lg:w-1/2" : "lg:w-[60%]",
       ]}
       aria-live="polite"
     >
@@ -181,6 +212,12 @@ const isMission = variant === "mission";
       ];
 
       if (images.length === 0 || contents.length === 0 || indicators.length !== contents.length) return;
+
+      // Una etapa puede tener varias copias de su imagen para distintos tamaños.
+      // El orden del DOM ya no coincide con el orden de las etapas.
+      const imagesByStep = contents.map((content) =>
+        images.filter((image) => image.dataset.index === content.dataset.index),
+      );
 
       const lastIndex = contents.length - 1;
       const transitionDuration = 0.75;
@@ -270,7 +307,7 @@ const isMission = variant === "mission";
         visibility: "hidden",
         zIndex: 1,
       });
-      gsap.set(images[0], { visibility: "visible", zIndex: 2 });
+      gsap.set(imagesByStep[0], { visibility: "visible", zIndex: 2 });
 
       const updateActiveContent = (nextIndex: number) => {
         if (nextIndex === activeIndex) return;
@@ -317,9 +354,8 @@ const isMission = variant === "mission";
           indicator.setAttribute("aria-pressed", String(isActive));
         });
 
-        images.forEach((image, index) => {
-          const visibleImageIndex = Math.min(nextIndex, images.length - 1);
-          image.setAttribute("aria-hidden", String(index !== visibleImageIndex));
+        images.forEach((image) => {
+          image.setAttribute("aria-hidden", String(image.dataset.index !== contents[nextIndex].dataset.index));
         });
 
         updateActiveContent(nextIndex);
@@ -343,18 +379,20 @@ const isMission = variant === "mission";
       timeline.to({}, { duration: timelineDuration, ease: "none" }, 0);
 
       for (let index = 0; index < lastIndex; index += 1) {
-        if (!images[index + 1]) continue;
+        const currentImages = imagesByStep[index];
+        const nextImages = imagesByStep[index + 1];
+        if (!currentImages.length || !nextImages.length) continue;
 
         const transitionStart = transitionStartOf(index);
 
         timeline.set(
-          images[index + 1],
+          nextImages,
           { visibility: "visible", zIndex: 1 },
           transitionStart,
         );
-        timeline.set(images[index], { zIndex: 2 }, transitionStart);
+        timeline.set(currentImages, { zIndex: 2 }, transitionStart);
         timeline.fromTo(
-          images[index],
+          currentImages,
           { clipPath: "inset(0% 0% 0% 0% round 0 0 0.5rem 0.5rem)" },
           {
             clipPath: "inset(0% 0% 100% 0% round 0 0 0.5rem 0.5rem)",
@@ -415,6 +453,9 @@ const isMission = variant === "mission";
 <style>
   .hwork-content {
     padding: 1.25rem;
+    min-height: 0;
+    gap: 1rem;
+    overflow-y: auto;
     visibility: hidden;
     pointer-events: none;
   }

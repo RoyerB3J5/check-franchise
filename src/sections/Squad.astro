@@ -1,4 +1,5 @@
  ---
+import Liston from "../components/Liston.astro";
 import FounderContent from "./FounderContent.astro";
 
 type Translations = typeof import("../i18n/en").default;
@@ -9,7 +10,8 @@ interface Props {
 }
 const { content, contentFounder } = Astro.props as Props;
 ---
-<section class="w-full flex flex-col justify-center items-center py-14 md:py-20 xl:py-25 gap-10">
+<section class="w-full flex flex-col justify-center items-center py-14 md:py-20 xl:py-25 gap-10 relative">
+  <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute top-[3%] right-0 w-[113px] h-auto object-cover z-11" />
   <h2 set:html={content.title} class='heading-1 text-center fade-up-lines'></h2>
   <FounderContent content={contentFounder} />
   <div class='container-full grid grid-cols-4 justify-center items-stretch gap-6'>

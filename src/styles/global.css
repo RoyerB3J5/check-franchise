@@ -116,6 +116,10 @@ html {
   .heading-3 {
     font-size: 24px;
   }
+
+  .heading-3.heading-3--mobile-medium {
+    font-weight: 500;
+  }
 }
 
 /* ==========================================

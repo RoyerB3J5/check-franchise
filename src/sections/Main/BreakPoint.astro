@@ -7,7 +7,7 @@ interface Props {
 const { content} = Astro.props as Props;
 const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
 ---
-<section class='bg-[#F3F0E9] w-full flex justify-center items-center relative'>
+<section data-main-breakpoint-section class='bg-[#F3F0E9] w-full flex justify-center items-center relative'>
   <div class='container-full flex flex-col justify-center items-center py-14 md:py-20 xl:py-25 gap-10'>
     <div class='flex flex-col justify-center items-start md:items-center gap-8 text-paragraph'>
       <p class='body-sm uppercase fade-up-lines'>
@@ -50,7 +50,7 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
 </section>
 
 <script>
-  const cards = document.querySelectorAll<HTMLButtonElement>("[data-breakpoint-card]");
+  const cards = document.querySelectorAll<HTMLButtonElement>("[data-main-breakpoint-section] [data-breakpoint-card]");
 
   cards.forEach((card) => {
     card.addEventListener("click", () => {
@@ -95,7 +95,7 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
     transform: scale(0.8);
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     .breakpoint-card.bg-primary:hover,
     .breakpoint-card.bg-primary.is-active {
       background-color: var(--color-primary);
@@ -137,7 +137,7 @@ const cardBackgrounds = ["bg-primary", "bg-secondary", "bg-third"];
     }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     .breakpoint-card.bg-primary.is-active {
       background-color: var(--color-primary);
     }

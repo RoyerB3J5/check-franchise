@@ -10,26 +10,25 @@ const { content} = Astro.props as Props;
 ---
 <section class='w-full flex flex-col justify-center items-center relative bg-[#F3F0E9]' data-company-section>
   <Liston src="/images/decoration-o-l.webp" w={230} h={776} grosor={185}
-  d="M -60 -80 C -27 3, 5 93, 40 170 C 75 247, 126 315, 150 380 C 174 445, 188 512, 185 560 C 182 608, 151 648, 130 670 C 109 692, 92 684, 60 692 C 28 700, -20 707, -60 715" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z-5" />
-  <div class='container-full flex flex-col lg:flex-row justify-between items-start py-14 md:py-20 xl:py-25 gap-12'>
-    <h2 class='body-xl max-w-[326px] text-paragraph fade-up-lines'>{content.tag}</h2>
+  d="M -60 -80 C -27 3, 5 93, 40 170 C 75 247, 126 315, 150 380 C 174 445, 188 512, 185 560 C 182 608, 151 648, 130 670 C 109 692, 92 684, 60 692 C 28 700, -20 707, -60 715" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z'0 xl:z-5" />
+  <div class='container-full flex flex-col lg:flex-row justify-between items-start py-14 md:py-20 xl:py-25 gap-10 md:gap-12'>
+    <h2 class='body-xl max-w-none md:max-w-[326px] text-paragraph fade-up-lines'>{content.tag}</h2>
     <div class="company-carousel flex w-full items-center justify-end gap-3" data-company-carousel role="region" aria-label={content.tag} aria-roledescription="carrusel">
       <div class="company-carousel__viewport relative overflow-hidden" id="company-carousel-items" aria-live="off">
-        <div class="company-carousel__track flex flex-col gap-y-14">
+        <div class="company-carousel__track flex flex-col gap-2 md:gap-y-14">
           {
             content.list.map((item)=>(
               <p
-                class="company-carousel__item heading-3"
-                set:html={item}
+                class="company-carousel__item heading-3 heading-3--mobile-medium"
                 data-company-item
                 data-position="below"
                 aria-hidden="true"
-              ></p>
+              ><span set:html={item}></span></p>
             ))
           }
         </div>
       </div>
-      <div class='flex shrink-0 flex-col justify-center items-center gap-2'>
+      <div class='md:flex shrink-0 flex-col justify-center items-center gap-2 hidden '>
         <button type="button" class="company-carousel__arrow" aria-label="Elemento siguiente" aria-controls="company-carousel-items" data-carousel-up>
           <img src="/icons/arrow-up.svg" alt="" aria-hidden="true" class="w-10 h-10" />
         </button>
@@ -64,6 +63,30 @@ const { content} = Astro.props as Props;
         item.dataset.position = positions[index] ?? "below";
         item.setAttribute("aria-hidden", String(index >= positions.length));
       });
+    };
+
+    const measureItemHeight = () => {
+      if (!viewport || !track) return;
+
+      // Todas las filas reservan el espacio del texto más alto en el ancho
+      // más estrecho. El cambio de posición solo altera su aspecto.
+      let maximumHeight = 0;
+      currentOrder().forEach((item) => {
+        const probe = item.cloneNode(true) as HTMLElement;
+        probe.dataset.position = "bottom";
+        probe.setAttribute("aria-hidden", "true");
+        Object.assign(probe.style, {
+          position: "absolute",
+          visibility: "hidden",
+          pointerEvents: "none",
+          transition: "none",
+          height: "auto",
+        });
+        viewport.append(probe);
+        maximumHeight = Math.max(maximumHeight, probe.offsetHeight);
+        probe.remove();
+      });
+      track.style.setProperty("--company-item-height", `${Math.ceil(maximumHeight)}px`);
     };
 
     const fitViewport = (orderedItems: HTMLElement[]) => {
@@ -154,7 +177,7 @@ const { content} = Astro.props as Props;
 
     const startAutoplay = () => {
       if (autoplayId !== undefined || reduceMotion.matches || items.length <= 1) return;
-      autoplayId = window.setInterval(() => move(1), 6000);
+      autoplayId = window.setInterval(() => move(1), 1000);
     };
 
     upButton?.addEventListener("click", () => move(1));
@@ -169,6 +192,7 @@ const { content} = Astro.props as Props;
 
     items = currentOrder();
     setPositions(items);
+    measureItemHeight();
     fitViewport(items);
     requestAnimationFrame(() => {
       carousel.dataset.ready = "true";
@@ -189,21 +213,29 @@ const { content} = Astro.props as Props;
       },
     });
 
+    const resizeCarousel = () => {
+      if (isAnimating) {
+        resizeId = window.setTimeout(resizeCarousel, 100);
+        return;
+      }
+      measureItemHeight();
+      fitViewport(currentOrder());
+      ScrollTrigger.refresh();
+    };
+
+    document.fonts.ready.then(resizeCarousel);
+
     window.addEventListener("resize", () => {
       if (resizeId !== undefined) window.clearTimeout(resizeId);
-      resizeId = window.setTimeout(() => {
-        if (!isAnimating) {
-          fitViewport(currentOrder());
-          ScrollTrigger.refresh();
-        }
-      }, 100);
+      resizeId = window.setTimeout(resizeCarousel, 100);
     });
   }
 </script>
 
 <style>
   .company-carousel__viewport {
-    transition: height 500ms ease;
+    flex: 1;
+    min-width: 0;
   }
 
   .company-carousel__track {
@@ -213,6 +245,9 @@ const { content} = Astro.props as Props;
   .company-carousel__item {
     --company-indent: 0px;
     flex: none;
+    display: flex;
+    align-items: center;
+    height: var(--company-item-height, auto);
     width: calc(100% - var(--company-indent));
     margin-top: 0;
     margin-bottom: 0;

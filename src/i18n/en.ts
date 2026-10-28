@@ -394,33 +394,33 @@ export default {
     company: {
       tag: "Te acompañamos en cada etapa para convertir tu negocio en una franquicia sólida, rentable y escalable.",
       list: [
-        "Registro en los estados que lo exigen<br/> (California, Nueva York, Illinois, entre otros).",
-        "Manuales de operación y programa de<br/>entrenamiento.",
-        "Identidad de marca, presentación para<br/> inversionistas y guía del franquiciado.",
-        "Página de tu marca en nuestro portal de<br/> ventas, con candidatos calificados.",
-        "Acompañamiento en tus primeras ventas y en<br/> el onboarding de tus primeros franquiciados.",
-        "Diagnóstico de franqueabilidad y modelo económico <br/> (fee inicial, regalías, retorno del franquiciado).",
-        "FDD y contrato de franquicia, elaborados con <br/> nuestro equipo legal estadounidense.",
+        "Registro en los estados que lo exigen<br class='hidden xl:block'/> (California, Nueva York, Illinois, entre otros).",
+        "Manuales de operación y programa de<br class='hidden xl:block'/> entrenamiento.",
+        "Identidad de marca, presentación para <br class='hidden xl:block'/> inversionistas y guía del franquiciado.",
+        "Página de tu marca en nuestro portal de<br class='hidden xl:block'/> ventas, con candidatos calificados.",
+        "Acompañamiento en tus primeras ventas y en<br class='hidden xl:block'/> el onboarding de tus primeros franquiciados.",
+        "Diagnóstico de franqueabilidad y modelo económico <br class='hidden xl:block'/> (fee inicial, regalías, retorno del franquiciado).",
+        "FDD y contrato de franquicia, elaborados con <br class='hidden xl:block'/> nuestro equipo legal estadounidense.",
       ],
     },
     offer: {
       title: "También<span class='text-primary'> ofrecemos...</span>",
       description:
-        "Soluciones especializadas para adaptar, actualizar y expandir tu modelo de franquicia<br/> según las necesidades de tu negocio.",
+        "Soluciones especializadas para adaptar, actualizar y expandir tu modelo de franquicia<br class='hidden md:block'/> según las necesidades de tu negocio.",
       servicios: [
         {
           title: "Selección.",
-          description: "Revisión y actualización de un FDD<br/> existente.",
+          description: "Revisión y actualización de un FDD<br class='block md:hidden lg:block'/> existente.",
         },
         {
           title: "Adaptación.",
           description:
-            "Adaptación de marcas extranjeras al <br/> modelo de franquicia estadounidense.",
+            "Adaptación de marcas extranjeras al <br class='block md:hidden lg:block'/> modelo de franquicia estadounidense.",
         },
         {
           title: "Expansión.",
           description:
-            "Estructuras de máster franquicia y <br/> desarrollo por área.",
+            "Estructuras de máster franquicia y <br class='block md:hidden lg:block'/> desarrollo por área.",
         },
       ],
     },
@@ -433,7 +433,7 @@ export default {
       {
         tag: "¿Cómo Trabajamos?",
         title: "Estructuración de modelo y <br/> marca",
-        description: " 4 a 8 semanas",
+        description: " 2 a 4 semanas",
       },
       {
         tag: "¿Cómo Trabajamos?",
@@ -449,7 +449,7 @@ export default {
     questions: {
       title: "¿Tienes preguntas? Tenemos respuestas.",
       description:
-        "Respuestas claras a las preguntas más frecuentes sobre franquicias, inversión y el proceso para convertirte en franquiciado. ¿Aún tienes dudas? Estamos aquí para orientarte y ayudarte a tomar una decisión informada.",
+        "Respuestas claras a las preguntas más frecuentes sobre franquicias, inversión y el proceso para convertirte en franquiciado. <br/> ¿Aún tienes dudas? Estamos aquí para orientarte y ayudarte a tomar una decisión informada.",
       buttonLabel: "Escribir por WhatsApp",
       items: [
         {
@@ -475,7 +475,7 @@ export default {
     title:
       "45+ marcas ya lo lograron<br/> <span class='text-primary'>con nosotros.</span>",
     description:
-      "Sistemas de franquicia que desarrollamos, comercializamos o en los que invertimos<br/> directamente. Cada marca tiene su página en nuestro portal de ventas.",
+      "Sistemas de franquicia que desarrollamos, comercializamos o en los que invertimos<br class='hidden md:block'/> directamente. Cada marca tiene su página en nuestro portal de ventas.",
     sectors: [
       {
         title: "Todos",

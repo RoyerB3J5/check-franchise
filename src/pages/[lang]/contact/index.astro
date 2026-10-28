@@ -33,14 +33,14 @@ const content = t.contact;
     w={115} h={411}
     d="M -20 88 C 45 88, 125 180, 100 245 C 80 300, 45 348, -20 348"
     grosor={120}
-    class="absolute bottom-[15%] left-0 w-[115px] h-auto"
+    class="absolute bottom-[10%] left-0 w-[115px] h-auto z-10"
   />
-  <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute top-[20%] right-0 w-[153px] h-auto object-cover" />
+  <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute top-[20%] right-0 w-[153px] h-auto object-cover z-10" />
     <div class='container-full relative z-5 flex items-center justify-center gap-20 py-25 text-paragraph lg:grid lg:grid-cols-2 lg:items-start'>
       <div data-contact-map class='relative h-auto w-[50%] aspect-688/530 overflow-hidden rounded-lg lg:w-full'>
         <img src='/images/map.webp' alt='Map' decoding="async" loading="eager" fetchpriority="high" width="688" height="530" class='absolute inset-0 h-full w-full object-cover' />
       </div>
-      <div data-contact-copy class='flex w-[50%] flex-col items-center justify-center gap-40 lg:w-full'>
+      <div data-contact-copy class='flex w-[50%] flex-col items-center justify-center gap-40 lg:w-full bg-white'>
           <div class=' flex flex-col justify-center items-start gap-18 text-paragraph w-full'> 
             <h2 class='heading-1' set:html={content.location.title}></h2>
             {

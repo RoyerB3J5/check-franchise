@@ -7,7 +7,7 @@ interface Props {
 const { content} = Astro.props as Props;
 ---
 <div class='container-full flex flex-col md:flex-row justify-center items-stretch gap-0 md:gap-6 relative'>
-    <div class="founder-content-card w-full md:w-[34%] flex flex-col justify-end items-start text-white p-8 rounded-lg bg-accent">
+    <div role="button" tabindex="0" aria-expanded="false" class="founder-content-card w-full md:w-[34%] flex flex-col justify-end items-start text-white p-8 rounded-lg bg-accent">
       <img src="/icons/person.svg" alt="Icono de Persona" width="30" height="24" decoding="async" loading="lazy" class='w-[30px] h-auto self-end mb-auto'/>
       <div class="founder-content-card__main flex flex-col justify-center items-start gap-6">
         <p class="uppercase body-sm fade-up-lines">{content.tag}</p>
@@ -25,6 +25,11 @@ const { content} = Astro.props as Props;
       <img src="/images/fundador.webp" alt="Fundador" width="1672" height="941" decoding="async" loading="lazy" class='w-full h-full absolute object-cover inset-0' />
     </div>
   </div>
+
+<script>
+  import { setupTapDisclosure } from "../lib/tap-disclosure";
+  setupTapDisclosure(".founder-content-card");
+</script>
 
 <style>
   .founder-content-card__description {
@@ -48,13 +53,27 @@ const { content} = Astro.props as Props;
       transform 400ms ease-in-out;
   }
 
-  .founder-content-card:hover .founder-content-card__description {
+  .founder-content-card[aria-expanded="true"] .founder-content-card__description {
     grid-template-rows: minmax(0, 1fr);
+    transition-delay: 200ms;
   }
 
-  .founder-content-card:hover .founder-content-card__description-text {
+  .founder-content-card[aria-expanded="true"] .founder-content-card__description-text {
     opacity: 1;
     transform: translateY(0);
+    transition-delay: 200ms;
+  }
+
+  @media (min-width: 1024px) {
+    .founder-content-card:hover .founder-content-card__description {
+      grid-template-rows: minmax(0, 1fr);
+      transition-delay: 140ms;
+    }
+    .founder-content-card:hover .founder-content-card__description-text {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 140ms;
+    }
   }
 
   @media (max-width: 767px) {

@@ -25,6 +25,7 @@ const { content} = Astro.props as Props;
           return (
           <div
             data-case-card
+            role="button" tabindex="0" aria-expanded="false"
             style={`--case-index: ${index}; --case-offset-mobile: ${index * 12}px; --case-offset-tablet: ${index * 16}px; --case-offset-desktop: ${index * 24}px;`}
             class={`relative group  `}
           >
@@ -38,7 +39,7 @@ const { content} = Astro.props as Props;
                 <div class='w-10 h-[3px] bg-paragraph'></div>
               </div>
             </div>
-            <div class='absolute left-0 top-0 z-5 flex h-full w-full items-center justify-between gap-3 rounded-lg bg-[#F3F0E9] px-3 opacity-0 invisible pointer-events-none transition-opacity duration-300 ease-in-out group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto sm:gap-10 sm:px-8'>
+            <div class='case-card-overlay absolute left-0 top-0 z-5 flex h-full w-full items-center justify-between gap-3 rounded-lg bg-[#F3F0E9] px-3 opacity-0 invisible pointer-events-none transition-opacity duration-300 ease-in-out sm:gap-10 sm:px-8'>
               <img src={`/images/cases/seo-${index+1}.webp`} alt={item.title} width="1254" height="1254" decoding="async" loading="lazy" class='h-[72px] w-[72px] shrink-0 rounded-full sm:h-[112px] sm:w-[112px]'/>
               <div class='flex min-w-0 flex-col justify-center items-start gap-3 text-paragraph sm:gap-6'>
                 <h4 class='body-lg'>{item.name}</h4>
@@ -57,6 +58,8 @@ const { content} = Astro.props as Props;
 
 <script>
   import { gsap, ScrollTrigger } from "../lib/gsap";
+  import { setupTapDisclosure } from "../lib/tap-disclosure";
+  setupTapDisclosure("[data-case-card]");
 
   let casesMedia: any;
   let stackFinishTrigger: any;
@@ -167,6 +170,20 @@ const { content} = Astro.props as Props;
 </script>
 
 <style>
+  [data-case-card][aria-expanded="true"] .case-card-overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  @media (min-width: 1024px) {
+    [data-case-card]:hover .case-card-overlay {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+
   [data-case-card] {
     position: sticky;
     top: calc(72px + var(--case-offset-mobile));

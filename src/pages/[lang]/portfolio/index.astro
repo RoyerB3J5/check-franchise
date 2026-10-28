@@ -45,7 +45,7 @@ const portfolioSectorByNumber = new Map<number, string>(
   <section class='w-full flex justify-center items-center bg-[#F3F0E9] relative'>
     <Liston src="/images/decoration-w-r.webp" w={172} h={542} grosor={160} class="absolute bottom-[5%] right-0 w-[97px] h-auto object-cover z-5" d="M 230 -70 C 207 -33, 180 10, 160 40 C 140 70, 128 83, 110 110 C 92 137, 66 170, 55 200 C 44 230, 40 265, 42 290 C 44 315, 54 330, 65 350 C 76 370, 87 390, 105 410 C 123 430, 146 452, 172 470 C 198 488, 231 503, 260 520" />
     <Liston src="/images/decoration-w-l.webp" w={296} h={598} grosor={205} d="M -60 170 C -27 163, 10 161, 40 150 C 70 139, 93 114, 120 105 C 147 96, 179 92, 200 95 C 221 98, 240 108, 245 125 C 250 142, 249 161, 230 200 C 211 239, 162 316, 130 360 C 98 404, 60 435, 40 465 C 20 495, 22 511, 10 540 C -2 569, -17 607, -30 640" class="absolute top-[10%] left-0 w-[159px] h-auto object-cover"/>
-    <div class="container-full flex flex-col justify-center items-center gap-10 py-25">
+    <div class="container-full flex flex-col justify-center items-center gap-10 py-14 md:py-20 lg:py-25">
       <div class="flex flex-col justify-center items-center gap-8">
         <p class='subtitle uppercase fade-up-lines'>{content.tag}</p>
         <h1 class='heading-2 text-center fade-up-lines' set:html={content.title}></h1>
@@ -53,10 +53,11 @@ const portfolioSectorByNumber = new Map<number, string>(
       </div>
       <div
         data-portfolio-filters
-        class='bg-white p-2 flex flex-wrap justify-center items-center rounded-lg fade-up-a'
+        class='portfolio-filters bg-white p-2 flex w-full min-w-0 items-center rounded-lg fade-up-a xl:w-auto'
         role="group"
         aria-label="Filtrar marcas por categoría"
       >
+        <div class="portfolio-filters__viewport" data-portfolio-filter-viewport>
         {
           content.sectors.map((item) => (
             <button
@@ -70,7 +71,7 @@ const portfolioSectorByNumber = new Map<number, string>(
               }
               aria-pressed={item.id === "todos" ? "true" : "false"}
               class:list={[
-                "flex cursor-pointer items-center justify-center rounded-[4px] px-8 py-4 transition-colors duration-200 ",
+                "portfolio-filters__item flex cursor-pointer items-center justify-center rounded-[4px] px-2 py-4 transition-colors duration-200 xl:px-8",
                 {
                   "bg-paragraph text-white": item.id === "todos",
                   "text-paragraph hover:bg-paragraph/10": item.id !== "todos",
@@ -81,6 +82,18 @@ const portfolioSectorByNumber = new Map<number, string>(
             </button>
           ))
         }
+        </div>
+        <button
+          type="button"
+          data-portfolio-filter-next
+          class="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-[4px] hover:bg-paragraph/10 focus-visible:outline-2 focus-visible:outline-paragraph xl:hidden"
+          aria-label={lang === "es" ? "Ver siguientes filtros" : "Show next filters"}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6.41 6L5 7.41L9.58 12L5 16.59L6.41 18L12.41 12L6.41 6Z" fill="#222222"/>
+            <path d="M13.0001 6L11.5901 7.41L16.1701 12L11.5901 16.59L13.0001 18L19.0001 12L13.0001 6Z" fill="#222222"/>
+          </svg>
+        </button>
       </div>
       <div
         data-portfolio-grid
@@ -123,6 +136,23 @@ const portfolioSectorByNumber = new Map<number, string>(
     const buttons = [...filters.querySelectorAll<HTMLButtonElement>("[data-portfolio-filter]")];
     const cards = [...grid.querySelectorAll<HTMLElement>("[data-portfolio-card]")];
     const cleanupCallbacks: Array<() => void> = [];
+    const filterViewport = filters.querySelector<HTMLElement>("[data-portfolio-filter-viewport]");
+    const nextButton = filters.querySelector<HTMLButtonElement>("[data-portfolio-filter-next]");
+    const advanceFilters = () => {
+      if (!filterViewport || !buttons.length) return;
+      const step = buttons[0].getBoundingClientRect().width;
+      const maximum = filterViewport.scrollWidth - filterViewport.clientWidth;
+      if (step <= 0 || maximum <= 0) return;
+      const next = filterViewport.scrollLeft >= maximum - 1
+        ? 0
+        : Math.min(maximum, (Math.round(filterViewport.scrollLeft / step) + 1) * step);
+      filterViewport.scrollTo({
+        left: next,
+        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      });
+    };
+    nextButton?.addEventListener("click", advanceFilters);
+    cleanupCallbacks.push(() => nextButton?.removeEventListener("click", advanceFilters));
 
     const selectFilter = (selectedButton: HTMLButtonElement) => {
       const orderedNumbers = (selectedButton.dataset.imageOrder ?? "")
@@ -175,3 +205,32 @@ const portfolioSectorByNumber = new Map<number, string>(
     initializePortfolioFilters();
   }
 </script>
+
+<style>
+  .portfolio-filters__viewport {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .portfolio-filters__viewport::-webkit-scrollbar { display: none; }
+
+  .portfolio-filters__item {
+    flex: 0 0 calc(100% / 3);
+    min-width: 0;
+    overflow-wrap: anywhere;
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: 768px) {
+    .portfolio-filters__item { flex-basis: 25%; }
+  }
+
+  @media (min-width: 1280px) {
+    .portfolio-filters__viewport { overflow: visible; }
+    .portfolio-filters__item { flex: 0 0 auto; }
+  }
+</style>
