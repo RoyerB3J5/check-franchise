@@ -9,7 +9,7 @@ interface Props {
 }
 const { content, contentFounder } = Astro.props as Props;
 ---
-<section class="w-full flex flex-col justify-center items-center py-25 gap-10">
+<section class="w-full flex flex-col justify-center items-center py-14 md:py-20 xl:py-25 gap-10">
   <h2 set:html={content.title} class='heading-1 text-center fade-up-lines'></h2>
   <FounderContent content={contentFounder} />
   <div class='container-full grid grid-cols-4 justify-center items-stretch gap-6'>

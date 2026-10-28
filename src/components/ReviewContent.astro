@@ -103,9 +103,9 @@ const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
     let dragDelta = 0;
 
     const getVisibleCount = () => {
-      const count = window.matchMedia("(min-width: 1024px)").matches
+      const count = window.matchMedia("(min-width: 1280px)").matches
         ? 3
-        : window.matchMedia("(min-width: 640px)").matches
+        : window.matchMedia("(min-width: 768px)").matches
           ? 2
           : 1;
       return Math.min(count, cards.length);
@@ -422,7 +422,9 @@ const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
       flex-direction: row;
       gap: 1rem;
     }
+  }
 
+  @media (min-width: 768px) {
     .reviews-carousel__card {
       flex-basis: calc((100% - 1.5rem) / 2);
     }
@@ -443,7 +445,9 @@ const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
     .reviews-summary__info {
       flex-direction: column;
     }
+  }
 
+  @media (min-width: 1280px) {
     .reviews-carousel__card {
       flex-basis: calc((100% - 3rem) / 3);
     }

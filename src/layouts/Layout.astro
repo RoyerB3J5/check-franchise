@@ -137,14 +137,24 @@ const {
       (entries) => {
         entries.forEach((entry) => {
           const el = entry.target;
+          const delayedThreshold = el instanceof HTMLElement
+            ? Number(el.dataset.animationThreshold)
+            : Number.NaN;
+          const isMediumToLarge = window.matchMedia(
+            "(min-width: 768px) and (max-width: 1279px)",
+          ).matches;
+          const requiredRatio =
+            isMediumToLarge && Number.isFinite(delayedThreshold)
+              ? delayedThreshold
+              : 0.3;
 
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && entry.intersectionRatio >= requiredRatio) {
             revealElement(el);
             animationObserver.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.3 },
+      { threshold: [0.3, 0.55] },
     );
 
     const lineRevealElements = [

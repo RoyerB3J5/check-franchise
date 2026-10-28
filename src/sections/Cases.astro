@@ -17,7 +17,7 @@ const { content} = Astro.props as Props;
     class="absolute top-[-5%] left-0 w-[115px] h-auto"
   />
   <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute bottom-[20%] right-0 w-[153px] h-auto object-cover" />
-  <div class='container-full flex flex-col justify-center items-center py-25 gap-10 text-paragraph'>
+  <div class='container-full flex flex-col justify-center items-center py-14 md:py-20 xl:py-25 gap-10 text-paragraph'>
     <h2 class='heading-1 fade-up-lines' set:html={content.title}></h2>
     <div data-cases-stack class="flex w-full max-w-[676px] flex-col items-stretch justify-start gap-2">
       {

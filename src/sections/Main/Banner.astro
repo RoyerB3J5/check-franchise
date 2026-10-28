@@ -8,7 +8,7 @@ interface Props {
 }
 const { content} = Astro.props as Props;
 ---
-<section class="w-full h-[100svh] flex flex-col md:flex-row justify-center items-center relative" data-banner-section>
+<section class="w-full h-[100vh] md:h-[60vh] xl:h-[100svh] flex flex-col md:flex-row justify-center items-center relative" data-banner-section>
   <div class='bg-[#F3F0E9] flex flex-col justify-center items-start pt-14 pb-10 px-4 w-full block md:hidden gap-8'>
     <h1 class='heading-1 max-w-[559px] text-start fade-up-lines' set:html={content.title}></h1>
     <p class='body-md max-w-[559px] text-start fade-up-lines'>{content.description}</p>
