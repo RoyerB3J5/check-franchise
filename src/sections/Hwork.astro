@@ -36,7 +36,7 @@ const isMission = variant === "mission";
         h={598}
         grosor={205}
         d="M -60 170 C -27 163, 10 161, 40 150 C 70 139, 93 114, 120 105 C 147 96, 179 92, 200 95 C 221 98, 240 108, 245 125 C 250 142, 249 161, 230 200 C 211 239, 162 316, 130 360 C 98 404, 60 435, 40 465 C 20 495, 22 511, 10 540 C -2 569, -17 607, -30 640"
-        class="pointer-events-none absolute left-0 top-[17%] h-auto w-[109px] object-cover z-5"
+        class="pointer-events-none absolute left-0 top-[40%] lg:top-[17%] h-auto w-[109px] object-cover z-5"
       />
     )
   }
@@ -97,50 +97,22 @@ const isMission = variant === "mission";
                   data-hwork-line-reveal
                   set:html={item.title}
                 ></h2>
-                {
-                  item.description && (
-                    <div class='flex min-h-0 w-full flex-1 flex-col items-center justify-center gap-4 lg:flex-none lg:gap-10'>
+                <div class="flex min-h-0 w-full  flex-col items-center justify-center gap-4 lg:flex-none lg:gap-10">
+                  {
+                    item.description?.trim() !== "" && (
                       <p
                         class="body-md hwork-fade-lines text-center"
                         data-hwork-line-reveal
                         set:html={item.description}
                       ></p>
-                      <div
-                        data-hwork-images
-                        class:list={[
-                          "relative h-auto w-full aspect-118/111  overflow-hidden rounded-lg lg:hidden block",
-                        ]}
-                        aria-live="polite"
-                      >
-                        {
-                          content.map((item, index) => (
-                            <img
-                              data-hwork-image
-                              data-index={index}
-                              src={"/images/" + resolvedImagePrefix + "-" + (index + 1) + ".webp"}
-                              alt={"Etapa " + (index + 1) + ": " + item.title}
-                              aria-hidden={index === 0 ? "false" : "true"}
-                              width="1300"
-                              height="694"
-                              decoding="async"
-                              loading={index === 0 ? "eager" : "lazy"}
-                              fetchpriority={index === 0 ? "high" : "auto"}
-                              style={
-                                "clip-path: inset(0% 0% 0% 0% round 0 0 0.5rem 0.5rem)"
-                              }
-                              class="absolute inset-0 h-full w-full object-cover"
-                            />
-                          ))
-                        }
-                      </div>
-                    </div>
-
-                  )
-                }
+                    )
+                  }
+                </div>
                 {
-                  item.about && (
+                  item.about?.length && (
                     <div
-                      class="grid w-full grid-cols-2 items-stretch justify-center gap-3 text-left md:gap-6"
+                      data-hwork-about
+                      class="grid w-full grid-cols-1 md:grid-cols-2 items-stretch justify-center gap-3 text-left md:gap-6"
                       data-hwork-line-reveal
                     >
                       {item.about.map((aboutItem) => (
@@ -152,6 +124,32 @@ const isMission = variant === "mission";
                     </div>
                   )
                 }
+                <div
+                  data-hwork-images
+                  data-hwork-mobile-image
+                  data-index={index}
+                  class:list={[
+                    "relative h-auto w-full aspect-118/111 overflow-hidden rounded-lg lg:hidden block",
+                  ]}
+                  aria-live="polite"
+                >
+                  <img
+                    data-hwork-image
+                    data-index={index}
+                    src={"/images/" + resolvedImagePrefix + "-" + (index + 1) + ".webp"}
+                    alt={"Etapa " + (index + 1) + ": " + item.title}
+                    aria-hidden={index === 0 ? "false" : "true"}
+                    width="1300"
+                    height="694"
+                    decoding="async"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    fetchpriority={index === 0 ? "high" : "auto"}
+                    style={
+                      "clip-path: inset(0% 0% 0% 0% round 0 0 0.5rem 0.5rem)"
+                    }
+                    class="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
               </div>
             ))
           }
@@ -218,6 +216,9 @@ const isMission = variant === "mission";
       const imagesByStep = contents.map((content) =>
         images.filter((image) => image.dataset.index === content.dataset.index),
       );
+      const mobileImageContainers = [
+        ...section.querySelectorAll<HTMLElement>("[data-hwork-mobile-image]"),
+      ];
 
       const lastIndex = contents.length - 1;
       const transitionDuration = 0.75;
@@ -229,6 +230,32 @@ const isMission = variant === "mission";
       let activeIndex = 0;
       let isContextActive = true;
       let lineResizeTimeout: number | undefined;
+
+      const updateMobileImageMaxHeight = () => {
+        mobileImageContainers.forEach((container) => {
+          container.style.maxHeight = "";
+        });
+
+        const isMediumToLarge = window.matchMedia(
+          "(min-width: 768px) and (max-width: 1023px)",
+        ).matches;
+        const aboutIndexes = contents
+          .filter((content) => content.querySelector("[data-hwork-about]"))
+          .map((content) => content.dataset.index);
+        const maxImageHeight = isMediumToLarge
+          ? Math.max(
+              0,
+              ...mobileImageContainers
+                .filter((container) => aboutIndexes.includes(container.dataset.index))
+                .map((container) => container.getBoundingClientRect().height),
+            )
+          : 0;
+        const maxHeight = maxImageHeight > 0 ? maxImageHeight + "px" : "";
+
+        mobileImageContainers.forEach((container) => {
+          container.style.maxHeight = maxHeight;
+        });
+      };
       const lineRevealElements = [
         ...section.querySelectorAll<HTMLElement>("[data-hwork-line-reveal]"),
       ];
@@ -292,13 +319,20 @@ const isMission = variant === "mission";
       const reprepareLineReveal = () => {
         window.clearTimeout(lineResizeTimeout);
         lineResizeTimeout = window.setTimeout(() => {
-          if (isContextActive) lineRevealElements.forEach(prepareLineReveal);
+          if (isContextActive) {
+            lineRevealElements.forEach(prepareLineReveal);
+            updateMobileImageMaxHeight();
+          }
         }, 120);
       };
       window.addEventListener("resize", reprepareLineReveal);
+      updateMobileImageMaxHeight();
       if (document.fonts?.ready) {
         document.fonts.ready.then(() => {
-          if (isContextActive) lineRevealElements.forEach(prepareLineReveal);
+          if (isContextActive) {
+            lineRevealElements.forEach(prepareLineReveal);
+            updateMobileImageMaxHeight();
+          }
         });
       }
 

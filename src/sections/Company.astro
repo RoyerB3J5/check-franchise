@@ -10,7 +10,7 @@ const { content} = Astro.props as Props;
 ---
 <section class='w-full flex flex-col justify-center items-center relative bg-[#F3F0E9]' data-company-section>
   <Liston src="/images/decoration-o-l.webp" w={230} h={776} grosor={185}
-  d="M -60 -80 C -27 3, 5 93, 40 170 C 75 247, 126 315, 150 380 C 174 445, 188 512, 185 560 C 182 608, 151 648, 130 670 C 109 692, 92 684, 60 692 C 28 700, -20 707, -60 715" class="absolute bottom-[-10%] left-0 w-[145px] h-auto object-cover z'0 xl:z-5" />
+  d="M -60 -80 C -27 3, 5 93, 40 170 C 75 247, 126 315, 150 380 C 174 445, 188 512, 185 560 C 182 608, 151 648, 130 670 C 109 692, 92 684, 60 692 C 28 700, -20 707, -60 715" class="absolute bottom-[-4%] xl:bottom-[-10%] left-0 w-[110px] xl:w-[145px] h-auto object-cover z-0 xl:z-5" />
   <div class='container-full flex flex-col lg:flex-row justify-between items-start py-14 md:py-20 xl:py-25 gap-10 md:gap-12'>
     <h2 class='body-xl max-w-none md:max-w-[326px] text-paragraph fade-up-lines'>{content.tag}</h2>
     <div class="company-carousel flex w-full items-center justify-end gap-3" data-company-carousel role="region" aria-label={content.tag} aria-roledescription="carrusel">

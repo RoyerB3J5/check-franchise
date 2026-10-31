@@ -77,7 +77,7 @@ const { content} = Astro.props as Props;
         scrollTrigger: {
           id: "founder-to-banner-transition",
           trigger: founder,
-          start: "bottom bottom",
+          start: "bottom 85%",
           end: () => fakeScrollRatio ? `+=${innerPanel.offsetHeight}` : "bottom top",
           pinSpacing: false,
           pin: true,

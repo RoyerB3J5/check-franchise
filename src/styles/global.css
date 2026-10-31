@@ -151,7 +151,11 @@ html {
   line-height: 130%;
   letter-spacing: 0.24px; /* 1% de 24px */
 }
-
+@media (max-width: 769px) {
+  .body-xl.body-xl--mobile-medium {
+    font-size:18px;
+  }
+}
 /* Body Large */
 .body-lg {
   font-size: 18px;

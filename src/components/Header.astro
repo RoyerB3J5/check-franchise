@@ -118,7 +118,7 @@ const lang = match ? match[1] : "en";
       class="ml-4"
     >
       <img
-        src="/icons/logo.svg"
+        src="/icons/logo-orange.svg"
         alt="Logo de Click Franchise"
         width="216"
         height="56"
@@ -134,7 +134,7 @@ const lang = match ? match[1] : "en";
             return (
               <>
                 <li
-                  class={`flex flex-col items-start justify-start group gap-3.5  w-full text-start border-b-[1.5px] border-b-[#E7E7E7] px-4   ${isActive ? "bg-paragraph  text-white uppercase " : ""}`}
+                  class={`flex flex-col items-start justify-start group gap-3.5  w-full text-start border-b-[1.5px] border-b-[#E7E7E7] px-4   ${isActive ? "bg-primary  text-white uppercase " : ""}`}
                   id={`mobile-nav-item-${index}`}
                 >
                   <a
@@ -143,7 +143,7 @@ const lang = match ? match[1] : "en";
                     aria-expanded="false"
                   >
                     <p
-                      class={`text-[17px] font-normal leading-[150%] tracking-[-0.5px] uppercase ${isActive ? "text-white" : "text-paragraph"}`}
+                      class={`text-[17px] font-semibold leading-[150%] tracking-[-0.5px] uppercase ${isActive ? "text-white" : "text-paragraph"}`}
                       set:html={item.label}
                     />
                   </a>

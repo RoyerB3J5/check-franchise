@@ -7,36 +7,26 @@ interface Props {
 const { content} = Astro.props as Props;
 ---
 <div class='container-full flex flex-col md:flex-row justify-center items-stretch gap-0 md:gap-6 relative'>
-    <div role="button" tabindex="0" aria-expanded="false" class="founder-content-card w-full md:w-[34%] flex flex-col justify-end items-start text-white p-8 rounded-lg bg-accent">
+    <div class="founder-content-card w-full md:w-[34%] flex flex-col justify-end items-start text-white p-8 rounded-lg bg-accent">
       <img src="/icons/person.svg" alt="Icono de Persona" width="30" height="24" decoding="async" loading="lazy" class='w-[30px] h-auto self-end mb-auto'/>
       <div class="founder-content-card__main flex flex-col justify-center items-start gap-6">
         <p class="uppercase body-sm fade-up-lines">{content.tag}</p>
         <h2 class="heading-3 text-secondary fade-up-lines">Esdras Ribeiro</h2>
         <p class='body-md tracking-[0.64px] fade-up-lines'>{content.subtitle}</p>
         <div class="w-10 h-[3px] bg-white "></div>
-      </div>
-      <div class="founder-content-card__description">
-        <div class="founder-content-card__description-inner">
-          <p class="founder-content-card__description-text body-md mt-6">{content.description}</p>
-        </div>
+        <p class="body-md  fade-up-lines">{content.description}</p>
       </div>
     </div>
     <div class="w-full md:w-[66%] h-auto aspect-398/506 md:aspect-909/512 overflow-hidden rounded-lg relative fade-left-a -translate-y-3 md:translate-y-0" data-animation-threshold="0.55" >
-      <img src="/images/fundador.webp" alt="Fundador" width="1672" height="941" decoding="async" loading="lazy" class='w-full h-full absolute object-cover inset-0' />
+      <img src="/images/fundador.webp" alt="Fundador" width="1672" height="941" decoding="async" loading="lazy" class='w-full h-full absolute object-[59%_50%] md:object-center object-cover inset-0' />
     </div>
   </div>
-
-<script>
-  import { setupTapDisclosure } from "../lib/tap-disclosure";
-  setupTapDisclosure(".founder-content-card");
-</script>
 
 <style>
   .founder-content-card__description {
     display: grid;
     width: 100%;
-    grid-template-rows: minmax(0, 0fr);
-    transition: grid-template-rows 400ms ease-in-out;
+    grid-template-rows: minmax(0, 1fr);
   }
 
   .founder-content-card__description-inner {
@@ -46,34 +36,7 @@ const { content} = Astro.props as Props;
 
   .founder-content-card__description-text {
     text-box: normal;
-    opacity: 0;
-    transform: translateY(0.75rem);
-    transition:
-      opacity 300ms ease-in-out,
-      transform 400ms ease-in-out;
-  }
-
-  .founder-content-card[aria-expanded="true"] .founder-content-card__description {
-    grid-template-rows: minmax(0, 1fr);
-    transition-delay: 200ms;
-  }
-
-  .founder-content-card[aria-expanded="true"] .founder-content-card__description-text {
     opacity: 1;
-    transform: translateY(0);
-    transition-delay: 200ms;
-  }
-
-  @media (min-width: 1024px) {
-    .founder-content-card:hover .founder-content-card__description {
-      grid-template-rows: minmax(0, 1fr);
-      transition-delay: 140ms;
-    }
-    .founder-content-card:hover .founder-content-card__description-text {
-      opacity: 1;
-      transform: translateY(0);
-      transition-delay: 140ms;
-    }
   }
 
   @media (max-width: 767px) {
@@ -91,10 +54,4 @@ const { content} = Astro.props as Props;
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .founder-content-card__description,
-    .founder-content-card__description-text {
-      transition-duration: 0.01ms;
-    }
-  }
 </style>

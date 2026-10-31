@@ -1,4 +1,5 @@
 ---
+import FormContact from "../../../components/FormContact.astro";
 import Liston from "../../../components/Liston.astro";
 import en from "../../../i18n/en";
 import es from "../../../i18n/es";
@@ -35,28 +36,29 @@ const content = t.contact;
     grosor={120}
     class="absolute bottom-[10%] left-0 w-[115px] h-auto z-10"
   />
-  <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute top-[20%] right-0 w-[153px] h-auto object-cover z-10" />
-    <div class='container-full relative z-5 flex items-center justify-center gap-20 py-25 text-paragraph lg:grid lg:grid-cols-2 lg:items-start'>
-      <div data-contact-map class='relative h-auto w-[50%] aspect-688/530 overflow-hidden rounded-lg lg:w-full'>
+  <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 360 190 C 335 177, 311 165, 284 150 C 257 135, 227 109, 200 100 C 173 91, 142 87, 120 95 C 98 103, 77 124, 70 150 C 63 176, 67 212, 80 250 C 93 288, 122 335, 150 380 C 178 425, 220 467, 250 520 C 280 573, 303 640, 330 700" class="absolute top-[20%] right-0 w-[153px] h-auto object-cover z-10" />
+    <div class='container-full relative z-5 flex flex-col md:flex-row items-center justify-center gap-14 md:gap-20 py-14 md:py-20 xl:py-25 text-paragraph lg:grid lg:grid-cols-2 md:items-start'>
+      <div data-contact-map class='contact-mobile-animation fade-left-a relative h-auto w-full md:w-[50%] aspect-151/122 md:aspect-688/530 overflow-hidden rounded-lg lg:w-full'>
         <img src='/images/map.webp' alt='Map' decoding="async" loading="eager" fetchpriority="high" width="688" height="530" class='absolute inset-0 h-full w-full object-cover' />
       </div>
-      <div data-contact-copy class='flex w-[50%] flex-col items-center justify-center gap-40 lg:w-full bg-white'>
-          <div class=' flex flex-col justify-center items-start gap-18 text-paragraph w-full'> 
-            <h2 class='heading-1' set:html={content.location.title}></h2>
+      <div data-contact-copy class='flex w-full md:w-[50%] flex-col items-center justify-center gap-14 md:gap-40 lg:w-full bg-white'>
+          <div class='flex flex-col justify-center items-start gap-10 md:gap-18 text-paragraph w-full'>
+            <h2 class='contact-mobile-animation heading-1 fade-up-lines' set:html={content.location.title}></h2>
             {
               content.location.info.map((item)=>(
-                <div class='flex flex-col justify-center items-start gap-8'>
-                  <h3 class='body-md'>{item.description}</h3>
+                <div class='contact-mobile-animation fade-up-a flex flex-col justify-center items-start gap-8'>
+                  <h3 class='contact-mobile-animation body-md fade-up-lines'>{item.description}</h3>
                   <a href={item.link} class='body-xl hover:text-secondary' set:html={item.title}></a>
                 </div>
               ))
             }
           </div>
         <div class='w-full flex flex-col justify-center items-start gap-10 text-paragraph'>
-          <h2 class='heading-1' set:html={content.location.yourBusiness.title2}></h2>
-          <p class='body-md'>
+          <h2 class='contact-mobile-animation heading-1 fade-up-lines' set:html={content.location.yourBusiness.title2}></h2>
+          <p class='contact-mobile-animation body-md fade-up-lines'>
             {content.location.yourBusiness.description}
           </p>
+          <FormContact />
         </div>  
       </div> 
     </div>
@@ -64,7 +66,7 @@ const content = t.contact;
 </Layout>
 
 <style>
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     [data-contact-map] {
       position: sticky;
       top: 50px;
@@ -105,6 +107,22 @@ const content = t.contact;
       opacity: 1;
       transform: none;
       will-change: auto;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .contact-mobile-animation.fade-up-a,
+    .contact-mobile-animation.fade-left-a {
+      opacity: 1;
+      animation: none;
+      transform: none;
+    }
+
+    .contact-mobile-animation.fade-up-lines,
+    .contact-mobile-animation.fade-up-lines :global(.fade-up-line-fragment),
+    .contact-mobile-animation.fade-up-lines :global(.fade-up-line-word) {
+      transform: none;
+      transition: none;
     }
   }
 </style>

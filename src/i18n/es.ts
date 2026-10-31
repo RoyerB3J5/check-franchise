@@ -68,7 +68,7 @@ export default {
     breakPoint: {
       tag: "El Punto de Quiebre",
       title:
-        "Tu negocio ya funciona.<br/> <span class='text-primary'> ¿Hasta dónde puede llegar?</span>",
+        "Tu negocio ya funciona.<br class='hidden md:block'/> <span class='text-primary'> ¿Hasta dónde puede llegar?</span>",
       description:
         "Tu negocio funciona y otros quieren replicarlo. Esa es la señal.<br class='hidden md:block'/> Nosotros te ayudamos a franquiciarlo.",
       items: [
@@ -601,6 +601,7 @@ export default {
       {
         tag: "CLICK FRANCHISE",
         title: "Nuestra Historia",
+        description:"",
         about: [
           {
             title: "2020",
@@ -719,18 +720,22 @@ export default {
         {
           label: "Instagram",
           href: "#",
+          icon:'ig'
         },
         {
           label: "LinkedIn",
           href: "#",
+          icon:'linkedin'
         },
         {
           label: "Facebook",
           href: "#",
+          icon:'fb'
         },
         {
           label: "Youtube",
           href: "#",
+          icon:'youtube'
         },
       ],
     },

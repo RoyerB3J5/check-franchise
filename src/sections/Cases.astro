@@ -14,10 +14,10 @@ const { content} = Astro.props as Props;
     w={115} h={411}
     d="M -20 88 C 45 88, 125 180, 100 245 C 80 300, 45 348, -20 348"
     grosor={120}
-    class="absolute top-[-5%] left-0 w-[115px] h-auto"
+    class="absolute top-[-5%] left-0 w-[90px] xl:w-[115px] h-auto z-5"
   />
-  <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute bottom-[20%] right-0 w-[153px] h-auto object-cover" />
-  <div class='container-full flex flex-col justify-center items-center py-14 md:py-20 xl:py-25 gap-10 text-paragraph'>
+  <Liston src="/images/decoration-o-r.webp" w={284} h={656} grosor={230} d="M 360 190 C 335 177, 311 165, 284 150 C 257 135, 227 109, 200 100 C 173 91, 142 87, 120 95 C 98 103, 77 124, 70 150 C 63 176, 67 212, 80 250 C 93 288, 122 335, 150 380 C 178 425, 220 467, 250 520 C 280 573, 303 640, 330 700" class="absolute bottom-[20%] right-0 w-[120px] xl:w-[153px] h-auto object-cover z-5" />
+  <div class='container-full flex flex-col justify-center items-center py-14 md:py-20 xl:py-25 gap-10 text-paragraph relative z-0'>
     <h2 class='heading-1 fade-up-lines' set:html={content.title}></h2>
     <div data-cases-stack class="flex w-full max-w-[676px] flex-col items-stretch justify-start gap-2">
       {
@@ -29,14 +29,16 @@ const { content} = Astro.props as Props;
             style={`--case-index: ${index}; --case-offset-mobile: ${index * 12}px; --case-offset-tablet: ${index * 16}px; --case-offset-desktop: ${index * 24}px;`}
             class={`relative group  `}
           >
-            <div class='relative z-0 flex w-full items-center justify-between gap-3 rounded-lg border border-paragraph/30 bg-white px-3 py-3 sm:gap-0 sm:px-8 sm:py-1.5'>
-              <div class='relative h-[100px] w-[84px] shrink-0 overflow-hidden sm:h-[158px] sm:w-[257px] sm:aspect-257/158'>
+            <div class='relative z-0 flex w-full items-center justify-between gap-4 md:gap-3 rounded-lg border border-paragraph/30 bg-white px-4 py-6 sm:gap-0 sm:px-8 sm:py-1.5'>
+              <div class='relative w-[42%] h-auto shrink-0 overflow-hidden sm:h-[158px] sm:w-[257px] aspect-76/47 sm:aspect-257/158'>
                 <img src={`/images/cases/place-${index+1}.webp`} alt={item.title} width="600" height="396" decoding="async" loading="lazy" class='w-full h-full absolute inset-0 object-cover'/> 
               </div>
-              <div class='flex min-w-0 flex-1 flex-col items-start justify-center gap-2 text-paragraph sm:w-[276px] sm:flex-none sm:gap-8'>
-                <h3 class='body-xl'>{item.title}</h3>
-                <p class='body-md'>{item.description}</p>
-                <div class='w-10 h-[3px] bg-paragraph'></div>
+              <div class='flex min-w-0 flex-1 flex-col items-start justify-center gap-4 text-paragraph sm:w-[276px] sm:flex-none sm:gap-8'>
+                <h3 class='body-xl body-xl--mobile-medium'>{item.title}</h3>
+                <h4 class='body-md md:hidden'>{item.name}</h4>
+                <p class='body-md hidden md:block'>{item.description}</p>
+                <div class='w-10 h-[3px] bg-paragraph my-4 md:py-0'></div>
+                <p class='body-md md:hidden block'>{item.description}</p>
               </div>
             </div>
             <div class='case-card-overlay absolute left-0 top-0 z-5 flex h-full w-full items-center justify-between gap-3 rounded-lg bg-[#F3F0E9] px-3 opacity-0 invisible pointer-events-none transition-opacity duration-300 ease-in-out sm:gap-10 sm:px-8'>

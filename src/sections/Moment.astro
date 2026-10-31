@@ -19,9 +19,9 @@ const cardPositions = [
     w={115} h={411}
     d="M -20 88 C 45 88, 125 180, 100 245 C 80 300, 45 348, -20 348"
     grosor={120}
-    class="absolute top-[10%] left-0 w-[115px] h-auto"
+    class="absolute top-[20%] xl:top-[10%] left-0 w-[90px] xl:w-[115px] h-auto"
   />
-  <Liston src="/images/decoration-o-r.webp"w={284} h={656} grosor={230} d="M 330 700 C 303 640, 280 573, 250 520 C 220 467, 178 425, 150 380 C 122 335, 93 288, 80 250 C 67 212, 63 176, 70 150 C 77 124, 98 103, 120 95 C 142 87, 173 91, 200 100 C 227 109, 257 135, 284 150 C 311 165, 335 177, 360 190" class="absolute bottom-[-5%] right-0 w-[153px] h-auto object-cover" />
+  <Liston src="/images/decoration-o-r.webp"w={284} h={656} grosor={230} d="M 360 190 C 335 177, 311 165, 284 150 C 257 135, 227 109, 200 100 C 173 91, 142 87, 120 95 C 98 103, 77 124, 70 150 C 63 176, 67 212, 80 250 C 93 288, 122 335, 150 380 C 178 425, 220 467, 250 520 C 280 573, 303 640, 330 700" class="absolute bottom-[-5%] right-0 w-[120px] xl:w-[153px] h-auto object-cover" />
   <div class='container-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 gap-y-4 md:gap-y-10 xl:gap-y-20 gap-x-6 justify-center items-start py-14 md:py-20 xl:py-25'>
     <div class="w-full md:aspect-square flex flex-col justify-start items-start gap-8 text-paragraph lg:col-start-1 lg:row-start-1 mb-6 md:mb-0">
       <p class="subtitle uppercase fade-up-lines">{content.tag}</p>
@@ -52,13 +52,10 @@ const cardPositions = [
     }
     <button
       type="button"
-      class='breakpoint-card bg-primary w-full h-auto aspect-443/300 md:aspect-443/400 overflow-hidden rounded-lg relative py-10 px-8 flex flex-col justify-between items-start border-0 text-left lg:col-start-2 lg:row-start-3'
-      aria-expanded="false"
-      data-breakpoint-card
+      class='breakpoint-card breakpoint-card--static bg-[#F3F0E9] w-full h-auto aspect-443/300 md:aspect-443/400 overflow-hidden rounded-lg relative py-10 px-8 flex flex-col justify-between items-start border-0 text-left lg:col-start-2 lg:row-start-3'
     >
       <span class="relative self-end w-6 h-6" aria-hidden="true">
-        <img src='/icons/check.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='breakpoint-card__icon absolute inset-0 transition-all duration-300'/>
-        <img src='/icons/check-back.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='breakpoint-card__icon breakpoint-card__icon--back absolute inset-0 opacity-0 transition-all duration-300'/>
+        <img src='/icons/check.svg' alt="" width="24" height="24" decoding="async" loading="lazy" class='breakpoint-card__icon absolute inset-0'/>
       </span>
       <p class='body-md'>
                   {content.description}
@@ -134,6 +131,15 @@ const cardPositions = [
     transform: scale(1);
   }
 
+  .breakpoint-card.breakpoint-card--static,
+  .breakpoint-card.breakpoint-card--static:hover,
+  .breakpoint-card.breakpoint-card--static:active,
+  .breakpoint-card.breakpoint-card--static:focus {
+    background-color: #f3f0e9;
+    color: inherit;
+    transition: none;
+  }
+
   @media (min-width: 1024px) {
     .breakpoint-card.bg-primary:hover {
       background-color: var(--color-primary);
@@ -166,6 +172,23 @@ const cardPositions = [
       opacity: 1;
       transform: scale(1);
     }
+
+  }
+
+  .breakpoint-card.breakpoint-card--static:hover,
+  .breakpoint-card.breakpoint-card--static:active,
+  .breakpoint-card.breakpoint-card--static:focus,
+  .breakpoint-card.breakpoint-card--static:focus-visible {
+    background-color: #f3f0e9;
+    color: inherit;
+  }
+
+  .breakpoint-card.breakpoint-card--static:hover .breakpoint-card__icon,
+  .breakpoint-card.breakpoint-card--static:active .breakpoint-card__icon,
+  .breakpoint-card.breakpoint-card--static:focus .breakpoint-card__icon,
+  .breakpoint-card.breakpoint-card--static:focus-visible .breakpoint-card__icon {
+    opacity: 1;
+    transform: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
