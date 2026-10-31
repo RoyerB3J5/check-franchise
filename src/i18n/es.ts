@@ -658,8 +658,8 @@ export default {
       info: [
         {
           description: "Teléfono / WhatsApp",
-          title: "+1 (470) 530-0567",
-          link: "tel:+14705300567",
+          title: "+1 678 800-8709",
+            link: "tel:+16788008709",
         },
         {
           description: "Email",
@@ -680,7 +680,7 @@ export default {
   },
   footer: {
     description:
-      "Antes Brookstone Franchise. Marca de Brookstone Holding LLC. Más de 10 años convirtiendo negocios latinos en franquicias.",
+      "Antes Brookstone Franchise. Marca de Brookstone Holding LLC. Más de 15 años convirtiendo negocios latinos en franquicias.",
     navigation: {
       title: "Navegación",
       items: [
@@ -748,13 +748,13 @@ export default {
           icon: "map",
         },
         {
-          label: "+1 (470) 530-0567",
-          href: "tel:+14705300567",
+          label: "+1 678 800-8709",
+          href: "tel:+16788008709",
           icon: "phone",
         },
         {
-          label: "clickfranchise@gmail.com",
-          href: "https://mail.google.com/mail/?view=cm&fs=1&to=clickfranchise@gmail.com",
+          label: "contact@clickfranchise.com",
+          href: "https://mail.google.com/mail/?view=cm&fs=1&to=contact@clickfranchise.com",
           icon: "mail",
         },
       ],
