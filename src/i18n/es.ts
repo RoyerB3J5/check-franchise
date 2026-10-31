@@ -36,7 +36,7 @@ export default {
       buttons: [
         {
           label: "Comprar una franquicia",
-          href: "#",
+          href: "/buy-franchise",
         },
         {
           label: "Ver el portafolio completo",
@@ -209,7 +209,7 @@ export default {
       ],
       button: {
         label: "Ver todos los casos de éxito",
-        href: "#",
+        href: "/success-stories",
       },
     },
     founder: {
@@ -226,11 +226,11 @@ export default {
       buttons: [
         {
           label: "Agendar mi llamada",
-          href: "#",
+          href: "https://wa.me/16788008709",
         },
         {
           label: "Escribir por WhatsApp",
-          href: "#",
+          href: "https://wa.me/16788008709",
         },
       ],
     },
@@ -274,7 +274,7 @@ export default {
         "Desde la elección de la marca hasta el día de apertura. Sin sorpresas, sin letra pequeña que no hayas leído con nosotros primero.",
       button: {
         label: "Recibir el portafolio",
-        href: "#",
+        href: "https://wa.me/16788008709",
       },
     },
     who: {
@@ -366,7 +366,7 @@ export default {
         "En 3 a 6 meses: modelo económico, documentación legal completa y un<br/> canal de ventas funcionando. Tu marca, lista para multiplicarse.",
       button: {
         label: "Solicitar diagnóstico",
-        href: "#",
+        href: "https://wa.me/16788008709",
       },
     },
     moment: {
@@ -575,7 +575,7 @@ export default {
         "¿Tu negocio podría ser el<span class='text-primary'> próximo<br/> caso de éxito?</span>",
       button: {
         label: "Quiero franquiciar mi negocio",
-        href: "#",
+        href: "https://wa.me/16788008709",
       },
     },
   },
@@ -663,8 +663,8 @@ export default {
         },
         {
           description: "Email",
-          title: "correo@clickfranquicia.com",
-          link: "#",
+          title: "contact@clickfranchise.com",
+          link: "https://mail.google.com/mail/?view=cm&fs=1&to=contact@clickfranchise.com",
         },
         {
           description: "Dirección",
@@ -762,40 +762,54 @@ export default {
   },
   seo: {
     main: {
-      title: "Check Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Click Franchise | Franquicias para invertir y crecer en EE. UU.",
+      description:
+        "Desarrollamos marcas latinas como franquicias y conectamos inversionistas con oportunidades probadas en Estados Unidos.",
+      keywords:
+        "franquicias en Estados Unidos, comprar franquicia, franquiciar negocio, franquicias latinas, inversión en franquicias",
     },
     buyFranchise: {
-      title: "Comprar Franquicia | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Comprar una Franquicia en EE. UU. | Click Franchise",
+      description:
+        "Encuentra la franquicia adecuada para tu perfil, analiza cada oportunidad y recibe acompañamiento hasta el día de apertura.",
+      keywords:
+        "comprar franquicia en Estados Unidos, oportunidades de franquicia, inversión en franquicias, franquicias para latinos",
     },
     franchiseMyBusiness: {
-      title: "Franquiciar mi Negocio | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Franquicia tu Negocio en EE. UU. | Click Franchise",
+      description:
+        "Convierte tu negocio en una franquicia sólida y escalable con modelo económico, documentación legal y apoyo para crecer.",
+      keywords:
+        "franquiciar mi negocio, cómo franquiciar un negocio, desarrollo de franquicias, FDD, franquicias en Estados Unidos",
     },
     portfolio: {
-      title: "Portafolio | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Portafolio de Franquicias | Click Franchise",
+      description:
+        "Explora más de 45 marcas y oportunidades de franquicia en alimentos, servicios, salud, educación, retail y tecnología.",
+      keywords:
+        "portafolio de franquicias, oportunidades de franquicia, franquicias en venta, marcas de franquicia, invertir en franquicias",
     },
     successStories: {
-      title: "Casos de Éxito | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Casos de Éxito en Franquicias | Click Franchise",
+      description:
+        "Conoce las marcas que crecieron con Click Franchise y descubre cómo pasaron de un local a un sistema de franquicias.",
+      keywords:
+        "casos de éxito de franquicias, historias de franquicias, crecimiento de franquicias, desarrollo de franquicias",
     },
 
     aboutUs: {
-      title: "About Us | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Nosotros | Click Franchise",
+      description:
+        "Conoce al equipo de Click Franchise: operadores e inversionistas que ayudan a emprendedores latinos a crecer en Estados Unidos.",
+      keywords:
+        "Click Franchise, consultoría de franquicias, equipo de franquicias, franquicias para latinos, negocios en Estados Unidos",
     },
     contact: {
-      title: "Contact | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Contacto | Click Franchise",
+      description:
+        "Conversa con Click Franchise sobre comprar una franquicia o convertir tu negocio en una oportunidad lista para crecer.",
+      keywords:
+        "contactar Click Franchise, asesoría de franquicias, comprar franquicia, franquiciar negocio, Atlanta Georgia",
     },
   },
 };

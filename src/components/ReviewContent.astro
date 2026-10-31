@@ -9,7 +9,7 @@ const { content} = Astro.props as Props;
 // Comprueba si la URL coincide con la raíz o los prefijos de idioma (/ , /es, /es/, /en, /en/)
 const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
 ---
-<div class="reviews-layout">
+<div class="reviews-layout items-stretch">
       <div class="reviews-summary rounded-lg bg-white">
         <div class="reviews-summary__info text-paragraph">
           <p class="heading-1 fade-up-lines-raw">5.0</p>
@@ -43,13 +43,13 @@ const locale = Astro.url.pathname.startsWith("/es") ? "/es" : "/en";
         aria-label={locale === "/es" ? "Reseñas de clientes" : "Customer reviews"}
         tabindex="0"
       >
-        <div class="reviews-carousel__viewport" data-review-viewport>
-          <div class="reviews-carousel__track" data-review-track style={`--review-duration: ${content.items.length * 12}s;`}>
+        <div class="reviews-carousel__viewport h-full" data-review-viewport>
+          <div class="reviews-carousel__track h-full" data-review-track style={`--review-duration: ${content.items.length * 12}s;`}>
             {[0, 1].map((copy) => (
               <div class="reviews-carousel__set" aria-hidden={copy === 1 ? "true" : undefined} data-review-clone={copy === 1 ? "" : undefined}>
             {content.items.map((item, index) => (
               <article
-                class="reviews-carousel__card rounded-lg bg-white"
+                class="reviews-carousel__card rounded-lg bg-white h-full"
                 data-review-card
                 role="group"
                 aria-roledescription={locale === "/es" ? "reseña" : "review"}

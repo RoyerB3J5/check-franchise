@@ -2,499 +2,499 @@ export default {
   header: {
     nav: [
       {
-        label: "Comprar Franquicia",
+        label: "Buy a Franchise",
         href: "/buy-franchise",
       },
       {
-        label: "Franquiciar mi Negocio",
+        label: "Franchise My Business",
         href: "/franchise-my-business",
       },
       {
-        label: "Portafolio",
+        label: "Portfolio",
         href: "/portfolio",
       },
       {
-        label: "Casos de Éxito",
+        label: "Success Stories",
         href: "/success-stories",
       },
       {
-        label: "Nosotros",
+        label: "About Us",
         href: "/about-us",
       },
       {
-        label: "Contacto",
+        label: "Contact",
         href: "/contact",
       },
     ],
   },
   main: {
     hero: {
-      tag: "Antes Brookstone Franchise",
-      title: "Un negocio no nace franquicia. Se construye para serlo.",
+      tag: "Formerly Brookstone Franchise",
+      title: "Businesses aren't born franchises. They're built to become one.",
       description:
-        "Click Franchise transforma marcas latinas en franquicias y conecta inversionistas con oportunidades en EE. UU.",
+        "Click Franchise turns Latino brands into franchises and connects investors with opportunities in the U.S.",
       buttons: [
         {
-          label: "Comprar una franquicia",
-          href: "#",
+          label: "Buy a franchise",
+          href: "/buy-franchise",
         },
         {
-          label: "Ver el portafolio completo",
+          label: "View the full portfolio",
           href: "/portfolio",
         },
       ],
     },
     cifras: {
-      title: "Cifras que respaldan.",
+      title: "Numbers that speak for themselves.",
       item: [
         {
           number: "+15",
-          tag: "Años desarrollando franquicias",
+          tag: "Years developing franchises",
         },
         {
           number: "+45",
-          tag: "Marcas en portafolio",
+          tag: "Brands in our portfolio",
         },
         {
           number: "+30",
-          tag: "Años de expertise legal (equipo aliado)",
+          tag: "Years of legal expertise (partner team)",
         },
         {
           number: "3",
-          tag: "Idiomas: español, inglés, portugués",
+          tag: "Languages: Spanish, English, Portuguese",
         },
       ],
     },
     breakPoint: {
-      tag: "El Punto de Quiebre",
+      tag: "The Turning Point",
       title:
-        "Tu negocio ya funciona.<br class='hidden md:block'/> <span class='text-primary'> ¿Hasta dónde puede llegar?</span>",
+        "Your business is already working.<br class='hidden md:block'/> <span class='text-primary'>How far can it go?</span>",
       description:
-        "Tu negocio funciona y otros quieren replicarlo. Esa es la señal.<br class='hidden md:block'/> Nosotros te ayudamos a franquiciarlo.",
+        "Your business works, and others want to replicate it. That's the sign.<br class='hidden md:block'/> We help you franchise it.",
       items: [
         {
-          title: "Si tienes un negocio.",
+          title: "If you own a business.",
           description:
-            "Lo convertimos en una marca de franquicia lista para vender y crecer en todo Estados Unidos.",
+            "We turn it into a franchise brand ready to sell and grow across the United States.",
         },
         {
-          title: "Si quieres invertir.",
+          title: "If you want to invest.",
           description:
-            "Te llevamos de la mano hacia la franquicia correcta, con un sistema ya probado.",
+            "We guide you to the right franchise, with a system that's already proven.",
         },
         {
-          title: "Si ya tienes una franquicia.",
+          title: "If you already own a franchise.",
           description:
-            "Te ayudamos a construir tu local, diseñar tu marca y abrir tu segunda unidad.",
+            "We help you build your location, design your brand, and open your second unit.",
         },
       ],
     },
     pilars: {
-      tag: "Los 5 Pilares",
+      tag: "The 5 Pillars",
       title:
-        "Todo lo que necesitas, <br/> <span class='text-primary'>en un solo lugar.</span>",
+        "Everything you need, <br/> <span class='text-primary'>all in one place.</span>",
       description:
-        "Abrir o multiplicar un negocio en Estados Unidos no es <br/> un trámite: es una cadena de decisiones. Nosotros la conectamos, de principio a fin.",
+        "Opening or scaling a business in the United States isn't <br/> a formality: it's a series of decisions. We connect them, from start to finish.",
       items: [
         {
-          title: "Comprar una franquicia.",
+          title: "Buy a franchise.",
           description:
-            "Elegimos contigo la marca correcta y te acompañamos hasta el día de apertura.",
+            "We choose the right brand with you and support you through opening day.",
           image: "pilars-1",
         },
         {
-          title: "Franquiciar tu negocio",
+          title: "Franchise your business",
           description:
-            "Convertimos tu marca en un sistema listo para vender, con toda la documentación legal.",
+            "We turn your brand into a system ready to sell, with all the legal documentation.",
           image: "pilars-2",
         },
         {
-          title: "Obras y Build-out",
+          title: "Construction and build-out",
           description:
-            "Construimos tu local de punta a punta, con presupuesto y plazo cerrados.",
+            "We build your location from start to finish, with a fixed budget and timeline.",
           image: "pilars-3",
         },
         {
-          title: "Diseño",
+          title: "Design",
           description:
-            "Identidad de marca y diseño de tienda que se siente lista para franquiciar.",
+            "Brand identity and store design that feels ready to franchise.",
           image: "pilars-4",
         },
         {
-          title: "Mentoría",
+          title: "Mentorship",
           description:
-            "Programas para invertir o mudarte a EE. UU. sin perder tu dinero en el intento.",
+            "Programs to invest or move to the U.S. without losing your money along the way.",
           image: "pilars-5",
         },
       ],
     },
     consultors: {
-      tag: "Por Qué Click Franchise",
+      tag: "Why Click Franchise",
       title:
-        'No somos consultores. <br/> <span class="text-primary">Somos operadores.</span>',
+        'We are not consultants. <br/> <span class="text-primary">We are operators.</span>',
       items: [
         {
-          title: "Lo vivimos. Sabemos cómo hacerlo.",
+          title: "We've lived it. We know how to do it.",
           description:
-            "Somos inversionistas activos: operamos nuestras propias franquicias en Georgia.",
+            "We are active investors: we operate our own franchises in Georgia.",
         },
         {
-          title: "Cumplimiento legal, sin atajos.",
+          title: "Legal compliance, with no shortcuts.",
           description:
-            "Trabajamos con un equipo legal estadounidense con más de 30 años en franquicias.",
+            "We work with a U.S. legal team with more than 30 years in franchising.",
         },
         {
-          title: "Hablamos tu idioma. De verdad.",
+          title: "We speak your language. Truly.",
           description:
-            "Español, inglés y portugués. Entendemos el camino de quien llega de fuera porque lo recorrimos.",
+            "Spanish, English, and Portuguese. We understand the journey of newcomers because we've made it ourselves.",
         },
         {
-          title: "Un ecosistema, no un solo servicio.",
+          title: "An ecosystem, not just one service.",
           description:
-            "Portal de ventas, comunidad de franquiciantes latinos y aliados en construcción e inmigración.",
+            "A sales portal, a community of Latino franchisors, and partners in construction and immigration.",
         },
       ],
     },
     portfolio: {
-      tag: "Portafolio",
+      tag: "Portfolio",
       title:
-        '45+ marcas ya lo lograron <br/><span class="text-primary">con nosotros.</span>',
+        '45+ brands have made it <br/><span class="text-primary">with us.</span>',
       button: {
-        label: "Ver el portafolio completo",
+        label: "View the full portfolio",
         href: "/portfolio",
       },
     },
     review: {
-      tag: "Por Qué Click Franchise",
+      tag: "Why Click Franchise",
       title:
-        'No lo decimos nosotros. <br/><span class="text-primary">Lo dicen ellos.</span>',
+        'We don\'t say it. <br/><span class="text-primary">They do.</span>',
       info: "11 Reviews",
       items: [
         {
           description:
-            "Click comprendió nuestra visión y nos ayudó a llevar los auténticos sabores venezolanos a más comunidades. El resultado superó nuestras expectativas – ¡no podríamos estar más felices!”",
+            "Click understood our vision and helped us bring authentic Venezuelan flavors to more communities. The result exceeded our expectations—we couldn't be happier!",
           enterprise: "Quesitos Express",
           name: "Nerio Morales",
         },
         {
           description:
-            "El equipo de Esdras nos ayudó a estructurar nuestra franquicia de manera clara y estratégica. ¡Ahora estamos creciendo rápido y expandiéndonos a nuevas regiones!",
+            "Esdras's team helped us structure our franchise clearly and strategically. Now we're growing fast and expanding into new regions!",
           enterprise: "Empire Wallpaper",
           name: "Douglas Araujo",
         },
         {
           description:
-            "Desde el inicio hasta el final, Click nos guió con profesionalismo y dedicación. Con su ayuda, transformamos nuestro servicio de limpieza en una franquicia exitosa!",
+            "From beginning to end, Click guided us with professionalism and dedication. With their help, we turned our cleaning service into a successful franchise!",
           enterprise: "The Sisters",
           name: "Claudia Zoccante",
         },
         {
           description:
-            "Click tomó nuestro sueño de expandir Winfield Street Coffee y lo hizo realidad. Con un acompañamiento cercano y estrategias acertadas, ¡nos ayudaron a crecer de verdad!",
+            "Click made our dream of expanding Winfield Street Coffee come true. With close support and smart strategies, they helped us truly grow!",
           enterprise: "Winfield Coffee",
           name: "Breno Donatti",
         },
         {
           description:
-            "Con Click estructuramos Mango Fresh como franquicia con un FDD sólido y un modelo de kiosco listo para escalar. Su conocimiento del mercado americano nos dio la seguridad para expandir con confianza.",
+            "With Click, we structured Mango Fresh as a franchise with a solid FDD and a kiosk model ready to scale. Their knowledge of the U.S. market gave us the confidence to expand.",
           enterprise: "Claudenir Nascimento",
           name: "Claudenir Nascimento",
         },
         {
           description:
-            "Click transformó Flow Açaí Bowl en un sistema de franquicias profesional, desde la documentación hasta la estrategia de expansión. Hoy tenemos una marca preparada para crecer en todo Estados Unidos.",
+            "Click turned Flow Açaí Bowl into a professional franchise system, from documentation to expansion strategy. Today, our brand is ready to grow across the United States.",
           enterprise: "Flow Açaí Bowl",
           name: "Danylo Monfardini",
         },
       ],
       button: {
-        label: "Ver todos los casos de éxito",
-        href: "#",
+        label: "View all success stories",
+        href: "/success-stories",
       },
     },
     founder: {
-      tag: "el Fundador",
-      subtitle: "Fundador, Inversionista y Autor",
+      tag: "the Founder",
+      subtitle: "Founder, Investor, and Author",
       description:
-        'Más de 15 años construyendo franquicias a nivel nacional en Estados Unidos. Hoy invierte en un portafolio de 45+ marcas y es autor de "A Franquia de um Milhão de Dólares" y "Why the USA (and How Not to Lose Your Money)".',
+        'More than 15 years building franchises nationwide in the United States. Today, he invests in a portfolio of 45+ brands and authored "A Franquia de um Milhão de Dólares" and "Why the USA (and How Not to Lose Your Money)".',
     },
     banner: {
       title:
-        "Tu próxima sede empieza con <span class='text-primary'> una conversación de 15 minutos.</span>",
+        "Your next location starts with <span class='text-primary'>a 15-minute conversation.</span>",
       description:
-        "Cuéntanos en qué punto estás. Te decimos, sin rodeos, si tu negocio está listo para ser franquicia o cuál franquicia está lista para ti.",
+        "Tell us where you are. We'll tell you plainly whether your business is ready to franchise or which franchise is right for you.",
       buttons: [
         {
-          label: "Agendar mi llamada",
-          href: "#",
+          label: "Schedule my call",
+          href: "https://wa.me/16788008709",
         },
         {
-          label: "Escribir por WhatsApp",
-          href: "#",
+          label: "Message us on WhatsApp",
+          href: "https://wa.me/16788008709",
         },
       ],
     },
     questions: {
-      title: "¿Tienes preguntas? Tenemos respuestas.",
+      title: "Have questions? We have answers.",
       description:
-        "Respuestas claras a las preguntas más frecuentes sobre franquicias, inversión y el proceso para convertirte en franquiciado. ¿Aún tienes dudas? Estamos aquí para orientarte y ayudarte a tomar una decisión informada.",
-      buttonLabel: "Escribir por WhatsApp",
+        "Clear answers to common questions about franchises, investing, and becoming a franchisee. Still have questions? We're here to guide you and help you make an informed decision.",
+      buttonLabel: "Message us on WhatsApp",
       items: [
         {
           question:
-            "¿Cuánto cuesta el acompañamiento si quiero franquiciar mi negocio?",
+            "How much does support cost if I want to franchise my business?",
           answer:
-            "Depende del alcance del proyecto; lo definimos en el diagnóstico de franqueabilidad, sin costo inicial.",
+            "It depends on the project scope; we define it during the franchise readiness assessment, with no upfront cost.",
         },
         {
-          question: "¿Cobran al inversionista que compra una franquicia?",
+          question: "Do you charge investors who buy a franchise?",
           answer:
-            "No. Nuestra remuneración proviene de las marcas del portafolio; para el comprador, el acompañamiento no tiene costo.",
+            "No. We are paid by the brands in our portfolio; support is free for buyers.",
         },
         {
-          question: "¿Trabajan con negocios fuera de Georgia?",
+          question: "Do you work with businesses outside Georgia?",
           answer:
-            "Sí, el desarrollo de franquicias es a nivel nacional; el servicio de obras y build-out se concentra en la región de Atlanta.",
+            "Yes, we develop franchises nationwide; construction and build-out services focus on the Atlanta area.",
         },
         {
           question:
-            "¿En cuánto tiempo puedo tener mi negocio listo para franquiciar?",
+            "How long will it take to get my business ready to franchise?",
           answer:
-            "En promedio, entre 3 y 6 meses, según la complejidad del modelo y la documentación legal.",
+            "On average, 3 to 6 months, depending on the model's complexity and legal documentation.",
         },
       ],
     },
   },
   buyFranchise: {
     hero: {
-      tag: "Comprar una Franquicia",
+      tag: "Buy a Franchise",
       title:
-        "Invierte en un sistema que ya funciona. <span class='text-primary'>No en una promesa.</span>",
+        "Invest in a system that works. <span class='text-primary'>Not a promise.</span>",
       description:
-        "Desde la elección de la marca hasta el día de apertura. Sin sorpresas, sin letra pequeña que no hayas leído con nosotros primero.",
+        "From choosing the brand through opening day. No surprises, no fine print you haven't reviewed with us first.",
       button: {
-        label: "Recibir el portafolio",
-        href: "#",
+        label: "Get the portfolio",
+        href: "https://wa.me/16788008709",
       },
     },
     who: {
-      tag: "Una oportunidad diseñada para crecer contigo",
-      title: "¿Para <span class='text-primary'>quién es? </span>",
+      tag: "An opportunity designed to grow with you",
+      title: "Who is it <span class='text-primary'>for? </span>",
       description:
-        "Ya sea que vivas en EE. UU., estés planeando mudarte o quieras expandir tu <br class='hidden md:block'/> negocio, tenemos un modelo pensado para tu próximo paso.",
+        "Whether you live in the U.S., plan to move, or want to expand your <br class='hidden md:block'/> business, we have a model designed for your next step.",
       items: [
         {
-          title: "Ya vives en EE. UU.",
+          title: "You already live in the U.S.",
           description:
-            "Inversionistas latinos que quieren un negocio con sistema probado, no un experimento.",
+            "Latino investors who want a business with a proven system, not an experiment.",
         },
         {
-          title: "Planeas mudarte",
+          title: "You plan to move",
           description:
-            "Emprendedores en América Latina evaluando visas E-2 y L-1, con abogados aliados.",
+            "Entrepreneurs in Latin America exploring E-2 and L-1 visas with partner attorneys.",
         },
         {
-          title: "Ya tienes una unidad",
+          title: "You already own one unit",
           description:
-            "Empresarios buscando su segunda o tercera unidad, con un socio que conoce el mercado.",
+            "Business owners seeking a second or third unit with a partner who knows the market.",
         },
       ],
     },
     steps: {
-      tag: "Tu Recorrido",
+      tag: "Your Journey",
       title:
-        "5 Pasos hacia <br class='hidden md:block'/>  <span class='text-primary'>la Apertura. </span>",
+        "5 Steps to <br class='hidden md:block'/>  <span class='text-primary'>Opening. </span>",
       items: [
         {
-          title: "Perfil.",
+          title: "Profile.",
           description:
-            "Cuestionario confidencial: capital disponible, región, dedicación y objetivos.",
+            "Confidential questionnaire: available capital, region, time commitment, and goals.",
         },
         {
-          title: "Selección",
+          title: "Selection",
           description:
-            "Te presentamos las marcas de nuestro portafolio de 45+ que encajan con tu perfil.",
+            "We present brands from our portfolio of 45+ that fit your profile.",
         },
         {
-          title: "Análisis",
+          title: "Review",
           description:
-            "Leemos contigo el FDD, las cifras reales y el contrato, línea por línea.",
+            "We review the FDD, actual figures, and contract with you, line by line.",
         },
         {
-          title: "Estructura",
+          title: "Structure",
           description:
-            "Financiamiento, sociedad, empresa y, si aplica, estrategia de visa con abogados aliados.",
+            "Financing, partnership, company setup, and, if applicable, a visa strategy with partner attorneys.",
         },
         {
-          title: "Apertura",
+          title: "Opening",
           description:
-            "Punto comercial, obras, diseño y entrenamiento hasta el día uno de operación.",
+            "Site selection, construction, design, and training through your first day of operations.",
         },
       ],
     },
     questions: {
-      title: "¿Tienes preguntas? Tenemos respuestas.",
+      title: "Have questions? We have answers.",
       description:
-        "Respuestas claras a las preguntas más frecuentes sobre franquicias, inversión y el proceso para convertirte en franquiciado. ¿Aún tienes dudas? Estamos aquí para orientarte y ayudarte a tomar una decisión informada.",
-      buttonLabel: "Escribir por WhatsApp",
+        "Clear answers to common questions about franchises, investing, and becoming a franchisee. Still have questions? We're here to guide you and help you make an informed decision.",
+      buttonLabel: "Message us on WhatsApp",
       items: [
         {
-          question: "¿Cobran por la asesoría al comprador?",
+          question: "Do you charge buyers for your guidance?",
           answer:
-            "Nuestra remuneración proviene de las marcas del portafolio; para ti el acompañamiento no tiene costo.",
+            "We are paid by the brands in our portfolio; support is free for you.",
         },
         {
           question:
-            "¿Puedo comprar una franquicia sin vivir en Estados Unidos?",
+            "Can I buy a franchise without living in the United States?",
           answer:
-            "Sí. Trabajamos con estructuras y visas de inversión junto a abogados especializados.",
+            "Yes. We work with investment structures and visas alongside specialized attorneys.",
         },
         {
-          question: "¿Cuánto tarda el proceso?",
+          question: "How long does the process take?",
           answer:
-            "Entre 60 y 180 días, según la marca, el financiamiento y el punto comercial.",
+            "Between 60 and 180 days, depending on the brand, financing, and business location.",
         },
       ],
     },
   },
   franchiseBusiness: {
     hero: {
-      tag: "Franquiciar tu Negocio",
+      tag: "Franchise Your Business",
       title:
-        "De un negocio a una <span class='text-primary'>marca que crece sin ti</span> en cada local.",
+        "Turn your business into a <span class='text-primary'>brand that grows without you</span> at every location.",
       description:
-        "En 3 a 6 meses: modelo económico, documentación legal completa y un<br/> canal de ventas funcionando. Tu marca, lista para multiplicarse.",
+        "In 3 to 6 months: a financial model, complete legal documents, and a<br/> working sales channel. Your brand, ready to multiply.",
       button: {
-        label: "Solicitar diagnóstico",
-        href: "#",
+        label: "Request an assessment",
+        href: "https://wa.me/16788008709",
       },
     },
     moment: {
-      tag: "¿Es tu Momento?",
-      title: "3 señales <span class='text-primary'> para franquiciar</span>",
+      tag: "Is It Your Moment?",
+      title: "3 signs <span class='text-primary'>you're ready to franchise</span>",
       items: [
         {
-          title: "Ya es rentable.",
-          description: "Genera ganancias consistentes, no solo ventas.",
+          title: "It's already profitable.",
+          description: "It generates consistent profits, not just sales.",
         },
         {
-          title: "Es replicable.",
+          title: "It's replicable.",
           description:
-            "Tiene procesos claros que otra persona podría ejecutar.",
+            "It has clear processes someone else could follow.",
         },
         {
-          title: "Ya te lo están pidiendo.",
+          title: "People are already asking.",
           description:
-            'Recibes preguntas de gente que quiere "abrir uno igual".',
+            'People ask you how they can "open one just like it."',
         },
       ],
       description:
-        "Si cumples los tres, probablemente es tu momento. Lo confirmamos con un diagnóstico de franqueabilidad, sin costo inicial.",
+        "If all three apply, it may be your moment. We confirm it with a franchise readiness assessment at no upfront cost.",
     },
     company: {
-      tag: "Te acompañamos en cada etapa para convertir tu negocio en una franquicia sólida, rentable y escalable.",
+      tag: "We guide you at every stage to turn your business into a solid, profitable, and scalable franchise.",
       list: [
-        "Registro en los estados que lo exigen<br class='hidden xl:block'/> (California, Nueva York, Illinois, entre otros).",
-        "Manuales de operación y programa de<br class='hidden xl:block'/> entrenamiento.",
-        "Identidad de marca, presentación para <br class='hidden xl:block'/> inversionistas y guía del franquiciado.",
-        "Página de tu marca en nuestro portal de<br class='hidden xl:block'/> ventas, con candidatos calificados.",
-        "Acompañamiento en tus primeras ventas y en<br class='hidden xl:block'/> el onboarding de tus primeros franquiciados.",
-        "Diagnóstico de franqueabilidad y modelo económico <br class='hidden xl:block'/> (fee inicial, regalías, retorno del franquiciado).",
-        "FDD y contrato de franquicia, elaborados con <br class='hidden xl:block'/> nuestro equipo legal estadounidense.",
+        "Registration in states that require it<br class='hidden xl:block'/> (California, New York, Illinois, and others).",
+        "Operations manuals and a<br class='hidden xl:block'/> training program.",
+        "Brand identity, an investor <br class='hidden xl:block'/> presentation, and a franchisee guide.",
+        "Your brand's page on our sales<br class='hidden xl:block'/> portal, with qualified candidates.",
+        "Support with your first sales and<br class='hidden xl:block'/> onboarding your first franchisees.",
+        "Franchise readiness assessment and financial model <br class='hidden xl:block'/> (initial fee, royalties, franchisee returns).",
+        "FDD and franchise agreement, prepared with <br class='hidden xl:block'/> our U.S. legal team.",
       ],
     },
     offer: {
-      title: "También<span class='text-primary'> ofrecemos...</span>",
+      title: "We also<span class='text-primary'> offer...</span>",
       description:
-        "Soluciones especializadas para adaptar, actualizar y expandir tu modelo de franquicia<br class='hidden md:block'/> según las necesidades de tu negocio.",
+        "Specialized solutions to adapt, update, and expand your franchise model<br class='hidden md:block'/> to meet your business needs.",
       servicios: [
         {
-          title: "Selección.",
-          description: "Revisión y actualización de un FDD<br class='block md:hidden lg:block'/> existente.",
+          title: "Review.",
+          description: "Review and update an existing<br class='block md:hidden lg:block'/> FDD.",
         },
         {
-          title: "Adaptación.",
+          title: "Adaptation.",
           description:
-            "Adaptación de marcas extranjeras al <br class='block md:hidden lg:block'/> modelo de franquicia estadounidense.",
+            "Adapting international brands to the <br class='block md:hidden lg:block'/> U.S. franchise model.",
         },
         {
-          title: "Expansión.",
+          title: "Expansion.",
           description:
-            "Estructuras de máster franquicia y <br class='block md:hidden lg:block'/> desarrollo por área.",
+            "Master franchise structures and <br class='block md:hidden lg:block'/> area development.",
         },
       ],
     },
     hWork: [
       {
-        tag: "¿Cómo Trabajamos?",
-        title: "Plan de Negocio",
-        description: "2 semanas",
+        tag: "How We Work",
+        title: "Business Plan",
+        description: "2 weeks",
       },
       {
-        tag: "¿Cómo Trabajamos?",
-        title: "Estructuración de modelo y <br/> marca",
-        description: " 2 a 4 semanas",
+        tag: "How We Work",
+        title: "Model and <br/> brand structuring",
+        description: " 2 to 4 weeks",
       },
       {
-        tag: "¿Cómo Trabajamos?",
-        title: "Documentación legal y <br/> manuales",
-        description: "4 a 8 semanas",
+        tag: "How We Work",
+        title: "Legal documents and <br/> manuals",
+        description: "4 to 8 weeks",
       },
       {
-        tag: "¿Cómo Trabajamos?",
-        title: "Lanzamiento comercial en el <br/> portal",
-        description: "Continuo",
+        tag: "How We Work",
+        title: "Commercial launch on the <br/> portal",
+        description: "Ongoing",
       },
     ],
     questions: {
-      title: "¿Tienes preguntas? Tenemos respuestas.",
+      title: "Have questions? We have answers.",
       description:
-        "Respuestas claras a las preguntas más frecuentes sobre franquicias, inversión y el proceso para convertirte en franquiciado. <br/> ¿Aún tienes dudas? Estamos aquí para orientarte y ayudarte a tomar una decisión informada.",
-      buttonLabel: "Escribir por WhatsApp",
+        "Clear answers to common questions about franchises, investing, and becoming a franchisee. <br/> Still have questions? We're here to guide you and help you make an informed decision.",
+      buttonLabel: "Message us on WhatsApp",
       items: [
         {
-          question: "¿Necesito tener varias sedes para franquiciar mi negocio?",
+          question: "Do I need multiple locations to franchise my business?",
           answer:
-            "No. Basta con un negocio rentable, replicable y con demanda comprobada, aunque sea una sola sede.  Nuestra remuneración proviene de las marcas del portafolio; para ti el acompañamiento no tiene costo.",
+            "No. A profitable, replicable business with proven demand is enough, even with just one location. We are paid by brands in our portfolio; support is free for you.",
         },
         {
-          question: "¿Qué pasa si mi negocio no está listo todavía?",
+          question: "What if my business isn't ready yet?",
           answer:
-            "Te lo decimos con honestidad en el diagnóstico, y te damos una ruta clara para llegar a estarlo.",
+            "We'll tell you honestly during the assessment and give you a clear path to get there.",
         },
         {
-          question: "¿El registro estatal del FDD está incluido?",
+          question: "Is state FDD registration included?",
           answer:
-            "Sí, gestionamos el registro en los estados que lo exigen como parte del proceso.",
+            "Yes, we manage registration in states that require it as part of the process.",
         },
       ],
     },
   },
   portfolio: {
-    tag: "Portafolio",
+    tag: "Portfolio",
     title:
-      "45+ marcas ya lo lograron<br/> <span class='text-primary'>con nosotros.</span>",
+      "45+ brands have made it<br/> <span class='text-primary'>with us.</span>",
     description:
-      "Sistemas de franquicia que desarrollamos, comercializamos o en los que invertimos<br class='hidden md:block'/> directamente. Cada marca tiene su página en nuestro portal de ventas.",
+      "Franchise systems we develop, market, or invest in<br class='hidden md:block'/> directly. Each brand has a page on our sales portal.",
     sectors: [
       {
-        title: "Todos",
+        title: "All",
         id: "todos",
       },
       {
-        title: "Alimentos",
+        title: "Food",
         id: "alimentos",
       },
       {
-        title: "Servicios",
+        title: "Services",
         id: "servicios",
       },
       {
-        title: "Salud",
+        title: "Health",
         id: "salud",
       },
       {
-        title: "Educación",
+        title: "Education",
         id: "educación",
       },
       {
@@ -502,90 +502,90 @@ export default {
         id: "retail",
       },
       {
-        title: "Tecnología",
+        title: "Technology",
         id: "tecnología",
       },
     ],
     button: {
-      label: "Ver el portafolio completo",
+      label: "View the full portfolio",
       href: "#",
     },
   },
   caseSuccess: {
     hero: {
-      tag: "Historias de crecimiento",
+      tag: "Growth Stories",
       title:
-        "No somos consultores de escritorio.<span class='text-primary'> Somos operadores.</span>",
+        "We're not desk-bound consultants.<span class='text-primary'> We're operators.</span>",
       description:
-        "Estas son las marcas que confiaron en nosotros para pasar de un local a un<br/> sistema de franquicia.",
+        "These are the brands that trusted us to grow from one location into a<br/> franchise system.",
       button: {
         label: "",
         href: "",
       },
     },
     cases: {
-      title: "Casos<span class='text-primary'> destacados.</span>",
+      title: "Featured <span class='text-primary'>cases.</span>",
       places: [
         {
           title: "Quesitos Express",
-          description: "De 1 local a 11 en 2 años",
+          description: "From 1 location to 11 in 2 years",
           name: "Nerio Morales",
-          para: "Click comprendió nuestra visión y nos ayudó a llevar los auténticos sabores venezolanos a más comunidades. El resultado superó nuestras expectativas – ¡no podríamos estar más felices!”",
+          para: "Click understood our vision and helped us bring authentic Venezuelan flavors to more communities. The result exceeded our expectations—we couldn't be happier!",
         },
         {
           title: "Empire Wallpaper",
-          description: "Franquiciado en 3 meses",
+          description: "Franchised in 3 months",
           name: "Douglas Araujo",
-          para: "El equipo de Esdras nos ayudó a estructurar nuestra franquicia de manera clara y estratégica. ¡Ahora estamos creciendo rápido y expandiéndonos a nuevas regiones!",
+          para: "Esdras's team helped us structure our franchise clearly and strategically. Now we're growing fast and expanding into new regions!",
         },
         {
           title: "The Sisters",
-          description: "Franquiciado en 3 meses",
+          description: "Franchised in 3 months",
           name: "Claudia Zoccante",
-          para: "Desde el inicio hasta el final, Click nos guió con profesionalismo y dedicación. Con su ayuda, transformamos nuestro servicio de limpieza en una franquicia exitosa!",
+          para: "From beginning to end, Click guided us with professionalism and dedication. With their help, we turned our cleaning service into a successful franchise!",
         },
         {
           title: "Winfield Coffee",
-          description: "De 1 a 6 locales en 2 año",
+          description: "From 1 to 6 locations in 2 years",
           name: "Breno Donatti",
-          para: "Click tomó nuestro sueño de expandir Winfield Street Coffee y lo hizo realidad. Con un acompañamiento cercano y estrategias acertadas, ¡nos ayudaron a crecer de verdad!",
+          para: "Click made our dream of expanding Winfield Street Coffee come true. With close support and smart strategies, they helped us truly grow!",
         },
         {
           title: "Mango Fresh",
-          description: "3 tiendas en 1 año",
+          description: "3 stores in 1 year",
           name: "Claudenir Nascimento",
-          para: "Con Click estructuramos Mango Fresh como franquicia con un FDD sólido y un modelo de kiosco listo para escalar. Su conocimiento del mercado americano nos dio la seguridad para expandir con confianza.",
+          para: "With Click, we structured Mango Fresh as a franchise with a solid FDD and a kiosk model ready to scale. Their knowledge of the U.S. market gave us the confidence to expand.",
         },
         {
           title: "Flow Açaí",
-          description: "6 tiendas en 2 años",
+          description: "6 stores in 2 years",
           name: "Danylo Monfardini",
-          para: "Click transformó Flow Açaí Bowl en un sistema de franquicias profesional, desde la documentación hasta la estrategia de expansión. Hoy tenemos una marca preparada para crecer en todo Estados Unidos.",
+          para: "Click turned Flow Açaí Bowl into a professional franchise system, from documentation to expansion strategy. Today, our brand is ready to grow across the United States.",
         },
         {
           title: "Polar Shake",
-          description: "Franquiciado en 3 meses",
+          description: "Franchised in 3 months",
           name: "Nerio Morales",
-          para: "Click comprendió nuestra visión y nos ayudó a llevar los auténticos sabores venezolanos a más comunidades. El resultado superó nuestras expectativas – ¡no podríamos estar más felices!”",
+          para: "Click understood our vision and helped us bring authentic Venezuelan flavors to more communities. The result exceeded our expectations—we couldn't be happier!",
         },
       ],
     },
     next: {
       title:
-        "¿Tu negocio podría ser el<span class='text-primary'> próximo<br/> caso de éxito?</span>",
+        "Could your business be the<span class='text-primary'> next<br/> success story?</span>",
       button: {
-        label: "Quiero franquiciar mi negocio",
-        href: "#",
+        label: "I want to franchise my business",
+        href: "https://wa.me/16788008709",
       },
     },
   },
   us: {
     hero: {
-      tag: "Crecimiento con propósito",
+      tag: "Purposeful Growth",
       title:
-        "No vendemos<br/>franquicias.<span class='text-primary'> Construimos<br/>legados.</span>",
+        "We don't sell<br/>franchises.<span class='text-primary'> We build<br/>legacies.</span>",
       description:
-        "Creamos franquicias sólidas que trascienden, crecen y convierten negocios en grandes legados.",
+        "We create strong franchises that endure, grow, and turn businesses into lasting legacies.",
       button: {
         label: "",
         href: "",
@@ -594,128 +594,128 @@ export default {
     history: [
       {
         tag: "CLICK FRANCHISE",
-        title: "Nuestra misión",
+        title: "Our mission",
         description:
-          "Ayudar a emprendedores e inversionistas latinos a construir negocios sólidos en Estados Unidos: con método, cumplimiento legal y una red que ya recorrió el camino. Trabajamos en español, inglés y portugués.",
+          "Help Latino entrepreneurs and investors build strong businesses in the United States with a proven method, legal compliance, and a network that's been there. We work in Spanish, English, and Portuguese.",
       },
       {
         tag: "CLICK FRANCHISE",
-        title: "Nuestra Historia",
+        title: "Our Story",
         description:"",
         about: [
           {
             title: "2020",
             description:
-              "Nacimos en Atlanta como Brookstone Franchise, enfocados en convertir marcas latinas en sistemas de franquicia.",
+              "We started in Atlanta as Brookstone Franchise, focused on turning Latino brands into franchise systems.",
           },
           {
-            title: "Hoy",
+            title: "Today",
             description:
-              "Más de 6 años y 45+ marcas después, somos Click Franchise: experiencia internacional y más de 30 años de trayectoria impulsando franquicias en América Latina, Europa y EE. UU.",
+              "More than 6 years and 45+ brands later, we're Click Franchise: with international experience and over 30 years advancing franchising across Latin America, Europe, and the U.S.",
           },
         ],
       },
     ],
     team: {
-      title: "Nuestro <span class='text-primary'>equipo</span>",
+      title: "Our <span class='text-primary'>team</span>",
       members: [
         {
           img: "m1",
           title: "Lady Nunes",
-          description: "Atención al Cliente",
+          description: "Customer Service",
         },
         {
           img: "m2",
           title: "Ismael Fernández",
-          description: "Director Financiero",
+          description: "Finance Director",
         },
         {
           img: "m3",
           title: "Gisa Azeredo",
-          description: "Desarrollo de Franquicias",
+          description: "Franchise Development",
         },
         {
           img: "m4",
           title: "Ayelen Piotti",
-          description: "Desarrollo de Franquicias ",
+          description: "Franchise Development ",
         },
         {
           img: "m5",
           title: "Lucas Negrin",
-          description: "Consultoría Internacional",
+          description: "International Consulting",
         },
         {
           img: "m6",
           title: "Emerson Vamondes",
-          description: "Director de Entrenamiento",
+          description: "Training Director",
         },
       ],
     },
   },
   contact: {
     location: {
-      title: "Nuestra <span class='text-primary'>oficina.</span>",
+      title: "Our <span class='text-primary'>office.</span>",
       info: [
         {
-          description: "Teléfono / WhatsApp",
+          description: "Phone / WhatsApp",
           title: "+1 678 800-8709",
             link: "tel:+16788008709",
         },
         {
           description: "Email",
-          title: "correo@clickfranquicia.com",
-          link: "#",
+          title: "contact@clickfranchise.com",
+          link: "https://mail.google.com/mail/?view=cm&fs=1&to=contact@clickfranchise.com",
         },
         {
-          description: "Dirección",
+          description: "Address",
           title: "7000 Central Parkway #1100<br/>Sandy Springs, GA 30328",
           link: "#",
         },
       ],
       yourBusiness: {
-        title2: "Hablemos de <span class='text-primary'>tu<br/>negocio.</span>",
-        description: "Respondemos en menos de 24 horas hábiles, en tu idioma.",
+        title2: "Let's talk about <span class='text-primary'>your<br/>business.</span>",
+        description: "We respond within 24 business hours, in your language.",
       },
     },
   },
   footer: {
     description:
-      "Antes Brookstone Franchise. Marca de Brookstone Holding LLC. Más de 15 años convirtiendo negocios latinos en franquicias.",
+      "Formerly Brookstone Franchise. A Brookstone Holding LLC brand. More than 15 years turning Latino businesses into franchises.",
     navigation: {
-      title: "Navegación",
+      title: "Navigation",
       items: [
         {
-          label: "Inicio",
+          label: "Home",
           href: "/",
         },
         {
-          label: "Comprar Franquicia",
+          label: "Buy a Franchise",
           href: "/buy-franchise",
         },
         {
-          label: "Franquiciar mi Negocio",
+          label: "Franchise My Business",
           href: "/franchise-my-business",
         },
         {
-          label: "Portafolio",
+          label: "Portfolio",
           href: "/portfolio",
         },
         {
-          label: "Casos de Éxito",
+          label: "Success Stories",
           href: "/success-stories",
         },
         {
-          label: "Nosotros",
+          label: "About Us",
           href: "/about-us",
         },
         {
-          label: "Contacto",
+          label: "Contact",
           href: "/contact",
         },
       ],
     },
     socialMedias: {
-      title: "Síguenos",
+      title: "Follow us",
       items: [
         {
           label: "Instagram",
@@ -740,7 +740,7 @@ export default {
       ],
     },
     contact: {
-      title: "Contacto",
+      title: "Contact",
       items: [
         {
           label: "7000 Central Parkway #1100, Sandy Springs, GA 30328",
@@ -762,40 +762,54 @@ export default {
   },
   seo: {
     main: {
-      title: "Check Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Click Franchise | Franchise Opportunities in the U.S.",
+      description:
+        "We develop Latino brands into franchises and connect investors with proven business opportunities across the United States.",
+      keywords:
+        "franchises in the United States, buy a franchise, franchise my business, Latino franchises, franchise investment",
     },
     buyFranchise: {
-      title: "Comprar Franquicia | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Buy a Franchise in the U.S. | Click Franchise",
+      description:
+        "Find the right franchise for your profile, review each opportunity, and get support through opening day.",
+      keywords:
+        "buy a franchise in the United States, franchise opportunities, franchise investment, franchises for Latinos",
     },
     franchiseMyBusiness: {
-      title: "Franquiciar mi Negocio | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Franchise Your Business in the U.S. | Click Franchise",
+      description:
+        "Turn your business into a solid, scalable franchise with a financial model, legal documents, and support for growth.",
+      keywords:
+        "franchise my business, how to franchise a business, franchise development, FDD, franchises in the United States",
     },
     portfolio: {
-      title: "Portafolio | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Franchise Portfolio | Click Franchise",
+      description:
+        "Explore 45+ brands and franchise opportunities in food, services, health, education, retail, and technology.",
+      keywords:
+        "franchise portfolio, franchise opportunities, franchises for sale, franchise brands, franchise investment",
     },
     successStories: {
-      title: "Casos de Éxito | Click Franchise",
-      description: "#",
-      keywords: "#",
+      title: "Franchise Success Stories | Click Franchise",
+      description:
+        "Meet the brands that grew with Click Franchise and see how they went from one location to a franchise system.",
+      keywords:
+        "franchise success stories, franchise growth stories, franchise expansion, franchise development",
     },
 
     aboutUs: {
       title: "About Us | Click Franchise",
-      description: "#",
-      keywords: "#",
+      description:
+        "Meet the Click Franchise team: operators and investors helping Latino entrepreneurs grow their businesses in the United States.",
+      keywords:
+        "Click Franchise, franchise consulting, franchise team, franchises for Latinos, businesses in the United States",
     },
     contact: {
       title: "Contact | Click Franchise",
-      description: "#",
-      keywords: "#",
+      description:
+        "Talk with Click Franchise about buying a franchise or turning your business into an opportunity ready to grow.",
+      keywords:
+        "contact Click Franchise, franchise guidance, buy a franchise, franchise a business, Atlanta Georgia",
     },
   },
 };

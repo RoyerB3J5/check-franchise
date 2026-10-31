@@ -6,6 +6,7 @@ import {
   instagramLink,
   phoneNumber,
   phoneNumberLink,
+  whatsappLink,
 } from "../constants/info";
 import Button from "./Button.astro";
 import ChangeLanguage from "./ChangeLanguage.astro";
@@ -80,8 +81,8 @@ const lang = match ? match[1] : "en";
       </nav>
     </div>
     <div class="flex justify-center items-center gap-4">
-      <Button text="WhatsApp" icon="whats" extraBtnClass="bg-[#25D366] shadow-[0_8px_0_0_#137839] hidden md:flex" textClass="text-white"/>
-      {/*<ChangeLanguage /> */}
+      <Button text="WhatsApp" href={whatsappLink} target="_blank" icon="whats" extraBtnClass="bg-[#25D366] shadow-[0_8px_0_0_#137839] hidden md:flex" textClass="text-white"/>
+      <ChangeLanguage />
       
       <button
         type="button"

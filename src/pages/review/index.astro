@@ -1,0 +1,136 @@
+---
+import Starts from "../../components/Starts";
+import LayoutSec from "../../layouts/LayoutSec.astro";
+import { emailAddress, facebookLink } from "../../constants/info";
+---
+
+<LayoutSec
+  title="Leave a Review | Click Franchise"
+  description="Share your experience with Click Franchise and help us improve how we support franchise owners, investors and entrepreneurs."
+  canonicalPath="/review"
+  noindex
+>
+  <img
+    src="/images/share-dark.svg"
+    alt="Compartir"
+    class="absolute top-6 right-6 w-6 h-6 cursor-pointer share-btn"
+  />
+  <section
+    class="w-full flex flex-col justify-center items-center h-full min-h-screen"
+  >
+    <div
+      class="w-full flex flex-col justify-center items-center gap-4 min-h-[70vh] px-6 py-5"
+    >
+      <div class="w-full flex flex-col justify-center items-center gap-5">
+        <a href="/">
+          <img
+            src="/icons/logo-orange.svg"
+            alt="Click Franchise logo"
+            width="180"
+            height="36"
+            class="cursor-pointer w-60  h-auto"
+          />
+        </a>
+        <div class="flex flex-col justify-center items-center">
+          <p
+            class="text-[12px] leading-[150%] max-w-[320px] text-center text-paragraph font-normal"
+          >
+            Thank you for connecting with <br /> Click Franchise. Your feedback
+            helps us improve the experience we provide to franchise owners,
+            investors and entrepreneurs.
+          </p>
+        </div>
+      </div>
+      <hr class="w-[24.5px] h-0.75 bg-primary" />
+      <div
+        class="w-full flex flex-col justify-center items-center gap-4 relative min-h-[120px] overflow-hidden"
+      >
+        <div
+          class="w-[350px] h-full overflow-hidden absolute bg-primary rounded-[20px]"
+        >
+        </div>
+        <div
+          class="flex flex-col justify-center items-center z-10 py-4 rounded-[15px] overflow-hidden"
+        >
+          <p
+            class="text-[12px] font-normal text-center  leading-[15px] w-[256px] mb-2 text-white"
+          >
+            Please tap the option that best reflects your experience with Click
+            Franchise.
+          </p>
+          <Starts client:idle />
+        </div>
+      </div>
+    </div>
+
+    <section
+      class="flex flex-col justify-center items-center gap-3 w-full pt-8 sm:pt-20 bottom-3 relative"
+    >
+      <div class="flex justify-center items-center gap-3">
+        <a
+          href={"#"}
+          class="p-2 rounded-full flex items-center justify-center  shrink-0"
+        >
+          <img src="/icons/ig.svg" alt="Instagram" class="w-6 h-6" />
+        </a>
+        <a
+          href={facebookLink}
+          class="p-2 rounded-full flex items-center justify-center shrink-0"
+        >
+          <img src="/icons/fb.svg" alt="Facebook" class="w-6 h-6" />
+        </a>
+      </div>
+      <div class="flex flex-col justify-center items-center gap-2.25">
+        <p class="text-[12px] font-normal leading-[140%] text-paragraph">
+          Powered by
+        </p>
+        <a href="https://inkshapegroup.com/en/">
+          <img
+            src="/icons/inkshape.svg"
+            alt="Imagen del Footer"
+            width="3745"
+            height="996"
+            class="w-27.5 h-7.25 cursor-pointer"
+          />
+        </a>
+      </div>
+    </section>
+  </section>
+</LayoutSec>
+<script is:inline>
+  const shareButtons = document.querySelectorAll(".share-btn");
+  if (shareButtons && shareButtons.length) {
+    shareButtons.forEach((btn) => {
+      btn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const shareData = {
+            title: "Click Franchise",
+            text: "Click Franchise - Building and growing franchise opportunities in the United States.",
+            url: window.location.href,
+          };
+
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+            return;
+          } catch (err) {
+            // user cancelled or error; fall through to clipboard fallback
+            console.warn("share failed or cancelled", err);
+          }
+        }
+
+        // Fallback: copy URL to clipboard and notify user
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          // small user feedback; prefer a non-blocking toast in the future
+          alert(
+            "Enlace copiado al portapapeles. Pega y comparte donde quieras.",
+          );
+        } catch (err) {
+          // last resort: open native share via mailto as a helper
+          console.warn("clipboard write failed", err);
+        }
+      });
+    });
+  }
+</script>
