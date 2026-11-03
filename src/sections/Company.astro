@@ -53,6 +53,8 @@ const { content} = Astro.props as Props;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let items = track ? Array.from(track.querySelectorAll<HTMLElement>("[data-company-item]")) : [];
     let autoplayId: number | undefined;
+    let isVisible = false;
+    let hasFocus = false;
     let resizeId: number | undefined;
     let isAnimating = false;
 
@@ -130,7 +132,6 @@ const { content} = Astro.props as Props;
           requestAnimationFrame(() => {
             track.style.removeProperty("transition");
             isAnimating = false;
-            ScrollTrigger.refresh();
           });
         };
 
@@ -156,7 +157,6 @@ const { content} = Astro.props as Props;
           requestAnimationFrame(() => {
             track.style.removeProperty("transition");
             isAnimating = false;
-            ScrollTrigger.refresh();
           });
         };
 
@@ -169,26 +169,45 @@ const { content} = Astro.props as Props;
     };
 
     const stopAutoplay = () => {
-      if (autoplayId !== undefined) {
-        window.clearInterval(autoplayId);
-        autoplayId = undefined;
-      }
+      if (autoplayId !== undefined) window.clearInterval(autoplayId);
+      autoplayId = undefined;
     };
 
     const startAutoplay = () => {
-      if (autoplayId !== undefined || reduceMotion.matches || items.length <= 1) return;
-      autoplayId = window.setInterval(() => move(1), 1000);
+      if (autoplayId !== undefined || !isVisible || hasFocus || reduceMotion.matches || items.length <= 1) return;
+      move(1);
+      autoplayId = window.setInterval(() => move(1), 3000);
     };
 
     upButton?.addEventListener("click", () => move(1));
     downButton?.addEventListener("click", () => move(-1));
-    carousel.addEventListener("mouseenter", stopAutoplay);
-    carousel.addEventListener("mouseleave", startAutoplay);
-    carousel.addEventListener("focusin", stopAutoplay);
+    carousel.addEventListener("focusin", () => {
+      hasFocus = true;
+      stopAutoplay();
+    });
     carousel.addEventListener("focusout", (event) => {
       const nextTarget = event.relatedTarget;
-      if (!(nextTarget instanceof Node) || !carousel.contains(nextTarget)) startAutoplay();
+      if (!(nextTarget instanceof Node) || !carousel.contains(nextTarget)) {
+        hasFocus = false;
+        startAutoplay();
+      }
     });
+    reduceMotion.addEventListener("change", () => {
+      if (reduceMotion.matches) stopAutoplay();
+      else startAutoplay();
+    });
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = Boolean(entry?.isIntersecting);
+        if (isVisible) {
+          startAutoplay();
+        } else {
+          stopAutoplay();
+        }
+      },
+      { threshold: 0.2 },
+    );
 
     items = currentOrder();
     setPositions(items);
@@ -197,7 +216,7 @@ const { content} = Astro.props as Props;
     requestAnimationFrame(() => {
       carousel.dataset.ready = "true";
     });
-    startAutoplay();
+    visibilityObserver.observe(carousel);
 
     ScrollTrigger.create({
       id: "company-enter-snap",

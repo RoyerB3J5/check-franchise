@@ -39,12 +39,14 @@ const { content} = Astro.props as Props;
                   />
                 </button>
               </h3>
-              <p
+              <div
                 id={`question-answer-${index}`}
-                class="body-md text-paragraph mt-8"
-                hidden
+                class="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-300 ease-in-out"
+                aria-hidden="true"
                 data-question-answer
-              >{item.answer}</p>
+              >
+                <p class="body-md text-paragraph min-h-0 overflow-hidden pt-0 transition-[padding] duration-300 ease-in-out" data-question-answer-text>{item.answer}</p>
+              </div>
             </div>
             <div class="w-full h-[1px] bg-paragraph/30 last:hidden">
 
@@ -72,14 +74,23 @@ const { content} = Astro.props as Props;
       const button = item.querySelector<HTMLButtonElement>("[data-question-toggle]");
 
       button?.addEventListener("click", () => {
+        const isOpening = button.getAttribute("aria-expanded") !== "true";
+
         items.forEach((otherItem) => {
           const otherButton = otherItem.querySelector<HTMLButtonElement>("[data-question-toggle]");
-          const answer = otherItem.querySelector<HTMLParagraphElement>("[data-question-answer]");
+          const answer = otherItem.querySelector<HTMLElement>("[data-question-answer]");
+          const answerText = otherItem.querySelector<HTMLElement>("[data-question-answer-text]");
           const icon = otherItem.querySelector<HTMLImageElement>("[data-question-icon]");
-          const isActive = otherItem === item;
+          const isActive = isOpening && otherItem === item;
 
           otherButton?.setAttribute("aria-expanded", String(isActive));
-          if (answer) answer.hidden = !isActive;
+          answer?.classList.toggle("grid-rows-[1fr]", isActive);
+          answer?.classList.toggle("grid-rows-[0fr]", !isActive);
+          answer?.classList.toggle("opacity-100", isActive);
+          answer?.classList.toggle("opacity-0", !isActive);
+          answerText?.classList.toggle("pt-8", isActive);
+          answerText?.classList.toggle("pt-0", !isActive);
+          answer?.setAttribute("aria-hidden", String(!isActive));
           if (icon) icon.src = isActive ? "/icons/minus.svg" : "/icons/plus.svg";
         });
       });
