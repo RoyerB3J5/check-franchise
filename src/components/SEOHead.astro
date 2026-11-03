@@ -18,14 +18,14 @@ export interface Props {
   structuredData?: object | object[];
 }
 
-const SITE_URL = "#";
-const SITE_NAME = "Check Franchise";
+const SITE_URL = Astro.site?.origin ?? "https://brookstonefranchise.com";
+const SITE_NAME = "Click Franchise";
 
 const {
   lang = "en",
-  title = "Check Franchise",
-  description = "Check Franchise is a professional franchise opportunity provider specializing in helping entrepreneurs start their own businesses.",
-  keywords = "franchise, business opportunity, entrepreneurship, small business, Orlando, Florida",
+  title = "Click Franchise",
+  description = "Click Franchise is a professional franchise opportunity provider specializing in helping entrepreneurs start their own businesses.",
+  keywords = "franchise, business opportunity, entrepreneurship, small business, Georgia",
   image = "/images/portada.jpg",
   canonicalPath = "",
   noindex = false,
@@ -33,16 +33,12 @@ const {
   structuredData,
 } = Astro.props;
 
-// Normalize path format
-const cleanPath = canonicalPath.startsWith("/")
-  ? canonicalPath
-  : `/${canonicalPath}`;
-const formattedPath = cleanPath === "/" ? "" : cleanPath;
-
-// Formatted URLs for SEO & Hreflang
-const currentCanonical = `${SITE_URL}/${lang}${formattedPath}`;
-const enUrl = `${SITE_URL}/en${formattedPath}`;
-const esUrl = `${SITE_URL}/es${formattedPath}`;
+// Localized pages have matching English and Spanish routes; utility pages do not.
+const localized = /^\/(en|es)(\/|$)/.test(Astro.url.pathname);
+const currentCanonical = new URL(Astro.url.pathname, SITE_URL).href;
+const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es)(?=\/|$)/, "") || "/";
+const enUrl = new URL(`/en${pathWithoutLocale}`, SITE_URL).href;
+const esUrl = new URL(`/es${pathWithoutLocale}`, SITE_URL).href;
 const defaultUrl = enUrl;
 
 // Absolute image URL
@@ -53,10 +49,9 @@ const absoluteImage = image.startsWith("http")
 // Base BeautySalon / Organization Schema
 const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "BeautySalon",
+  "@type": "ProfessionalService",
   "@id": `${SITE_URL}/#organization`,
   name: SITE_NAME,
-  legalName: SITE_NAME,
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.svg`,
   image: absoluteImage,
@@ -65,25 +60,13 @@ const organizationSchema = {
   email: emailAddress,
   address: {
     "@type": "PostalAddress",
-    streetAddress: "13550 Village Park Drive",
-    addressLocality: "Orlando",
-    addressRegion: "FL",
-    postalCode: "32837",
+    streetAddress: "7000 Central Parkway #1100",
+    addressLocality: "Sandy Springs",
+    addressRegion: "GA",
+    postalCode: "30328",
     addressCountry: "US",
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 28.5383,
-    longitude: -81.3792,
-  },
-  openingHoursSpecification: {
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    opens: "09:00",
-    closes: "18:00",
-  },
   sameAs: [instagramLink, facebookLink].filter((l) => l && l !== "#"),
-  priceRange: "$$",
 };
 
 const websiteSchema = {
@@ -126,12 +109,6 @@ const allSchemas = [organizationSchema, websiteSchema, ...customSchemas];
     : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
 />
 
-<!-- Location Meta Tags -->
-<meta name="geo.region" content="US-FL" />
-<meta name="geo.placename" content="Orlando" />
-<meta name="geo.position" content="28.5383;-81.3792" />
-<meta name="ICBM" content="28.5383, -81.3792" />
-
 <!-- Links & Preconnect -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -144,9 +121,11 @@ const allSchemas = [organizationSchema, websiteSchema, ...customSchemas];
 
 <!-- Canonical & Hreflang -->
 <link rel="canonical" href={currentCanonical} />
-<link rel="alternate" hreflang="en" href={enUrl} />
-<link rel="alternate" hreflang="es" href={esUrl} />
-<link rel="alternate" hreflang="x-default" href={defaultUrl} />
+{localized && <>
+  <link rel="alternate" hreflang="en" href={enUrl} />
+  <link rel="alternate" hreflang="es" href={esUrl} />
+  <link rel="alternate" hreflang="x-default" href={defaultUrl} />
+</>}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />

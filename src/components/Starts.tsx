@@ -7,8 +7,7 @@ function Starts() {
   const [rating, setRating] = useState<number | null>(null);
   const showForm = rating !== null && rating <= 3;
   const total = 5;
-  const reviewLink =
-    "#";
+  const reviewLink ="https://g.page/r/CZv7JwvwGsxAEBM/review";
 
   // Move any client-only side effects (redirect) into useEffect so SSR won't break.
   useEffect(() => {
@@ -51,7 +50,7 @@ function Starts() {
         })}
       </div>
 
-      {/*showForm && <FormReview /> */}
+      {showForm && <FormReview />}
     </>
   );
 }

@@ -274,7 +274,7 @@ export default {
         "Desde la elección de la marca hasta el día de apertura. Sin sorpresas, sin letra pequeña que no hayas leído con nosotros primero.",
       button: {
         label: "Recibir el portafolio",
-        href: "https://wa.me/16788008709",
+        href: "/es/portfolio",
       },
     },
     who: {

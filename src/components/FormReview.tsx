@@ -9,7 +9,7 @@ export default function NuvisionForm() {
     if (typeof window === "undefined" || typeof document === "undefined")
       return;
 
-    const SRC = "https://link.4yourgeneralmaintenance.com/js/form_embed.js";
+    const SRC = "https://link.inkshapecrm.com/js/form_embed.js";
     // Avoid injecting the script multiple times
     let addedByUs = false;
     let script = document.querySelector(
@@ -36,7 +36,7 @@ export default function NuvisionForm() {
       style={{
         position: "relative",
         width: "370px",
-        height: "580px", // Altura específica basada en data-height
+        height: "510px", // Altura específica basada en data-height
         padding: 0,
         overflow: "hidden",
         // Oculta cualquier contenido que se desborde
@@ -56,7 +56,7 @@ export default function NuvisionForm() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "#003b5b",
+            background: "transparent",
             overflow: "hidden",
           }}
         >
@@ -64,14 +64,14 @@ export default function NuvisionForm() {
         </div>
       )}
       <iframe
-        id="inline-8DSq8kEigJZ0aHxGIGwr"
-        src="https://link.4yourgeneralmaintenance.com/widget/form/8DSq8kEigJZ0aHxGIGwr"
+        id="sticky-sidebar-left-WZqPkZhNn3KGbzyxtWdP"
+        src="https://link.inkshapecrm.com/widget/form/WZqPkZhNn3KGbzyxtWdP"
         title="Form Reviews"
         loading="lazy"
         onLoad={() => setLoaded(true)}
         style={{
           width: "100%",
-          height: "580px",
+          height: "500px",
           border: "none",
           borderRadius: 3,
           background: "transparent",
@@ -84,9 +84,9 @@ export default function NuvisionForm() {
         data-activation-type="alwaysActivated"
         data-deactivation-type="neverDeactivate"
         data-form-name="Form Reviews"
-        data-height="510"
-        data-layout-iframe-id="inline-8DSq8kEigJZ0aHxGIGwr"
-        data-form-id="8DSq8kEigJZ0aHxGIGwr"
+        data-height="416"
+        data-layout-iframe-id="sticky-sidebar-left-WZqPkZhNn3KGbzyxtWdP"
+        data-form-id="WZqPkZhNn3KGbzyxtWdP"
       />
     </div>
   );

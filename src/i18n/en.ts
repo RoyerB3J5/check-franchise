@@ -274,7 +274,7 @@ export default {
         "From choosing the brand through opening day. No surprises, no fine print you haven't reviewed with us first.",
       button: {
         label: "Get the portfolio",
-        href: "https://wa.me/16788008709",
+        href: "/en/portfolio",
       },
     },
     who: {
