@@ -5,7 +5,7 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
-  site: "https://brookstonefranchise.com",
+  site: "https://clickfranchise.us",
   vite: {
     plugins: [tailwindcss()],
   },
@@ -19,7 +19,10 @@ export default defineConfig({
     },
   },
 
-  integrations: [react(), sitemap({
-    filter: (page) => /^\/(en|es)(\/|$)/.test(new URL(page).pathname),
-  })],
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => /^\/(en|es)(\/|$)/.test(new URL(page).pathname),
+    }),
+  ],
 });

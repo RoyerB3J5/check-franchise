@@ -37,6 +37,9 @@ const {
 <!doctype html>
 <html lang={lang} class="overflow-x-clip">
   <head>
+    <script is:inline>
+      document.documentElement.classList.add("js-enabled");
+    </script>
     <SEOHead
       lang={lang}
       title={title}
@@ -121,6 +124,7 @@ const {
           `${lineIndex * 0.1}s`,
         );
       });
+      element.classList.add("animation-ready");
     };
 
     const revealElement = (element) => {

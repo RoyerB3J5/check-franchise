@@ -406,6 +406,11 @@ html {
   text-box: trim-both cap alphabetic;
 }
 
+.js-enabled .fade-up-lines:not(.animation-ready),
+.js-enabled .fade-up-lines-raw:not(.animation-ready) {
+  visibility: hidden;
+}
+
 .fade-up-lines-raw,
 .fade-up-lines-raw .fade-up-line-word,
 .fade-up-lines-raw .fade-up-line-fragment {
